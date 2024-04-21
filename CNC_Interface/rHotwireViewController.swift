@@ -358,11 +358,11 @@ var outletdaten:[String:AnyObject] = [:]
     
    @IBOutlet weak var  Pfeiltaste: rPfeil_Taste!
     
-   @IBOutlet weak var IndexFeld: NSTextField!
-   @IBOutlet weak var IndexStepper: NSStepper!
+   @IBOutlet  var IndexFeld: NSTextField!
+   @IBOutlet  var IndexStepper: NSStepper!
 
-   @IBOutlet weak var WertAXFeld: NSTextField!
-   @IBOutlet weak var WertAXStepper: NSStepper!
+   @IBOutlet  var WertAXFeld: NSTextField!
+   @IBOutlet  var WertAXStepper: NSStepper!
    @IBOutlet weak var WertAYFeld: NSTextField!
    @IBOutlet weak var WertAYStepper: NSStepper!
     
@@ -2572,6 +2572,176 @@ var outletdaten:[String:AnyObject] = [:]
 
         AVR?.manRichtung(4, mousestatus:1, pfeilstep:100)
     }
+    @IBAction  func reportIndexStepper(_ sender: NSStepper) //
+    {
+       print("reportIndexStepper IntVal: \(sender.integerValue)")
+        IndexFeld.integerValue = sender.integerValue
+        
+        self.setDatenVonZeile(zeile: sender.integerValue)
+        let StepperIndexSet = IndexSet(integer: sender.integerValue)
+        
+        CNC_Table.scrollRowToVisible(sender.integerValue)
+
+        
+        CNC_Table.reloadData()
+        CNC_Table.selectRowIndexes(StepperIndexSet, byExtendingSelection: false)
+    }
+
+    @IBAction  func reportWertStepper(_ sender: NSStepper) //
+    {
+        print("reportWertStepper IntVal: \(sender.integerValue) wert: \(sender.doubleValue)")
+        let steppertag = sender.tag
+        let stepperwert = sender.doubleValue
+        
+         if CNC_Table.numberOfSelectedRows == 0
+         {
+             NSSound.beep()
+         return
+         }
+         
+        //let wertfeld = self.view.superview.viewWithTag
+        let index = IndexFeld.integerValue
+//        print("wertax vor replace: \(KoordinatenTabelle[IndexFeld.integerValue]["ax"])")
+        var tempzeile:[String:Double] = KoordinatenTabelle[IndexFeld.integerValue]
+        var wertax = tempzeile["ax"]!
+        var wertay = tempzeile["ay"]!
+        var wertbx = tempzeile["bx"]!
+        var wertby = tempzeile["by"]!
+        var wertpwm = DC_PWM.integerValue
+        if let temp = tempzeile["pwm"]
+        {
+            wertpwm = Int(temp)
+        }
+        let bind = ABBindCheck.state == NSControl.StateValue.on
+        
+        switch steppertag
+        {
+        case 8100: // ax
+            if bind == true
+            {
+                tempzeile["bx"] = wertbx - wertax + stepperwert
+            }
+            tempzeile["ax"] = stepperwert
+        case 8101: // ay
+            if bind == true
+            {
+                tempzeile["by"] = wertby - wertay + stepperwert
+            }
+            tempzeile["ay"] = stepperwert
+
+        case 8102: // bx
+            if bind == true
+            {
+                tempzeile["ax"] = wertax - wertbx + stepperwert
+            }
+            tempzeile["bx"] = stepperwert
+        
+        
+        case 8103: // by
+            if bind == true
+            {
+                tempzeile["ay"] = wertay - wertby + stepperwert
+            }
+            tempzeile["by"] = stepperwert
+         
+        default:
+            break
+        }
+         
+        KoordinatenTabelle[IndexFeld.integerValue] = tempzeile
+  //      print("wertax nach replace: \(KoordinatenTabelle[IndexFeld.integerValue]["ax"])")
+        ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
+        
+        ProfilFeld.needsDisplay = true
+        let StepperIndexSet = IndexSet(integer: index)
+        //CNC_Table.scrollRowToVisible(index)
+        CNC_Table.reloadData()
+        CNC_Table.selectRowIndexes(StepperIndexSet, byExtendingSelection: false)
+
+    }
+    @IBAction  func reportWertAXStepper(_ sender: NSStepper) //
+    {
+        print("reportWertAXStepper IntVal: \(sender.integerValue) wert: \(sender.doubleValue)")
+        /*
+         if CNC_Table.numberOfSelectedRows == 0
+         {
+         return
+         }
+         */
+        //let wertfeld = self.view.superview.viewWithTag
+        let index = IndexFeld.integerValue
+        print("wertax vor replace: \(KoordinatenTabelle[IndexFeld.integerValue]["ax"])")
+        var tempzeile:[String:Double] = KoordinatenTabelle[IndexFeld.integerValue]
+        var wertax = tempzeile["ax"]!
+        var wertay = tempzeile["ay"]
+        var wertbx = tempzeile["bx"]!
+        var wertby = tempzeile["by"]
+        var wertpwm = DC_PWM.integerValue
+        if let temp = tempzeile["pwm"]
+        {
+            wertpwm = Int(temp)
+        }
+        let delta = sender.doubleValue - wertax
+        wertax = sender.doubleValue
+        if ABBindCheck.state == NSControl.StateValue.on
+        {
+            wertbx = wertbx + delta
+        }
+        var tempDic = [String:Double]()
+        tempzeile["ax"] = wertax
+        tempzeile["bx"] = wertbx
+        tempzeile["pwm"] = Double(wertpwm)
+        
+        KoordinatenTabelle[IndexFeld.integerValue] = tempzeile
+        print("wertax nach replace: \(KoordinatenTabelle[IndexFeld.integerValue]["ax"])")
+        ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
+        
+        ProfilFeld.needsDisplay = true
+        let StepperIndexSet = IndexSet(integer: index)
+        //CNC_Table.scrollRowToVisible(index)
+        CNC_Table.reloadData()
+        CNC_Table.selectRowIndexes(StepperIndexSet, byExtendingSelection: false)
+
+    }
+
+    @IBAction  func reportWertAYStepper(_ sender: NSStepper) //
+    {
+       print("reportWertAYStepper IntVal: \(sender.integerValue)")
+    }
+
+    @IBAction  func reportWertBXStepper(_ sender: NSStepper) //
+    {
+       print("reportWertBXStepper IntVal: \(sender.integerValue)")
+    }
+
+    @IBAction  func reportWertBYStepper(_ sender: NSStepper) //
+    {
+       print("reportWertBYStepper IntVal: \(sender.integerValue)")
+    }
+
+    @objc func setDatenVonZeile(zeile:Int)
+    {
+        var tempzeile:[String:Double] = KoordinatenTabelle[zeile]
+        IndexFeld.integerValue = Int(tempzeile["index"]!)
+        IndexStepper.integerValue = IndexFeld.integerValue
+        
+        WertAXFeld.doubleValue = tempzeile["ax"]!
+        WertAXStepper.doubleValue = tempzeile["ax"]!
+
+        WertAYFeld.doubleValue = tempzeile["ay"]!
+        WertAYStepper.doubleValue = tempzeile["ay"]!
+
+        WertBXFeld.doubleValue = tempzeile["bx"]!
+        WertBXStepper.doubleValue = tempzeile["bx"]!
+
+        WertBYFeld.doubleValue = tempzeile["by"]!
+        WertBYStepper.doubleValue = tempzeile["by"]!
+        
+        ProfilFeld.setKlickpunkt(derPunkt: IndexFeld.integerValue)
+        ProfilFeld.needsDisplay = true
+    }
+    
+
     
     @IBAction func report_Shift(_ sender: NSButton)
     {
@@ -3680,6 +3850,14 @@ var outletdaten:[String:AnyObject] = [:]
        
        return cell
     }
+    
+    func tableViewSelectionDidChange(_ notification: Notification)
+    {
+        let tableView = notification.object as! NSTableView
+        self.setDatenVonZeile(zeile: tableView.selectedRow)
+        
+    }
+
 } // end Hotwire
 
 /*
