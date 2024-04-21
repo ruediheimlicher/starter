@@ -696,7 +696,7 @@ var outletdaten:[String:AnyObject] = [:]
           40:  Nasenleisteauslauf
           50: Sicherheitsschnitt nach oben
           */
-        
+    /*
         let startindexoffset = KoordinatenTabelle.count - 1
         print("LibProfileingabeAktion startindexoffset: \(startindexoffset)")
         var von:Int = 0
@@ -707,7 +707,7 @@ var outletdaten:[String:AnyObject] = [:]
         
         var offsetx:Double = ProfilBOffsetXFeld.doubleValue
         var offsety:Double = ProfilBOffsetYFeld.doubleValue
-        
+     */
          
         if WertAXFeld.doubleValue == 0
         {
@@ -726,168 +726,19 @@ var outletdaten:[String:AnyObject] = [:]
         ProfilFeld.setScale(derScalefaktor:CGFloat(scalefaktor))
         ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
         ProfilFeld.needsDisplay = true
-        return
         
         
-        var ax:Double = 0
-        var ay:Double = 0
-        var bx:Double = 0
-        var by:Double = 0
-        
-        var StartpunktA:NSPoint
-        var StartpunktB:NSPoint
-        
-        var Profil1Array = [[String:Double]]()
-        var Profil2Array = [[String:Double]]()
-        
-        var Profil1UnterseiteArray = [[String:Double]]()
-        var Profil1OberseiteArray = [[String:Double]]()
-        var Profil2UnterseiteArray = [[String:Double]]()
-        var Profil2OberseiteArray = [[String:Double]]()
-        
-        let abbranda = AbbrandFeld.doubleValue
-        let abbrandb = AbbrandFeld.doubleValue/ProfilTiefeFeldB.doubleValue*ProfilTiefeFeldA.doubleValue // groesser bei groesserem Unterschied
-        
+        let startindexoffset = KoordinatenTabelle.count - 1
+        print("LibProfileingabeAktion startindexoffset: \(startindexoffset)")
+        var von:Int = 0
+        var bis:Int = KoordinatenTabelle.count
+        var ProfilNameA = ""
+        var ProfilNameB = ""
+
+
         var origpwm:Double = DC_PWM.doubleValue
         
-        // letztes Element der Koordinatentabelle
-        if KoordinatenTabelle.count > 0
-        {
-            ax = (KoordinatenTabelle.last?["ax"])!
-            ay = (KoordinatenTabelle.last?["ay"])!
-            bx = (KoordinatenTabelle.last?["bx"])!
-            by = (KoordinatenTabelle.last?["by"])!
-            
-            StartpunktA = NSMakePoint(ax,ay)
-            StartpunktB = NSMakePoint(bx,by)
-        }
-        else
-        {
-            ax = 25
-            ay = 55
-            bx = 25
-            by = 55
-            StartpunktA = NSMakePoint(ax,ay)
-            StartpunktB = NSMakePoint(bx,by)
-            
- //           StartpunktA = NSMakePoint(WertAXFeld.doubleValue,WertAYFeld.doubleValue)
- //           StartpunktB = NSMakePoint(WertBXFeld.doubleValue,WertBYFeld.doubleValue)
-            
-            bx += offsetx
-            by += offsety
-        }
-        print("LibProfileingabeAktion StartpunktA: \(StartpunktA) StartpunktB: \(StartpunktB)")
-        if var ProfilDic = notification.userInfo
-        {
-            
-            
-            OberseiteCheckbox.state = NSControl.StateValue(rawValue: ProfilDic["oberseite"] as! Int)
-            UnterseiteCheckbox.state = NSControl.StateValue(rawValue: ProfilDic["unterseite"] as! Int)
-            
-            EinlaufCheckbox.state = NSControl.StateValue(rawValue: ProfilDic["einlauf"] as! Int)
-            AuslaufCheckbox.state = NSControl.StateValue(rawValue: ProfilDic["auslauf"] as! Int)
-            
-            mitOberseite = ProfilDic["oberseite"] as? Int
-            mitUnterseite = ProfilDic["unterseite"] as? Int
-            
-            mitEinlauf = ProfilDic["einlauf"] as? Int
-            mitAuslauf = ProfilDic["auslauf"] as? Int
-            
-            flipH = ProfilDic["fliph"] as? Int
-            flipV = ProfilDic["flipv"] as? Int
-            
-            reverse = ProfilDic["reverse"] as? Int
-            
-            var ProfiltiefeA = ProfilTiefeFeldA.doubleValue
-            var ProfiltiefeB = ProfilTiefeFeldB.doubleValue
-            
-            if ProfilDic["profil1name"] == nil
-            {
-                ProfilNameA = "ClarkY"
-            }
-            else
-            {
-                ProfilNameA = ProfilDic["profil1name"] as! String
-                
-                ProfilNameFeldA.stringValue = ProfilNameA
-                //(ProfilFeld.viewWithTag(1001) as! NSTextField).stringValue = ProfilNameA
-                
-            }
-            if ProfilDic["profil2name"] == nil
-            {
-                ProfilNameB = "ClarkY"
-            }
-            else
-            {
-                
-                ProfilNameB = ProfilDic["profil2name"] as! String
-                
-                ProfilNameFeldA.stringValue = ProfilNameA
-                //(ProfilFeld.viewWithTag(1001) as! NSTextField).stringValue = ProfilNameA
-            }
-            // AVR l 8238
-            Profil1Array = ProfilDic["profil1array"] as![[String:Double]]
-            Profil1UnterseiteArray = ProfilDic["unterseitearrayA"] as! [[String:Double]]
-            
-            let temparray1 = ProfilDic["oberseitearrayA"] as! [[String:Double]]
-            Profil1OberseiteArray = self.vertikalspiegelnVonProfil(profilarray: temparray1)
-            
-            
-            /*
-             for i in 0..<temparray1.count
-             {
-             print("\(temparray1[i]["y"]) \t \(temparray1mirror[i]["y"]) \n")
-             }
-             */
-            
-            Profil2Array = ProfilDic["profil2array"] as![[String:Double]]
-            Profil2UnterseiteArray = ProfilDic["unterseitearrayB"]  as![[String:Double]]
-            let temparray2 = ProfilDic["oberseitearrayB"]  as![[String:Double]]
-            Profil2OberseiteArray = self.vertikalspiegelnVonProfil(profilarray: temparray2)
-            
-            let spannweite = Spannweite.doubleValue
-            var pfeilung = (ProfiltiefeA - ProfiltiefeB) / spannweite
-            
-            var TiefeA:Double  = ProfiltiefeA + Basisabstand.doubleValue * pfeilung
-            var TiefeB:Double = TiefeA - Portalabstand.doubleValue * pfeilung
-            
-            print("LipProfilEingabeAktion TiefeA: \(TiefeA) TiefeB: \(TiefeB)")
-            if (mitOberseite > 0) && (mitUnterseite > 0)
-            {
-                TiefeA += abbranda //Korrektur wegen Abbrand an Ende und Nase. Abbrand ist aussen
-                TiefeB += abbrandb
-            }
-            else
-            {
-                TiefeA -= abbranda //Korrektur wegen Abbrand an Ende und Nase
-                TiefeB -= abbrandb
-            }
-            
-            
-            einlauflaenge = (ProfilDic["einlauflaenge"] as! Int)
-            einlauftiefe = (ProfilDic["einlauftiefe"] as! Int)
-            einlaufrand = (ProfilDic["einlaufrand"] as! Int)
-            
-            Einlauflaenge.integerValue = einlauflaenge
-            Einlauftiefe.integerValue = einlauftiefe
-            Einlaufrand.integerValue = einlaufrand
-            
-            auslauflaenge = (ProfilDic["auslauflaenge"] as! Int)
-            auslauftiefe = (ProfilDic["auslauftiefe"] as! Int)
-            auslaufrand = (ProfilDic["auslaufrand"] as! Int)
-    
-            Auslauflaenge.integerValue = auslauflaenge
-            Auslauftiefe.integerValue = auslauftiefe
-            Auslaufrand.integerValue = auslaufrand
-
-       
-                       
-        } // if userinfo
-        else
-        {
-            print("keine userinfo")
-            return
-        }
+ return
 
         
         
