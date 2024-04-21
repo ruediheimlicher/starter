@@ -260,6 +260,9 @@ var outletdaten:[String:AnyObject] = [:]
     var SchnittdatenArray = [[Int]]()
     var KoordinatenFormatter = NumberFormatter()
     
+    var RumpfdatenArray = [[String:Double]]()
+
+    
     var CNC_Eingabe = rEinstellungen()
     
     @IBOutlet weak var  PfeilfeldLinks: rPfeil_Feld!
@@ -1394,7 +1397,7 @@ var outletdaten:[String:AnyObject] = [:]
         
         NotificationDic["schnittdatenarray"] = tempSchnittdatenArray
         
-        print("swift reportNeuTaste NotificationDic: \(NotificationDic)")
+        print("swift NeuTasteFunktion NotificationDic: \(NotificationDic)")
 
         nc.post(name:Notification.Name(rawValue:"usbschnittdaten"),
         object: nil,
@@ -2726,6 +2729,57 @@ var outletdaten:[String:AnyObject] = [:]
     {
        print("reportWertBYStepper IntVal: \(sender.integerValue)")
     }
+    
+    
+    @IBAction  func reportRumpfteilTaste(_ sender: NSSegmentedControl) //
+    {
+        print("reportRumpfteilTaste index: \(sender.indexOfSelectedItem)")
+        var rumpfteilDic = AVR?.rumpfteilTasteFunktion(self.rumpfteilDic()  as [AnyHashable : Any]);
+        print("reportRumpfteilTaste rumpfteilDic: \(self.rumpfteilDic() as NSDictionary)")
+        
+
+        
+    }
+
+    @objc func rumpfteilDic() -> [String:Double]
+    {
+        var teildic =  [String:Double]()
+        teildic["rumpfteil"] = Double(RumpfteilTaste.indexOfSelectedItem)
+        teildic["rumpfportalabstand"] = RumpfportalabstandFeld.doubleValue
+        teildic["rumpfrand"] = RandFeld.doubleValue
+        teildic["rumpfeinlauf"] = EinlaufFeld.doubleValue
+        teildic["rumpbreitea"] = BreiteAFeld.doubleValue
+        teildic["rumphoehea"] = HoeheAFeld.doubleValue
+        teildic["rumpradiusa"] = RadiusAFeld.doubleValue
+        teildic["rumpbreiteb"] = BreiteBFeld.doubleValue
+        teildic["rumphoeheb"] = HoeheBFeld.doubleValue
+        teildic["rumpradiusb"] = RadiusBFeld.doubleValue
+        teildic["rumpeinstichtiefe"] = EinstichtiefeFeld.doubleValue
+        teildic["rumpfabstand"] = RumpfabstandFeld.doubleValue
+        teildic["rumpelementlaenge"] = ElementlaengeFeld.doubleValue
+
+        teildic["rumpfblockbreite"] = RumpfBlockbreite.doubleValue
+        teildic["rumpfblockhoehe"] = RumpfBlockhoehe.doubleValue
+        teildic["rumpfauslauf"] = AuslaufFeld.doubleValue
+           
+        teildic["rumpfoffsetx"] = RumpfOffsetXFeld.doubleValue
+        teildic["rumpfoffsety"] = RumpfOffsetYFeld.doubleValue
+        
+        teildic["rumpfpwm"] = DC_PWM.doubleValue
+        teildic["rumpfspeed"] = SpeedFeld.doubleValue
+        let microitem:NSMenuItem = (CNC_microPop.selectedItem!)
+        
+        let micropoptag:Double = Double(microitem.tag)
+        
+        teildic["rumpfmicro"] = micropoptag
+        
+         
+           
+
+        return teildic
+    }
+
+
 
     @objc func setDatenVonZeile(zeile:Int)
     {
@@ -3017,6 +3071,9 @@ var outletdaten:[String:AnyObject] = [:]
        Profil2Pop.removeAllItems()
        Profil2Pop.addItem(withTitle: "Profil wählen")
        Profil2Pop.addItems(withTitles: ProfilnamenArray)
+       
+       self.setStartRumpfteilDic()
+
 
        NotificationCenter.default.addObserver(self, selector:#selector(usbstatusAktion(_:)),name:NSNotification.Name(rawValue: "usb_status"),object:nil)
 
@@ -3290,6 +3347,35 @@ var outletdaten:[String:AnyObject] = [:]
       {
          AuslaufFeld.integerValue = 1
       }
+       if let rumpfdatenarray = hotwireplist["rumpfdatenarray"]
+       {
+           print("rumpfdatenarray da")
+           RumpfdatenArray = hotwireplist["rumpfdatenarray"] as! [[String : Double]]
+           if RumpfdatenArray.count > 0
+           {
+               AVR?.setRumpfteilDic(RumpfdatenArray[0], forPart: 0)
+           }
+           let zeile = RumpfdatenArray[0] as [String:Double]
+           
+           let zeilenkeys = zeile.keys
+           print("zeilenkeys: \(zeilenkeys)")
+           var i=0
+           for k in zeilenkeys
+            {
+               //let tempzey = zeilenkeys[i]
+               let data = zeile[k]
+              print("i: \(i) key: \(k) data: \(data)")
+               i += 1
+           }
+           
+           
+           
+       }
+       else
+           
+       {
+           print("rumpfdatenarray nicht da")
+       }
 
        outletdaten["speed"] = SpeedFeld.integerValue as AnyObject
        //outletdaten["steps"] = steps_Feld.integerValue as AnyObject
@@ -3589,6 +3675,41 @@ var outletdaten:[String:AnyObject] = [:]
 */
       return plistData
    }
+    
+    
+    // MARK: Rumpf
+    @objc func setStartRumpfteilDic()
+    {
+        Portalabstand.intValue = 660    //
+        RandFeld.intValue = 10//
+        EinlaufFeld.intValue = 10//
+        BreiteAFeld.intValue =  38//
+        HoeheAFeld.intValue = 18//
+        RadiusAFeld.intValue = 10//
+        BreiteBFeld.intValue = 18//
+        HoeheBFeld.intValue = 9//
+        RadiusBFeld.intValue = 5//
+        EinstichtiefeFeld.intValue = 15//
+        RumpfabstandFeld.intValue = 50//
+        ElementlaengeFeld.intValue = 520//
+        
+        RumpfBlockbreite.intValue = 100//
+        RumpfBlockhoehe.intValue = 50//
+        AuslaufFeld.intValue = 10//
+        
+        RumpfOffsetXFeld.doubleValue = 0.0
+        RumpfOffsetYFeld.doubleValue = 0.0
+        RumpfportalabstandFeld.doubleValue = 660
+        
+        CNC_microPop.selectItem(withTag: 2)
+    }
+
+    @objc func setRumpfteilDic(rumpfteildic:([String:Double]) , rumpfteil:(Int))
+    {
+     }
+
+   
+
    
    @objc func MauspunktAktion(_ notification:Notification)
    {

@@ -2418,6 +2418,34 @@ return returnInt;
    [self setRumpfteilDic:[RumpfdatenArray objectAtIndex:aktuellerRumpfteil] forPart:aktuellerRumpfteil];
 }
 
+- (NSDictionary*)RumpfteilTasteFunktion:(NSDictionary*)rumpfteilDic
+{
+    NSLog(@"RumpfteilTasteFunktion ");
+    NSLog(@"RumpfteilTasteFunktion RumpfdatenArray: %@",RumpfdatenArray);
+   // NSMutableDictionary* rumpfteilDic = NSMutableDictionary.new;
+//    NSDictionary* aktuellerDatenDic = [self rumpfteilDic];
+    //NSLog(@"\naktuell: %@ \n Rumpdatenarray: %@",aktuellerDatenDic,[RumpfdatenArray objectAtIndex:aktuellerRumpfteil]);
+    int rumpfteil = [[rumpfteilDic objectForKey:@"rumpfteil"]intValue];
+    if (rumpfteil  == [[RumpfdatenArray objectAtIndex:aktuellerRumpfteil]intValue])
+    {
+       NSLog(@"dics sind gleich");
+    }
+    else
+    {
+        //NSLog(@"dics sind ungleich");
+        
+        [RumpfdatenArray replaceObjectAtIndex:aktuellerRumpfteil withObject:[NSNumber numberWithInt:rumpfteil]];
+        
+        aktuellerRumpfteil = rumpfteil;
+    }
+    
+    [self setRumpfteilDic:[RumpfdatenArray objectAtIndex:aktuellerRumpfteil] forPart:aktuellerRumpfteil];
+
+    return rumpfteilDic;
+}
+
+
+
 - (instancetype)init
 {
    
