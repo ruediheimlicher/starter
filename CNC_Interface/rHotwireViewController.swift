@@ -672,7 +672,9 @@ var outletdaten:[String:AnyObject] = [:]
             infodic!["mitabbrand"] = 0
         }
 
-        
+        infodic!["offsetx"] = ProfilBOffsetXFeld.doubleValue
+        infodic!["offsety"] = ProfilBOffsetYFeld.doubleValue
+
         infodic!["minimaldistanz"] = MinimaldistanzFeld.floatValue
         
         let popindex:Int = ScalePop.indexOfSelectedItem
@@ -696,19 +698,7 @@ var outletdaten:[String:AnyObject] = [:]
           40:  Nasenleisteauslauf
           50: Sicherheitsschnitt nach oben
           */
-    /*
-        let startindexoffset = KoordinatenTabelle.count - 1
-        print("LibProfileingabeAktion startindexoffset: \(startindexoffset)")
-        var von:Int = 0
-        var bis:Int = KoordinatenTabelle.count
-        
-        var ProfilNameA = ""
-        var ProfilNameB = ""
-        
-        var offsetx:Double = ProfilBOffsetXFeld.doubleValue
-        var offsety:Double = ProfilBOffsetYFeld.doubleValue
-     */
-         
+           
         if WertAXFeld.doubleValue == 0
         {
             WertAXFeld.doubleValue = 35.0
