@@ -3730,14 +3730,16 @@ PortA=vs[n & 3]; warte10ms(); n++;
       int seitenkorrektura = 1;
       int seitenkorrekturb = 1;
       NSMutableDictionary* tempDic=[NSMutableDictionary dictionaryWithDictionary:[Koordinatentabelle objectAtIndex:i]];
-      if (i>von-1 && i<bis) // Abbrandbereich, von ist 1-basiert
+       float ax = [[[Koordinatentabelle objectAtIndex:i]objectForKey:@"ax"]floatValue];
+       float ay = [[[Koordinatentabelle objectAtIndex:i]objectForKey:@"ay"]floatValue];
+       float bx = [[[Koordinatentabelle objectAtIndex:i]objectForKey:@"bx"]floatValue];
+       float by = [[[Koordinatentabelle objectAtIndex:i]objectForKey:@"by"]floatValue];
+
+       
+       
+       if (i>von-1 && i<bis) // Abbrandbereich, von ist 1-basiert
       {
-         //fprintf(stderr,"*** Punkt %d\n",i);
-         float ax = [[[Koordinatentabelle objectAtIndex:i]objectForKey:@"ax"]floatValue];
-         float ay = [[[Koordinatentabelle objectAtIndex:i]objectForKey:@"ay"]floatValue];
-         float bx = [[[Koordinatentabelle objectAtIndex:i]objectForKey:@"bx"]floatValue];
-         float by = [[[Koordinatentabelle objectAtIndex:i]objectForKey:@"by"]floatValue];
-         
+          
          float nextax = 0;
          float nextay = 0;
          float nextbx = 0;
@@ -4388,6 +4390,16 @@ PortA=vs[n & 3]; warte10ms(); n++;
             
          }
       } // i im Bereich
+       else
+       {
+           [tempDic setObject:[NSNumber numberWithFloat:ax] forKey:@"abrax"];
+           [tempDic setObject:[NSNumber numberWithFloat:ay] forKey:@"abray"];
+           [tempDic setObject:[NSNumber numberWithFloat:bx] forKey:@"abrbx"];
+           [tempDic setObject:[NSNumber numberWithFloat:by] forKey:@"abrby"];
+
+       }
+
+       
       
       [AbbrandArray addObject:tempDic];
       
