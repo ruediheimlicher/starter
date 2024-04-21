@@ -445,6 +445,7 @@
    - (IBAction)reportMicrosteps:(id)sender;
    - (IBAction)reportRandlinks:(id)sender;
     - (NSDictionary*)RumpfteilTasteFunktion:(NSDictionary*)rumpfteilDic;
+    - (NSArray*)RumpfelementmitDic:(NSDictionary*)rumpfteildic;
 
    - (IBAction)reportRumpfteilPop:(id)sender;
    - (void)updateRumpfdatenArray;

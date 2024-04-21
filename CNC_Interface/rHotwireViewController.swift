@@ -595,16 +595,21 @@ var outletdaten:[String:AnyObject] = [:]
         for i in 0..<anz
         {
             let zeile = tempElementKoordinatenArray?[i]
-            let dx:Double = tempElementKoordinatenArray?[i][0] ?? 0
-            let dy:Double = tempElementKoordinatenArray?[i][1] ?? 0
+        //    let dx:Double = tempElementKoordinatenArray?[i][0] ?? 0
+        //    let dy:Double = tempElementKoordinatenArray?[i][1] ?? 0
+            let ax:Double = tempElementKoordinatenArray?[i][0] ?? 0
+            let ay:Double = tempElementKoordinatenArray?[i][1] ?? 0
+
             
             var tempDic = [String:Double]()
-            tempDic["ax"] = (oldax ?? 0) + dx
-            tempDic["ay"] = (olday ?? 0) + dy
-            tempDic["bx"] = (oldbx ?? 0) + dx
-            tempDic["by"] = (oldby ?? 0) + dy
+            tempDic["ax"] = (oldax ?? 0) + ax
+            tempDic["ay"] = (olday ?? 0) + ay
+            tempDic["bx"] = (oldbx ?? 0) + ax
+            tempDic["by"] = (oldby ?? 0) + ay
             tempDic["index"] = Double(i)
             tempDic["pwm"] = pwm
+            tempDic["teil"] = 60
+
             KoordinatenTabelle.append(tempDic)
         } // for i
         
@@ -745,6 +750,123 @@ var outletdaten:[String:AnyObject] = [:]
         
     }// LibProfileingabeAktion
     
+    
+    @objc func FormeingabeAktion(_ notification:Notification)
+    {
+        let info = notification.userInfo
+        print("FormeingabeAktion: \(info)")
+        var infoDic = notification.userInfo as? [String:Any]
+  
+        print("LibElementeingabeAktion KoordinatenTabelle Start: \(KoordinatenTabelle)")
+
+        var ax:Double = 0
+        var ay:Double = 0
+        var bx:Double = 0
+        var by:Double = 0
+        
+        var StartpunktA:NSPoint
+        var StartpunktB:NSPoint
+ 
+
+        // letztes Element der Koordinatentabelle
+        if KoordinatenTabelle.count > 0
+        {
+            ax = (KoordinatenTabelle.last?["ax"])!
+            ay = (KoordinatenTabelle.last?["ay"])!
+            bx = (KoordinatenTabelle.last?["bx"])!
+            by = (KoordinatenTabelle.last?["by"])!
+            
+            StartpunktA = NSMakePoint(ax,ay)
+            StartpunktB = NSMakePoint(bx,by)
+        }
+        else
+        {
+            ax = 25
+            ay = 55
+            bx = 25
+            by = 55
+            StartpunktA = NSMakePoint(ax,ay)
+            StartpunktB = NSMakePoint(bx,by)
+        }
+        let offsetx:Double = ProfilBOffsetXFeld.doubleValue
+        let offsety:Double = ProfilBOffsetYFeld.doubleValue
+        var startx:Double = 0
+        var starty:Double = 0
+
+        if let tempstartx = infoDic?["startx"]
+        {
+            startx = tempstartx as! Double
+        }
+        else
+        {
+        }
+ 
+        if let tempstarty = infoDic?["starty"]
+        {
+            starty = tempstarty as! Double
+        }
+        else
+        {
+        }
+        var pwm:Double = 90
+        if let tempwert = infoDic?["pwm"]
+        {
+            pwm = tempwert as! Double
+        }
+        else
+        {
+        }
+
+        var oldax:Double? = 0
+        var olday:Double? = 0
+        var oldbx:Double? = offsetx
+        var oldby:Double? = offsety
+        
+        
+        if KoordinatenTabelle.count > 0
+        {
+            oldax = (KoordinatenTabelle.last?["ax"] ?? 0) - startx
+            olday = (KoordinatenTabelle.last?["ay"] ?? 0) - starty
+            oldbx = (KoordinatenTabelle.last?["bx"] ?? 0) - startx
+            oldby = (KoordinatenTabelle.last?["by"] ?? 0) - starty
+        }
+        var tempElementKoordinatenArray = infoDic?["koordinatentabelle"] as? [[Double]]
+        let anz:Int = tempElementKoordinatenArray!.count
+ 
+        for i in 0..<anz
+        {
+            let zeile = tempElementKoordinatenArray?[i]
+            let ax:Double = tempElementKoordinatenArray?[i][0] ?? 0
+            let ay:Double = tempElementKoordinatenArray?[i][1] ?? 0
+            let bx:Double = tempElementKoordinatenArray?[i][2] ?? ax // beide Formen gleich
+            let by:Double = tempElementKoordinatenArray?[i][3] ?? ay
+
+            
+            var tempDic = [String:Double]()
+            tempDic["ax"] = (oldax ?? 0) + ax
+            tempDic["ay"] = (olday ?? 0) + ay
+            tempDic["bx"] = (oldbx ?? 0) + bx
+            tempDic["by"] = (oldby ?? 0) + by
+            tempDic["index"] = Double(i)
+            tempDic["pwm"] = pwm
+            
+            tempDic["teil"] = 60
+            KoordinatenTabelle.append(tempDic)
+        } // for i
+        
+        CNC_Table.reloadData()
+        CNC_Table.scrollRowToVisible(KoordinatenTabelle.count - 1)
+        ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
+        ProfilFeld.needsDisplay = true
+        CNC_Stoptaste.isEnabled = true
+
+        
+        
+        
+    }// end FormeingabeAktion
+    
+
+    
     /*
     @objc override func writeCNCAbschnitt()
     {
@@ -836,6 +958,7 @@ var outletdaten:[String:AnyObject] = [:]
        
        //print("writeCNCAbschnitt write_byteArray: \(teensy.write_byteArray)")
     }
+     
     */
     @objc func DC_Funktion(pwm:UInt8 )
      {
@@ -2731,6 +2854,9 @@ var outletdaten:[String:AnyObject] = [:]
     }
     
     
+    
+    
+    
     @IBAction  func reportRumpfteilTaste(_ sender: NSSegmentedControl) //
     {
         print("reportRumpfteilTaste index: \(sender.indexOfSelectedItem)")
@@ -3074,6 +3200,7 @@ var outletdaten:[String:AnyObject] = [:]
        
        self.setStartRumpfteilDic()
 
+       
 
        NotificationCenter.default.addObserver(self, selector:#selector(usbstatusAktion(_:)),name:NSNotification.Name(rawValue: "usb_status"),object:nil)
 
@@ -3090,6 +3217,9 @@ var outletdaten:[String:AnyObject] = [:]
        
        NotificationCenter.default.addObserver(self, selector:#selector(LibElementeingabeAktion(_:)),name:NSNotification.Name(rawValue: "libelementeingabe"),object:nil)
 
+       NotificationCenter.default.addObserver(self, selector:#selector(FormeingabeAktion(_:)),name:NSNotification.Name(rawValue: "formeingabe"),object:nil)
+
+       
        NotificationCenter.default.addObserver(self, selector: #selector(hotwirebeendenAktion), name:NSNotification.Name(rawValue: "beenden"), object: nil)
 
       
@@ -3115,6 +3245,13 @@ var outletdaten:[String:AnyObject] = [:]
        outletdaten["motorsteps"] = CNC_StepsSegControl.tag(forSegment:stepsindex)  as AnyObject
 
        micro = CNC_microPop.selectedItem?.tag ?? 1
+       
+       if let rumpfteildic = hotwireplist["rumpfteildic"]
+       {
+           RumpfDaten()
+       }
+       
+
        
       if (hotwireplist["koordinatentabelle"] != nil)
       {
@@ -3335,7 +3472,7 @@ var outletdaten:[String:AnyObject] = [:]
       }
       else
       {
-         Spannweite.integerValue = 1
+         Spannweite.integerValue = 500
       }
 
       if (hotwireplist["auslauf"] != nil)
@@ -3355,7 +3492,7 @@ var outletdaten:[String:AnyObject] = [:]
            {
                AVR?.setRumpfteilDic(RumpfdatenArray[0], forPart: 0)
            }
-           let zeile = RumpfdatenArray[0] as [String:Double]
+           let zeile = RumpfdatenArray[1] as [String:Double]
            
            let zeilenkeys = zeile.keys
            print("zeilenkeys: \(zeilenkeys)")
@@ -3701,7 +3838,7 @@ var outletdaten:[String:AnyObject] = [:]
         RumpfOffsetYFeld.doubleValue = 0.0
         RumpfportalabstandFeld.doubleValue = 660
         
-        CNC_microPop.selectItem(withTag: 2)
+        CNC_microPop.selectItem(withTag: 1)
     }
 
     @objc func setRumpfteilDic(rumpfteildic:([String:Double]) , rumpfteil:(Int))
@@ -3878,7 +4015,9 @@ var outletdaten:[String:AnyObject] = [:]
             hotwireplist["profil2popindex"] = 1 as AnyObject
         }
         
-        
+        let rumpfteildic = self.rumpfteilDic()
+        hotwireplist["rumpfteildic"] = self.rumpfteilDic() as AnyObject
+
 
         
     }

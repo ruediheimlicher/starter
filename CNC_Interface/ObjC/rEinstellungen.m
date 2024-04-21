@@ -4489,7 +4489,9 @@
    
    
    NSNotificationCenter* nc=[NSNotificationCenter defaultCenter];
-   [nc postNotificationName:@"Formeingabe" object:self userInfo:ElementDic];
+  // [nc postNotificationName:@"Formeingabe" object:self userInfo:ElementDic];
+    [nc postNotificationName:@"formeingabe" object:self userInfo:ElementDic];
+
    //startx=endx+startx;
    //starty=endy+starty;
    
