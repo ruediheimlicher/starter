@@ -132,7 +132,7 @@ class rProfilfeldView: NSView
          {
             print("hit in Punkt \(tempPunktA.x) \(tempPunktA.y)")
             print("clickPfad: \(clickPfad)")
-                  index = i
+            index = i
          }// if hit
          
          
@@ -813,11 +813,11 @@ class rProfilfeldView: NSView
         }
         print("mousedown x: \(local_point.x) y: \(local_point.y)")
         
-        var linehit:Int = 0
+        //var linehit:Int = 0
         
         if DatenArray.count > 3
         {
-            var clickAbschnitt = self.clickedPunktvonMaus(derPunkt: local_point)
+            var clickAbschnitt = self.clickedAbschnittvonMaus(derPunkt: local_point)
             if clickAbschnitt >= 0
             {
                 var NotificationDic = [String:Any]()
