@@ -1328,7 +1328,8 @@ NSLog(@"logRect: origin.x %2.2f origin.y %2.2f size.heigt %2.2f size.width %2.2f
    NSLog(@"abstandcheckenVon start");
    NSMutableArray* rawarray = [NSMutableArray new];
    
-   
+    //startwerte setzen
+
    
    NSDictionary* tempPrevDicA=[profilarrayA objectAtIndex:0];
    NSDictionary* tempPrevDicB=[profilarrayB objectAtIndex:0];
@@ -1338,8 +1339,19 @@ NSLog(@"logRect: origin.x %2.2f origin.y %2.2f size.heigt %2.2f size.width %2.2f
    float prevbx = [[tempPrevDicB objectForKey:@"x"]floatValue];
    float prevby = [[tempPrevDicB objectForKey:@"y"]floatValue];
    
-   
-   NSLog(@"Werte des ersten Datensatzes: prevax: %2.2f prevay: %2.2f",prevax,prevay);
+    NSMutableDictionary* tempZeilenDic = NSMutableDictionary.new;
+    
+    [tempZeilenDic setObject:[tempPrevDicA objectForKey:@"x"] forKey:@"ax"];
+    [tempZeilenDic setObject:[tempPrevDicA objectForKey:@"y"] forKey:@"ay"];
+    [tempZeilenDic setObject:[tempPrevDicB objectForKey:@"y"] forKey:@"bx"];
+    [tempZeilenDic setObject:[tempPrevDicB objectForKey:@"y"] forKey:@"by"];
+    [tempZeilenDic setObject:[NSNumber numberWithInt:teil] forKey:@"teil"]; // Kennzeichnung Profilseite
+    [tempZeilenDic setObject:[NSNumber numberWithInt:0] forKey:@"datensatzok"];
+    //NSLog(@"index: %d  distanz OK  distA: %2.2f distB: %2.2f",index,cncindex,distA,distB);
+    [rawarray addObject:tempZeilenDic];
+
+    NSLog(@"Werte des ersten Datensatzes: prevax: %2.2f prevay: %2.2f teil: %d",prevax,prevay, teil);
+
    
    float nowax = 0;
    float noway = 0;
@@ -1357,56 +1369,58 @@ NSLog(@"logRect: origin.x %2.2f origin.y %2.2f size.heigt %2.2f size.width %2.2f
       NSDictionary* tempZeilenDicB = [profilarrayB objectAtIndex:index];
       NSMutableDictionary* tempZeilenDic =NSMutableDictionary.new;
       /*
-      if(index < profilarrayA.count-20+1)// Punkte am Anfang
-      {
-         //NSLog(@"profilarray index<20: %d",index);
-         // Distanz bestimmen
-         nowax = [[tempZeilenDicA objectForKey:@"x"]floatValue];
-         noway = [[tempZeilenDicA objectForKey:@"y"]floatValue];
-         
-         nowbx = [[tempZeilenDicB objectForKey:@"x"]floatValue];
-         nowby = [[tempZeilenDicB objectForKey:@"y"]floatValue];
-         
-         // Soll der Datensatz geladen werden?
-         int datensatzok = 0;
-         
-         // Distanzen zum vorherigen Punkt
-         float distA = hypot(nowax-prevax,noway-prevay);
-         float distB = hypot(nowbx-prevbx,nowby-prevby);
-         //NSLog(@"profilarray index: %d distA: %2.2f distB: %2.2f",index ,distA,distB);
-         if (((distA > minimaldistanz || distB > minimaldistanz)) ) // Eine der Distanzen ist genügend gross
-         {
-            datensatzok = 1;
-            //NSMutableDictionary* tempZeilenDic =NSMutableDictionary.new;
-            [tempZeilenDic setObject:[tempZeilenDicA objectForKey:@"x"] forKey:@"ax"];
-            [tempZeilenDic setObject:[tempZeilenDicA objectForKey:@"y"] forKey:@"ay"];
-            [tempZeilenDic setObject:[tempZeilenDicB objectForKey:@"x"] forKey:@"bx"];
-            [tempZeilenDic setObject:[tempZeilenDicB objectForKey:@"y"] forKey:@"by"];
-            [tempZeilenDic setObject:[NSNumber numberWithInt:teil] forKey:@"teil"]; // Kennzeichnung Profilseite
-            [tempZeilenDic setObject:[NSNumber numberWithInt:1] forKey:@"datensatzok"];
-            //NSLog(@"index: %d  distanz OK  distA: %2.2f distB: %2.2f",index,cncindex,distA,distB);
-            [rawarray addObject:tempZeilenDic];
-         }
-         else
-         {
-            NSLog(@"libProfilEingabeAktion index: %d  *** distanz zu kurz. distA: %2.2f distB: %2.2f",index,distA,distB);
-            continue;
-            
-         }
-      }
+      //if(index < profilarrayA.count-20+1)// Punkte am Anfang
+       if(index < 10)// Punkte am Anfang
+
+       {
+          //NSLog(@"profilarray index<20: %d",index);
+          // Distanz bestimmen
+          nowax = [[tempZeilenDicA objectForKey:@"x"]floatValue];
+          noway = [[tempZeilenDicA objectForKey:@"y"]floatValue];
+          
+          nowbx = [[tempZeilenDicB objectForKey:@"x"]floatValue];
+          nowby = [[tempZeilenDicB objectForKey:@"y"]floatValue];
+          
+          // Soll der Datensatz geladen werden?
+          int datensatzok = 0;
+          
+          // Distanzen zum vorherigen Punkt
+          float distA = hypot(nowax-prevax,noway-prevay);
+          float distB = hypot(nowbx-prevbx,nowby-prevby);
+          //NSLog(@"profilarray index: %d distA: %2.2f distB: %2.2f",index ,distA,distB);
+          if (((distA > minimaldistanz || distB > minimaldistanz)) ) // Eine der Distanzen ist genügend gross
+          {
+             datensatzok = 1;
+             //NSMutableDictionary* tempZeilenDic =NSMutableDictionary.new;
+             [tempZeilenDic setObject:[tempZeilenDicA objectForKey:@"x"] forKey:@"ax"];
+             [tempZeilenDic setObject:[tempZeilenDicA objectForKey:@"y"] forKey:@"ay"];
+             [tempZeilenDic setObject:[tempZeilenDicB objectForKey:@"x"] forKey:@"bx"];
+             [tempZeilenDic setObject:[tempZeilenDicB objectForKey:@"y"] forKey:@"by"];
+             [tempZeilenDic setObject:[NSNumber numberWithInt:teil] forKey:@"teil"]; // Kennzeichnung Profilseite
+             [tempZeilenDic setObject:[NSNumber numberWithInt:1] forKey:@"datensatzok"];
+             //NSLog(@"index: %d  distanz OK  distA: %2.2f distB: %2.2f",index,cncindex,distA,distB);
+             [rawarray addObject:tempZeilenDic];
+          }
+          else
+          {
+             NSLog(@"abstandchecken index: %d  *** distanz zu kurz. distA: %2.2f distB: %2.2f",index,distA,distB);
+             continue;
+             
+          }
+       }
       */
 //      else
-      {
-         [tempZeilenDic setObject:[tempZeilenDicA objectForKey:@"x"] forKey:@"ax"];
-         [tempZeilenDic setObject:[tempZeilenDicA objectForKey:@"y"] forKey:@"ay"];
-         [tempZeilenDic setObject:[tempZeilenDicB objectForKey:@"x"] forKey:@"bx"];
-         [tempZeilenDic setObject:[tempZeilenDicB objectForKey:@"y"] forKey:@"by"];
-         [tempZeilenDic setObject:[NSNumber numberWithInt:teil] forKey:@"teil"]; // Kennzeichnung Profilseite
-         [tempZeilenDic setObject:[NSNumber numberWithInt:0] forKey:@"datensatzok"];
-         //NSLog(@"index: %d  distanz OK  distA: %2.2f distB: %2.2f",index,cncindex,distA,distB);
-         [rawarray addObject:tempZeilenDic];
-         
-      }
+       {
+          [tempZeilenDic setObject:[tempZeilenDicA objectForKey:@"x"] forKey:@"ax"];
+          [tempZeilenDic setObject:[tempZeilenDicA objectForKey:@"y"] forKey:@"ay"];
+          [tempZeilenDic setObject:[tempZeilenDicB objectForKey:@"x"] forKey:@"bx"];
+          [tempZeilenDic setObject:[tempZeilenDicB objectForKey:@"y"] forKey:@"by"];
+          [tempZeilenDic setObject:[NSNumber numberWithInt:teil] forKey:@"teil"]; // Kennzeichnung Profilseite
+          [tempZeilenDic setObject:[NSNumber numberWithInt:0] forKey:@"datensatzok"];
+          //NSLog(@"index: %d  distanz OK  distA: %2.2f distB: %2.2f",index,cncindex,distA,distB);
+          [rawarray addObject:tempZeilenDic];
+          
+       }
       /*
       prevax = nowax;
       prevay = noway;
