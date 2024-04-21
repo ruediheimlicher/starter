@@ -315,7 +315,7 @@ var outletdaten:[String:AnyObject] = [:]
    @IBOutlet weak var  EinlaufCheckbox: NSButton!
    @IBOutlet weak var  AuslaufCheckbox: NSButton!
    
-   @IBOutlet weak var  AbbrandCheckbox: NSButton!
+   @IBOutlet  var  AbbrandCheckbox: NSButton!
    
    @IBOutlet weak var  ScalePop: NSPopUpButton!
    @IBOutlet weak var  Profil1Pop: NSPopUpButton!
@@ -661,6 +661,17 @@ var outletdaten:[String:AnyObject] = [:]
         infodic!["wertay"] = 25
         
         infodic!["pwm"] = DC_PWM.floatValue
+        infodic!["abbrand"] = AbbrandFeld.floatValue
+        
+        if AbbrandCheckbox.state == NSControl.StateValue.on
+        {
+            infodic!["mitabbrand"] = 1
+        }
+        else
+        {
+            infodic!["mitabbrand"] = 0
+        }
+
         
         infodic!["minimaldistanz"] = MinimaldistanzFeld.floatValue
         
@@ -2225,6 +2236,9 @@ var outletdaten:[String:AnyObject] = [:]
         var profil1popindex = 0
         var profil2popindex = 0
         
+        let offsetx = ProfilBOffsetXFeld.doubleValue
+        let offsety = ProfilBOffsetYFeld.doubleValue
+        
         
         var datenDic = [String:Any]()
         
@@ -2283,7 +2297,7 @@ var outletdaten:[String:AnyObject] = [:]
         OberseiteCheckbox.state = NSControl.StateValue.on
         UnterseiteCheckbox.state = NSControl.StateValue.off
 
-        print("reportProfilOberseiteTask VOR doProfil: KoordinatenTabelle")
+        print("Hotwire reportProfilOberseiteTask VOR doProfil: KoordinatenTabelle")
         for i in 0..<KoordinatenTabelle.count
         {
             let zeile = KoordinatenTabelle[i]
@@ -2295,13 +2309,15 @@ var outletdaten:[String:AnyObject] = [:]
             print(String(format:"%d \t%2.4f \t  %2.4f \t  %2.4f \t %2.4f ",i,ax,ay,bx,by))
         }
         datenDic["koordinatentabelle"] = KoordinatenTabelle;
+        
         CNC_Eingabe.setPList(CNC_PList as? [AnyHashable : Any])
+        
         CNC_Eingabe.setDaten(datenDic)
         
         print("reportProfilOberseiteTask datenDic: \(datenDic)")
         CNC_Eingabe.profilPopTask(datenDic);
         
-        print("reportProfilOberseiteTask NACH doProfil: KoordinatenTabelle")
+        print("HotWire reportProfilOberseiteTask NACH profilPopTask: KoordinatenTabelle")
         for i in 0..<KoordinatenTabelle.count
         {
             let zeile = KoordinatenTabelle[i]
@@ -2314,23 +2330,63 @@ var outletdaten:[String:AnyObject] = [:]
         }
         datenDic["koordinatentabelle"] = KoordinatenTabelle;
         
-        print("datendic vor blockanfuegenFunktion: \(datenDic)")
+        //print("datendic vor blockanfuegenFunktion: \(datenDic)")
         
         KoordinatenTabelle.removeAll()
         KoordinatenTabelle = AVR?.blockanfuegenFunktion(datenDic) as! [[String : Double]];
-        print("KoordinatenTabelle: ")
+        print("reportProfilOberseiteTask KoordinatenTabelle: ")
+        // Abmessungen block
+        var minX:Double = 1000
+        var minY:Double = 1000
+        var maxX:Double = 0
+        var maxY:Double = 0
+        var maxabrX:Double = 0
+        var maxabrY:Double = 0
+        // https://forums.swift.org/t/array-of-dictionaries-get-the-values-of-a-specific-key/29001
+        let axarray = KoordinatenTabelle.compactMap { $0["ax"] }
+        let ayarray = KoordinatenTabelle.compactMap { $0["ay"] }
+        minX = axarray.min() ?? 10000
+        minY = ayarray.min() ?? 1000
+        maxX = axarray.max() ?? 0
+        maxY = ayarray.max() ?? 0
+ 
+        let abraxarray = KoordinatenTabelle.compactMap { $0["abrax"] }
+        let abrayarray = KoordinatenTabelle.compactMap { $0["abray"] }
+        maxabrX = (abraxarray.max() ?? 0)
+        maxabrY = (abrayarray.max() ?? 0)
+        
+        maxX = max(maxX,maxabrX) + offsetx
+        maxY = max(maxY,maxabrY) + offsety
+        
+        
+        print("minX: \(minX) minY: \(minY) maxX: \(maxX) maxY: \(maxY)")
+        
+        
         for i in 0..<KoordinatenTabelle.count
         {
             let zeile = KoordinatenTabelle[i]
             let ax = zeile["ax"]
-            let ay = zeile["ay"]!
-            let bx = zeile["bx"]!
-            let by = zeile["by"]!
+            let ay = zeile["ay"]
+            let bx = zeile["bx"]
+            let by = zeile["by"]
+  
+            let abrax = (zeile["abrax"] ?? ax)!
+            let abray = (zeile["abray"] ?? ay)!
+            let abrbx = (zeile["abrbx"] ?? bx)!
+            let abrby = (zeile["abrby"] ?? by)!
+             
             //print(String(format: "a float number: %.2f", 1.0321))
-            print(String(format:"%d \t%2.4f \t  %2.4f \t  %2.4f \t %2.4f ",i,ax!,ay,bx,by))
+            print(String(format:"%d \t%2.4f \t  %2.4f \t  %2.4f \t %2.4f \t\t%2.4f \t  %2.4f \t  %2.4f \t %2.4f ",i,ax!,ay!,abrax,abray,bx!,by!,abrbx,abrby))
         }
         
+        let rahmenrect = NSMakeRect(minX, minY, maxX - minX, maxY - minY)
+        //let rahmenarray = [[minX,maxY],[maxX,maxY],[maxX,minY],[minX,minY]]
+        
+        let rahmenarray = [NSMakePoint(minX, maxY) ,NSMakePoint(maxX,maxY),NSMakePoint(maxX,minY),NSMakePoint(minX,minY)]
+        //BlockrahmenArray = rahmenarray
         CNC_Table.reloadData()
+        //let r = rahmenarray as NSArray
+        ProfilFeld.setRahmenArray(derRahmenArray: rahmenarray as NSArray)
         ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
         ProfilFeld.needsDisplay = true
 
@@ -2953,7 +3009,8 @@ var outletdaten:[String:AnyObject] = [:]
        
        NotificationCenter.default.addObserver(self, selector:#selector(LibElementeingabeAktion(_:)),name:NSNotification.Name(rawValue: "libelementeingabe"),object:nil)
 
-       
+       NotificationCenter.default.addObserver(self, selector: #selector(hotwirebeendenAktion), name:NSNotification.Name(rawValue: "beenden"), object: nil)
+
       
 
        NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "newdata"), object: nil)
@@ -3535,6 +3592,108 @@ var outletdaten:[String:AnyObject] = [:]
       
        
    }
+    
+    @objc func saveHotwire_PList()
+    {
+        var USBPfad = NSHomeDirectory() + "/Documents" + "/CNCDaten"
+        var PListName:String = "/CNC.plist"
+        USBPfad += PListName
+        print("readHotwire_PList: \(USBPfad)")
+        var USB_URL = NSURL.fileURL(withPath:USBPfad)
+        
+        hotwireplist["einlaufrand"] = Einlaufrand.integerValue as AnyObject
+        hotwireplist["auslaufrand"] = Auslaufrand.integerValue as AnyObject
+        hotwireplist["blockdicke"] = Blockdicke.integerValue as AnyObject
+        hotwireplist["blockbreite"] = Blockbreite.integerValue as AnyObject
+        hotwireplist["pwm"] = DC_PWM.integerValue as AnyObject
+        hotwireplist["redpwm"] = red_pwmFeld.doubleValue as AnyObject
+
+        hotwireplist["speed"] = SpeedFeld.integerValue as AnyObject
+        
+ //       hotwireplist["steps"] = steps_Feld.integerValue as AnyObject
+
+        hotwireplist["abbrand"] = AbbrandFeld.doubleValue as AnyObject
+        hotwireplist["minimaldistanz"] = MinimaldistanzFeld.doubleValue as AnyObject
+        hotwireplist["profilnamea"] =  ProfilNameFeldA.stringValue as AnyObject
+        hotwireplist["profilnameb"] =  ProfilNameFeldB.stringValue as AnyObject
+        hotwireplist["profiltiefea"] = ProfilTiefeFeldA.integerValue as AnyObject
+        hotwireplist["profiltiefeb"] = ProfilTiefeFeldB.integerValue as AnyObject
+        hotwireplist["profilboffsetx"] = ProfilBOffsetXFeld.integerValue as AnyObject
+        hotwireplist["profilboffsety"] = ProfilBOffsetYFeld.integerValue as AnyObject
+        
+        hotwireplist["einlauflaenge"] = Einlauflaenge.integerValue as AnyObject
+        hotwireplist["einlauftiefe"] = Einlauftiefe.integerValue as AnyObject
+        hotwireplist["auslauflaenge"] = Auslauflaenge.integerValue as AnyObject
+        hotwireplist["ausauftiefe"] = Auslauftiefe.integerValue as AnyObject
+        
+        
+        hotwireplist["basisabstand"] = Basisabstand.integerValue as AnyObject
+        hotwireplist["portalabstand"] = Portalabstand.integerValue as AnyObject
+        
+        hotwireplist["spannweite"] = Spannweite.integerValue as AnyObject
+        
+        hotwireplist["profilwrench"] = ProfilWrenchFeld.integerValue as AnyObject
+        hotwireplist["spannweite"] = Spannweite.integerValue as AnyObject
+        
+        // Profil
+        if Profil1Pop.indexOfSelectedItem > 0
+        {
+            hotwireplist["profil1popindex"] = Profil1Pop.indexOfSelectedItem as AnyObject
+        }
+        else
+        {
+            hotwireplist["profil1popindex"] = 1 as AnyObject
+        }
+
+        if Profil2Pop.indexOfSelectedItem > 0
+        {
+            hotwireplist["profil2popindex"] = Profil2Pop.indexOfSelectedItem as AnyObject
+        }
+        else
+        {
+            hotwireplist["profil2popindex"] = 1 as AnyObject
+        }
+        
+        
+
+        
+    }
+
+    
+    @objc  func hotwirebeendenAktion(_ notification:Notification) -> Bool
+     {
+        
+        print("Hotwire beendenAktion")
+         
+         self.saveHotwire_PList()
+         var USBPfad = NSHomeDirectory() + "/Documents" + "/CNCDaten"
+         let PListName:String = "/CNC.plist"
+         USBPfad += PListName
+         print("saveHotwire_PList: \(USBPfad)")
+         var USB_URL = NSURL.fileURL(withPath:USBPfad)
+         
+         do {
+             let data = try PropertyListSerialization.data(fromPropertyList: hotwireplist, format: .xml, options: 0)
+             try data.write(to: USB_URL)
+             return true
+         }  catch {
+             print(error)
+             return false
+         }
+         
+         
+         
+         
+         let cc = NSMutableDictionary(dictionary:hotwireplist)
+         let success = cc.write(to: USB_URL, atomically: true)
+              print("write: ", success)
+
+           NSApplication.shared.terminate(self)
+        
+        
+     }
+
+
   
     @objc func PfeilFeldAktion(_ notification:Notification)
     {

@@ -499,7 +499,8 @@ class rProfilfeldView: NSView
           for i in 0..<anz // erstes vorkommen von abr suchen
           {
               var line = DatenArray[i] as! [String:Any]
-              if line["abrax"] != nil && line["abrax"] as! Int > 0
+              if line["abrax"] != nil && (line["abrax"] as! Double) > 0
+                   
               {
                   startabbrandindexA += 1
                   break
@@ -525,7 +526,7 @@ class rProfilfeldView: NSView
           for i in 0..<anz
           {
               var line = DatenArray[i] as! [String:Any]
-              if line["abrbx"] != nil && line["abrbx"] as! Int > 0
+              if line["abrbx"] != nil && (line["abrbx"] as! Double) > 0
               {
                   startabbrandindexB += 1
                   break
