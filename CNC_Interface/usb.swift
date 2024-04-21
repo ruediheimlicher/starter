@@ -301,7 +301,7 @@ class rTimerInfo {
             datatruecounter += 1
             let codehex = read_byteArray[0]
             let codehexstring = String(codehex, radix:16, uppercase:true)
-            print("cont_read_USB new Data codehex: \(codehex) codehex: \(codehexstring)")
+       //     print("cont_read_USB new Data codehex: \(codehex) codehex: \(codehexstring)")
             
             
             //print("\n+++ cont_read_USB new read_byteArray in Timer. code: \(read_byteArray[0])")
@@ -312,7 +312,7 @@ class rTimerInfo {
                print("usb code BD")
             }
              
-             print("read_byteArray: \(read_byteArray)")
+     //        print("read_byteArray: \(read_byteArray)")
             /*
              for  i in 0..<BUFFER_SIZE
             {

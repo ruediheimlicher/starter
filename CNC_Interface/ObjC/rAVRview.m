@@ -10319,23 +10319,6 @@ return returnInt;
    //NSLog(@"AVR KoordinatenTabelle: %@",[KoordinatenTabelle description]);
    
    // Dic mit keys x,y,index, Werte mit wahrer laenge in mm proportional Profiltiefe
-   /*
-    NSArray* Profil1Array=NULL;
-    if ([ProfilDic objectForKey:@"profil1array"])
-    {
-    Profil1Array=[ProfilDic objectForKey:@"profil1array"];
-    }
-    NSArray* Profil2Array=NULL;
-    
-    if ([ProfilDic objectForKey:@"profil2array"])
-    {
-    Profil2Array=[ProfilDic objectForKey:@"profil2array"];
-    }
-    if ([ProfilWrenchFeld floatValue])
-    {
-    Profil2Array = [Utils wrenchProfil:Profil2Array mitWrench:[ProfilWrenchFeld floatValue]];
-    }
-    */
    
    // auf Profiltiefe umrechnen
    NSLog(@" Profil1UnterseiteArray start");

@@ -657,6 +657,14 @@ var outletdaten:[String:AnyObject] = [:]
         infodic!["portalabstand"] = Portalabstand.integerValue
         infodic!["basisabstand"] = Basisabstand.integerValue
         
+        infodic!["profilwrench"] = ProfilWrenchFeld.doubleValue
+        
+        let r = ProfilWrenchEinheitRadio.selectedRow
+        infodic!["wrenchradio"] = ProfilWrenchEinheitRadio.selectedRow
+
+        
+
+        
         infodic!["wertax"] = 35
         infodic!["wertay"] = 25
         
@@ -2721,6 +2729,11 @@ var outletdaten:[String:AnyObject] = [:]
 
     @objc func setDatenVonZeile(zeile:Int)
     {
+        if zeile < 0
+        {
+            return
+        }
+
         var tempzeile:[String:Double] = KoordinatenTabelle[zeile]
         IndexFeld.integerValue = Int(tempzeile["index"]!)
         IndexStepper.integerValue = IndexFeld.integerValue
