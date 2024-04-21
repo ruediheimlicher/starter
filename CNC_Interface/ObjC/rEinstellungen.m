@@ -2422,7 +2422,16 @@
          {
             oberseitearrayA = [Profil1Dic objectForKey:@"oberseitearray"];
          }
-         if ([Profil1Dic objectForKey:@"unterseitearray"]) 
+          
+          NSLog(@"ProfilPopTask oberseitearrayA");
+          for (int i=0;i<oberseitearrayA.count;i++)
+          {
+              fprintf(stderr, "%d\t%2.6f\t%2.6f\n",i,[[[oberseitearrayA objectAtIndex:i]objectForKey:@"x"] floatValue],[[[oberseitearrayA objectAtIndex:i]objectForKey:@"y"] floatValue]);
+              
+          } // alle Punkte dabei
+
+
+         if ([Profil1Dic objectForKey:@"unterseitearray"])
          {
             unterseitearrayA = [Profil1Dic objectForKey:@"unterseitearray"];
          }
@@ -2471,7 +2480,7 @@
          NSLog(@"doProfil1,2 PopTaskMitProfil Profil2pfad: %@",Profil2pfad);
          NSFileManager *Filemanager = [NSFileManager defaultManager];
          int Profil2OK= [Filemanager fileExistsAtPath:Profil2pfad];
-         NSLog(@"doProfi Profil2OK: %d",Profil2OK);
+         NSLog(@"ProfilPopTask.. Profil2OK: %d",Profil2OK);
          if (Profil2OK)
          {
             // Daten von Profil2 holen
@@ -2768,8 +2777,14 @@
             NSLog(@"Oberseite abgleichen");
             
             NSArray* redarray  = [Utils werteanpassenOberseiteVon:[NSArray arrayWithObjects:oberseitearrayA, oberseitearrayB,nil]];
-            oberseitearrayA = redarray[0];
-            
+                oberseitearrayA = redarray[0];
+              NSLog(@"ProfilPopTask red oberseitearrayA");
+              for (int i=0;i<oberseitearrayA.count;i++)
+              {
+                  fprintf(stderr, "%d\t%2.6f\t%2.6f\n",i,[[[oberseitearrayA objectAtIndex:i]objectForKey:@"x"] floatValue],[[[oberseitearrayA objectAtIndex:i]objectForKey:@"y"] floatValue]);
+                  
+              } // alle Punkte dabei
+
             oberseitearrayB = redarray[1];
  
             
