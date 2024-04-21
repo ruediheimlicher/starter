@@ -3623,6 +3623,79 @@ var outletdaten:[String:AnyObject] = [:]
        
    }
     
+    @IBAction func reportSeiteVertauschen(_ sender:NSButton)
+    {
+        print("reportSeiteVertauschen")
+        if KoordinatenTabelle.count==0
+       {
+          return
+       }
+       var i = 0
+        for i in 0..<KoordinatenTabelle.count
+        {
+            var neuerZeilenDic = KoordinatenTabelle[i] //[String:Double]()
+            
+            var tempax = neuerZeilenDic["ax"]
+            var tempay = neuerZeilenDic["ay"]
+            var tempbx = neuerZeilenDic["bx"]
+            var tempby = neuerZeilenDic["by"]
+            
+            // keys vertauschen
+            neuerZeilenDic["ax"] = tempbx
+            neuerZeilenDic["ay"] = tempby
+            neuerZeilenDic["bx"] = tempax
+            neuerZeilenDic["by"] = tempay
+            
+            var abrax:Double = 0
+            var abray:Double = 0
+            var abrbx:Double = 0
+            var abrby:Double = 0
+            
+            
+            if let tempabrax = neuerZeilenDic["abrax"]
+            {
+                abrax = tempabrax
+            }
+            if let tempabray = neuerZeilenDic["abray"]
+            {
+                abray =  tempabray
+            }
+            if let tempabrbx = neuerZeilenDic["abrbx"]
+            {
+                abrbx = tempabrbx
+            }
+            if let tempabrby = neuerZeilenDic["abrby"]
+            {
+                abrby = tempabrby
+            }
+            // key vertauschen
+            
+            if abrax > 0
+            {
+                neuerZeilenDic["abrbx"] = abrax
+            }
+            if abray > 0
+            {
+                neuerZeilenDic["abrby"] = abray
+            }
+
+            if abrbx > 0
+            {
+                neuerZeilenDic["abrax"] = abrbx
+            }
+            if abrby > 0
+            {
+                neuerZeilenDic["abray"] = abrby
+            }
+
+            KoordinatenTabelle[i] = neuerZeilenDic
+        }
+        ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
+        ProfilFeld.needsDisplay = true
+        CNC_Table.reloadData()
+
+    }
+    
     @objc func saveHotwire_PList()
     {
         var USBPfad = NSHomeDirectory() + "/Documents" + "/CNCDaten"

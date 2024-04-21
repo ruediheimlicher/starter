@@ -12114,9 +12114,10 @@ return returnInt;
 //      KoordinatenTabelle = [CNC addAbbrandVonKoordinaten:KoordinatenTabelle mitAbbrandA:10 aufSeite:0];
       
       [self updateIndex];
+       [CNCTable reloadData];
       [CNCTable scrollRowToVisible:[KoordinatenTabelle count] - 1];
       [CNCTable selectRowIndexes:[NSIndexSet indexSetWithIndex:[KoordinatenTabelle count]-1] byExtendingSelection:NO];
-      [CNCTable reloadData];
+     
       [ProfilGraph setDatenArray:KoordinatenTabelle];
       [ProfilGraph setNeedsDisplay:YES];
 
@@ -14405,7 +14406,7 @@ return returnInt;
    [self reportBlockanfuegen:NULL];
    
   // [CNC_BlockAnfuegenTaste performClick:NULL]; 
-   [LinkeRechteSeite setSelectedSegment:1];
+ //  [LinkeRechteSeite setSelectedSegment:1];
 //   [LinkeRechteSeite  performClick:NULL]; 
    //NSLog(@"delta: %f",delta);
    [CNC_Starttaste setEnabled:NO];

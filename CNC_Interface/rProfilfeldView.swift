@@ -336,7 +336,7 @@ class rProfilfeldView: NSView
             scale = 4
         }
         var mitabbrand = 0
-        var abbranddelay:Int = 3
+        var abbranddelay:Int = 5
         
         if (NSGraphicsContext.currentContextDrawingToScreen() == true)
         {
