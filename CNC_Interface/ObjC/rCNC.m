@@ -3573,24 +3573,29 @@ PortA=vs[n & 3]; warte10ms(); n++;
    // Einstich
    if(tiefe)
    {
-      Endpunkt.x +=tiefe * sinf(winkel);
-      Endpunkt.y -=tiefe * cosf(winkel);
-      NSArray* tempEinlaufArray1 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y],[NSNumber numberWithFloat:full_pwm], nil];
-      [EinlaufpunkteArray addObject:tempEinlaufArray1];
-      
-      /*
-       // Boden
-       Endpunkt.x +=dicke * cosf(winkel);
-       Endpunkt.y +=dicke * sinf(winkel);
-       NSArray* tempEinlaufArray2 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y], nil];
-       [EinlaufpunkteArray addObject:tempEinlaufArray2];
-       */
-      // Ausstich
-      Endpunkt.x -=tiefe * sinf(winkel);
-      Endpunkt.y +=tiefe * cosf(winkel);
-      NSArray* tempEinlaufArray3 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y],[NSNumber numberWithFloat:red_pwm], nil];
-      [EinlaufpunkteArray addObject:tempEinlaufArray3];
-   }
+       Endpunkt.x +=tiefe * sinf(winkel);
+       Endpunkt.y -=tiefe * cosf(winkel);
+       NSArray* tempEinlaufArray1 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y],[NSNumber numberWithFloat:full_pwm], nil];
+       [EinlaufpunkteArray addObject:tempEinlaufArray1];
+       // Ausstich
+       Endpunkt.x -=tiefe * sinf(winkel);
+       Endpunkt.y +=tiefe * cosf(winkel);
+       NSArray* tempEinlaufArray3 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y],[NSNumber numberWithFloat:red_pwm], nil];
+       [EinlaufpunkteArray addObject:tempEinlaufArray3];
+       
+       // Ueberschneiden oben:
+       Endpunkt.y += 5;
+       //Endpunkt.x +=10;
+       NSArray* tempEinlaufArray4 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y],[NSNumber numberWithFloat:red_pwm], nil];
+       [EinlaufpunkteArray addObject:tempEinlaufArray4];
+ 
+       Endpunkt.y -= 5;
+       //Endpunkt.x -=10;
+       NSArray* tempEinlaufArray5= [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y],[NSNumber numberWithFloat:red_pwm], nil];
+       [EinlaufpunkteArray addObject:tempEinlaufArray5];
+
+
+    }
    else 
    {
       //[EinlaufpunkteArray addObject:tempEinlaufArray0];
@@ -3603,8 +3608,9 @@ PortA=vs[n & 3]; warte10ms(); n++;
       Endpunkt.y +=laenge * sinf(winkel);
       NSArray* tempEinlaufArray4 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y],[NSNumber numberWithFloat:full_pwm], nil];
       [EinlaufpunkteArray addObject:tempEinlaufArray4];
+  
    }
-   else 
+   else
    {
     //  [EinlaufpunkteArray addObject:tempEinlaufArray0];
    }
