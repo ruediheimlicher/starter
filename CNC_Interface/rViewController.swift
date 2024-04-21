@@ -429,10 +429,12 @@ class rViewController: NSViewController, NSWindowDelegate
         
         print("viewDidAppear")
         self.view.window?.delegate = self as? NSWindowDelegate 
+         
+        //let boardarray:NSArray = BoardPop.itemTitles as NSArray
         
         let warnung = NSAlert.init()
         warnung.messageText = "Welches Board?"
-        let boardarray = BoardPop.itemTitles 
+        let boardarray = BoardPop.itemTitles
         for titel in boardarray
         {
             let buttonstring = titel
@@ -482,6 +484,8 @@ class rViewController: NSViewController, NSWindowDelegate
                 userInfo: userinformation)
         
     }
+    
+    
     
     @objc func stepsAktion(_ notification:Notification)
         {
@@ -712,7 +716,7 @@ class rViewController: NSViewController, NSWindowDelegate
         {
               
            //print("d: \(d)\n") // d: [0, 9, 56, 0, 0,...
-           let t = type(of:d)
+           //let t = type(of:d)
            //print("typ: \(t)\n") // typ: Array<UInt8>
            
            //print("element: \(d[1])\n")
