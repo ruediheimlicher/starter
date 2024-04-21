@@ -425,7 +425,7 @@ var outletdaten:[String:AnyObject] = [:]
     
    @IBOutlet weak var red_pwmFeld: NSTextField!
 
-   @IBOutlet weak var LinkeRechteSeite: NSSegmentedControl!
+   @IBOutlet weak var LinkeRechteSeite: NSButton!
     
    @IBOutlet weak var VersionFeld: NSTextField!
    @IBOutlet weak var DatumFeld: NSTextField!
@@ -3275,7 +3275,7 @@ var outletdaten:[String:AnyObject] = [:]
     }
     
     
-    @IBAction func reportLinkeRechteSeite(_ sender: NSSegmentedControl)
+    @IBAction func reportLinkeRechteSeite(_ sender: NSButton)
     {
         print("reportLinkeRechteSeite")
         if KoordinatenTabelle.count == 0
@@ -3297,14 +3297,20 @@ var outletdaten:[String:AnyObject] = [:]
             {
                 let wertaX = KoordinatenTabelle[i]["ax"]
                 KoordinatenTabelle[i]["ax"] = maxX! - (wertaX! - minX!)
-                if let wertabrX = KoordinatenTabelle[i]["abrax"]
+                if let wertabraX = KoordinatenTabelle[i]["abrax"]
                 {
-                    KoordinatenTabelle[i]["abrax"] =  maxX! - (wertabrX - minX!)
+                    KoordinatenTabelle[i]["abrax"] =  maxX! - (wertabraX - minX!)
                 }
                 
                 let wertbX = KoordinatenTabelle[i]["bx"]
                 KoordinatenTabelle[i]["bx"] = maxX! - (wertbX! - minX!)
+                if let wertabrbX = KoordinatenTabelle[i]["abrbx"]
+                {
+                    KoordinatenTabelle[i]["abrbx"] =  maxX! - (wertabrbX - minX!)
+                }
 
+                
+                
             }
             CNC_Table.reloadData()
             ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
