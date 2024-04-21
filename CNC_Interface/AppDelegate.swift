@@ -20,13 +20,27 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMenuDele
 
    
    }
- /*  
+    @IBAction func reportElementsichern(_ sender: NSMenuItem)
+    {
+        print("NSApp reportElementsichern")
+        let nc = NotificationCenter.default
+        var NotificationDic = [String:Any]()
+        
+        nc.post(name:Notification.Name(rawValue:"elementsichern"),
+                object: nil,
+                userInfo: NotificationDic) // > Hotwire
+        
+    }
+
+ /*
    func keyDown(event: NSEvent!) -> NSEvent {
        NSLog("key down is \(event.keyCode)");
       
        return event
    }
   */ 
+    
+    
    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply
 
    {

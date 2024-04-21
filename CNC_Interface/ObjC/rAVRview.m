@@ -3386,34 +3386,7 @@ return returnInt;
     
     [tempkoordinatentabelle setArray:revKoordinatenTabelle];//index, pwm, ax,bx,ay,by
     
-    
-    /*
-    [self updateIndex];
-    [ProfilGraph setStepperposition:0];
-    [ProfilGraph setNeedsDisplay:YES];
-    
-    NSMutableDictionary* NotificationDic=[[NSMutableDictionary alloc]initWithCapacity:0];
-    [NotificationDic setObject:koordinatentabelle forKey:@"koordinatentabelle"];
-    
-    NSNotificationCenter* nc=[NSNotificationCenter defaultCenter];
-    [nc postNotificationName:@"CNCaktion" object:self userInfo:NotificationDic];
-    [CNC_Sendtaste setEnabled:YES];
-    [CNC_Terminatetaste setEnabled:YES];
-    [self setStepperstrom:0];
-    //[DC_Taste setState:0];
-    
-    //NSLog(@"reportStopKnopf tempkoordinatentabelle: %@ count: %d ",[tempkoordinatentabelle description],[tempkoordinatentabelle count]);
-    //NSLog(@"reportStopKnopf tempkoordinatentabelle count: %d ",[tempkoordinatentabelle count]);
-    //NSLog(@"reportStopKnopf koordinatentabelle count: %d",[koordinatentabelle count]);
-    NSLog(@"reportStopKnopf koordinatentabelle neu: %@",[koordinatentabelle description]);
-    int anzDaten=[koordinatentabelle count]-1;
-    //NSLog(@"reportStopKnopf anzDaten: %d",anzDaten);
-    //[PositionFeld setIntValue:[koordinatentabelle count]-1];
-    //[IndexFeld setIntValue:anzDaten];
-    [IndexStepper setIntValue:anzDaten];
-    //NSLog(@"reportStopKnopf koordinatentabelle count: %d",[koordinatentabelle count]);
-    */
-    
+     
     // end Action
     NSLog(@"stopFunktion koordinatentabelle neu: %@",[koordinatentabelle description]);
 
@@ -15414,7 +15387,7 @@ return returnInt;
          {
             return;
          }break;
-      }
+      } // switch antwort
 
    }
    [SchnittdatenArray setArray:[NSArray array]];
@@ -15871,7 +15844,7 @@ return returnInt;
          {
             return;
          }break;
-      }
+      } // switch antwort
       
       // end von 32
       
@@ -16006,7 +15979,7 @@ return returnInt;
           [ProfilGraph setStepperposition:[[[note userInfo]objectForKey:@"stepperposition"]intValue]-1];
           [ProfilGraph setNeedsDisplay:YES];
        }
-   }
+   }// inposition
    
    if ([[[note userInfo]objectForKey:@"slaveversion"]intValue])
    {

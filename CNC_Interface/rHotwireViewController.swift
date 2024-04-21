@@ -782,12 +782,14 @@ var outletdaten:[String:AnyObject] = [:]
         else
         {
             ax = 25
-            ay = 55
+            ay = 25
             bx = 25
-            by = 55
+            by = 25
             StartpunktA = NSMakePoint(ax,ay)
             StartpunktB = NSMakePoint(bx,by)
         }
+        
+        
         let offsetx:Double = ProfilBOffsetXFeld.doubleValue
         let offsety:Double = ProfilBOffsetYFeld.doubleValue
         var startx:Double = 0
@@ -865,7 +867,237 @@ var outletdaten:[String:AnyObject] = [:]
         
     }// end FormeingabeAktion
     
+    @objc func neuesElementSichernAktion(_ notification:Notification) -> Bool
+    {
+        if KoordinatenTabelle.count == 0
+        {
+            NSSound.beep()
+            return false
+        }
+        print("reportElementSichern  KoordinatenTabelle Start: \(KoordinatenTabelle)")
+         
+        var startax:Double = 0
+        var startay:Double = 0
+        var startbx:Double = 0
+        var startby:Double = 0
 
+        let startline = KoordinatenTabelle[0]
+        if let wert = startline["ax"]
+        {
+            startax = wert
+        }
+        if let wert = startline["ay"]
+        {
+            startay = wert
+        }
+        if let wert = startline["bx"]
+        {
+            startbx = wert
+        }
+        if let wert = startline["by"]
+        {
+            startby = wert
+        }
+        var startDic = [String:Double]()
+        startDic["ax"] = startax
+        startDic["ay"] = startay
+        startDic["index"] = 0
+        var ElementArray = [[String:Double]]()
+        //ElementArray.append(startDic)
+        let anz = KoordinatenTabelle.count
+        for i in 0..<anz
+        {
+            var tempDic = [String:Double]()
+            let templine = KoordinatenTabelle[i]
+            tempDic["x"] = templine["ax"]! - startax
+            tempDic["y"] = templine["ay"]! - startay
+            tempDic["index"] = Double(i)
+            ElementArray.append(tempDic)
+        }
+        print("Hotwire reportElementSichern ElementArray:")
+        for i in 0..<ElementArray.count
+        {
+            let zeile = ElementArray[i]
+            let ax = zeile["x"] ?? 0
+            let ay = zeile["y"] ?? 0
+           // print(String(format: "a float number: %.2f", 1.0321))
+            print(String(format:"%d \t%2.4f \t  %2.4f ",i,ax,ay))
+        }
+ 
+        // Name holen
+         let NameDialog = NSAlert.init()
+        NameDialog.messageText = "Name fuer das neue Element:"
+        let textField = NSTextField(frame: NSRect(x: 0, y: 0, width: 200, height: 24))
+        NameDialog.accessoryView = textField
+
+        
+        NameDialog.addButton(withTitle: "OK")
+        NameDialog.addButton(withTitle: "cancel")
+        let response = NameDialog.runModal()
+        
+        var erfolg = 0
+        var LibOK = false
+        var istOrdner = false
+        var error:NSError
+        
+        var Elementname = ""
+        let fileManager = FileManager.default
+        var LibPfad = NSHomeDirectory() + "/Documents" + "/CNCDaten" + "/ElementLib"
+        var isDirectory: ObjCBool = false
+        var saveElementArray = [[String:Any]]()
+        if response == .alertFirstButtonReturn
+        {
+            Elementname = textField.stringValue
+            print("Entered text: \(Elementname)")
+            
+            if ( fileManager.fileExists(atPath: LibPfad , isDirectory: &isDirectory)) == true && isDirectory.boolValue == true
+            {
+                LibOK = true
+            }
+         }
+        else
+        {
+               print("Cancelled")
+            return false
+           }
+        
+        if LibOK == true
+        {
+            print("ElementLib da")
+           
+            // bestehende Element.plist lesen
+            var elementPfad = LibPfad + "/" + "Element.plist"
+            
+            print("neuesElementSichernAktion Pfad: \(elementPfad)")
+            
+            var neuesElementDic = [String:Any]()
+            neuesElementDic["name"] = Elementname
+            neuesElementDic["elementarray"] = ElementArray
+            
+            if fileManager.fileExists(atPath: elementPfad)
+            {
+                print("fileExists an \(elementPfad)")
+                if let elementarray = NSArray(contentsOfFile: elementPfad)
+                {
+                    print("elementarray: \(elementarray)")
+                    
+                    // Keys lesen
+                    saveElementArray = NSMutableArray(contentsOfFile: elementPfad) as! [[String : Any]]
+                    let elementnamenarray = saveElementArray.map { $0["name"] }
+                   // print("elementnamenarray: \(elementnamenarray)")
+                    
+                     // auf duplikate pruefen
+                    if let dupindex = elementnamenarray.firstIndex(where: { $0 as! String == Elementname })
+                    {
+                        print("dupindex: \(dupindex) Elementname schon da")
+                        let warnung = NSAlert.init()
+                        warnung.messageText = "Element mit Name \(Elementname) ist schon vorhanden"
+                        warnung.addButton(withTitle: "Ersetzen")
+                        warnung.addButton(withTitle: "neu eingeben")
+                        warnung.addButton(withTitle: "Abbrechen")
+                        let antwort = warnung.runModal()
+                        switch (antwort)
+                        {
+                        case .alertFirstButtonReturn: // first button
+                            print("first")
+                            saveElementArray[dupindex] = neuesElementDic
+                            
+                        case .alertSecondButtonReturn:
+                            print("second")
+                        case .alertThirdButtonReturn:
+                            print("third")
+                            return false
+                        default:
+                            break
+                        }
+
+                    }
+                    else
+                    {
+                        print("Elementname noch nicht da")
+                        // neues Element anfuegen
+                        saveElementArray.append(neuesElementDic)
+                    }
+                    
+                }
+                else
+                {
+                    print("Failed to load array from file")
+                    
+                }
+                
+            }
+            
+            
+        }
+        else
+        {
+            print("keine ElementLib")
+            
+        }
+         
+        // Create an XML string representation of the array
+        var xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<array>\n"
+        for item in saveElementArray {
+            xmlString += "    <dict>\(item)</dict>\n"
+        }
+        xmlString += "</array>"
+        print("xmlString: \(xmlString)")
+        
+        // Write the XML string to the file
+        var saveURL = NSURL.fileURL(withPath: LibPfad + "/" + "Rumpf.plist")
+        
+        /*
+        do {
+            try xmlString.write(to: saveURL, atomically: true, encoding: .utf8)
+            print("Array saved as XML at: \(saveURL)")
+        } catch {
+            print("Error saving array as XML: \(error)")
+        }
+
+        
+        var aaa:[String:AnyObject] = [:]
+        aaa["rumpfteildic"] = self.rumpfteilDic() as AnyObject
+        */
+  //      var error: NSError?
+     //   var saveURL = NSURL.fileURL(withPath: LibPfad + "/" + "Element.plist")
+        /*
+        do
+        {
+            let data = try JSONSerialization.data(withJSONObject: saveElementArray, options: JSONSerialization.WritingOptions.prettyPrinted )
+            print("data: \(data)")
+            guard let jsonString = String(data: data, encoding: .utf8) else {
+                 print("Something is wrong while converting JSON data to JSON string.")
+                
+                 return false
+              }
+           
+            try data.write(to:saveURL)
+            print("nach write data")
+        } catch {
+            fatalError("Failed to write array data to disk: \(error)")
+        }
+*/
+
+        do {
+           
+            let encoder = PropertyListEncoder()
+            encoder.outputFormat = .xml
+            
+            // vorhandene Datei Element.plist neu schreiben
+            saveURL = NSURL.fileURL(withPath:LibPfad + "/" + "Element.plist")
+           // let data = try JSONSerialization.data(withJSONObject: saveElementArray, options: []) as? NSData
+            try (saveElementArray as NSArray).write(to: saveURL)
+            return true
+        }  catch {
+            print(error)
+            return false
+        }
+        
+
+        
+
+    }
     
     /*
     @objc override func writeCNCAbschnitt()
@@ -2860,10 +3092,59 @@ var outletdaten:[String:AnyObject] = [:]
     @IBAction  func reportRumpfteilTaste(_ sender: NSSegmentedControl) //
     {
         print("reportRumpfteilTaste index: \(sender.indexOfSelectedItem)")
-        var rumpfteilDic = AVR?.rumpfteilTasteFunktion(self.rumpfteilDic()  as [AnyHashable : Any]);
-        print("reportRumpfteilTaste rumpfteilDic: \(self.rumpfteilDic() as NSDictionary)")
-        
+        let rumpfteilindex = sender.indexOfSelectedItem
+        let temprumpfteildic = self.rumpfteilDic()
+        //self.NeuTastefunktion()
+       // print("reportRumpfteilTaste rumpfteilDic: \(temprumpfteildic)")
+        print("reportRumpfteilTaste rumpfteilDic")
+        let teilkeys = temprumpfteildic.keys
+        var  n:Int = 0
+        for k in teilkeys
+         {
+            //let tempzey = zeilenkeys[i]
+            let data = temprumpfteildic[k]
+//            print("i:\t \(n) \tkey: \(k) \twert: \t\(data ?? 8888)")
+            n += 1
+        }
 
+        
+        print("reportRumpfteilTaste rumpfteilDic")
+        let zeile = RumpfdatenArray[rumpfteilindex] as [String:Double]
+        print("index: \(rumpfteilindex) breitea: \(zeile["breitea"])")
+        let zeilenkeys = zeile.keys
+        var i=0
+        for k in zeilenkeys
+         {
+            //let tempzey = zeilenkeys[i]
+            let data = zeile[k]
+            print("i:\t \(i) \tkey:\t \(k) \tdata:\t \(data ?? 7777)")
+            i += 1
+        }
+
+        BreiteAFeld.integerValue = Int(zeile["breitea"]!)
+        BreiteBFeld.integerValue = Int(zeile["breiteb"]!)
+        HoeheAFeld.integerValue = Int(zeile["hoehea"]!)
+        HoeheBFeld.integerValue = Int(zeile["hoeheb"]!)
+        RadiusAFeld.integerValue = Int(zeile["radiusa"]!)
+        RadiusBFeld.integerValue = Int(zeile["radiusb"]!)
+        RumpfabstandFeld.integerValue = Int(zeile["rumpfabstand"]!)
+        ElementlaengeFeld.integerValue = Int(zeile["elementlaenge"]!)
+        RumpfportalabstandFeld.integerValue = Int(zeile["rumpfportalabstand"]!)
+        EinstichtiefeFeld.integerValue = Int(zeile["einstichtiefe"]!)
+        EinlaufFeld.integerValue = Int(zeile["rumpfeinlauf"]!)
+        AuslaufFeld.integerValue = Int(zeile["rumpfauslauf"]!)
+        RandFeld.integerValue = Int(zeile["rand"]!)
+        RumpfOffsetXFeld.integerValue = Int(zeile["rumpfoffsetx"]!)
+        RumpfOffsetYFeld.integerValue = Int(zeile["rumpfoffsety"]!)
+        RumpfBlockhoehe.integerValue = Int(zeile["rumpfblockhoehe"]!)
+        RumpfBlockbreite.integerValue = Int(zeile["rumpfblockbreite"]!)
+
+        
+   //     print("reportRumpfteilTaste Rumpfdatenarray: \(RumpfdatenArray[rumpfteilindex])")
+        
+   //     print("reportRumpfteilTaste breiteA:\(temprumpfteildic["rumpfbreitea"])")
+ //       var rumpfteilDic = AVR?.rumpfteilTasteFunktion(self.rumpfteilDic()  as [String: Double]);
+   //     print("reportRumpfteilTaste rumpfteilDic von AVR:\(self.rumpfteilDic() as NSDictionary)")
         
     }
 

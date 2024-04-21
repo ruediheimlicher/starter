@@ -217,9 +217,9 @@
    [tempArray replaceObjectAtIndex:32 withObject:[NSNumber numberWithInt:3]];
    
    //NSLog(@"tempArray indexl: %d",[[derDatenDic objectForKey:@"indexl"]intValue]);
-   NSLog(@"SchnittdatenVonDic tempArray: %@",[tempArray description]);
+  // NSLog(@"SchnittdatenVonDic tempArray: %@",[tempArray description]);
    //NSLog(@"SchnittdatenVonDic tempArray count: %d",[tempArray count]);
-    NSLog(@"****  Tool_SchnittdatenVonDic end  tempArray: %@",tempArray);
+    //NSLog(@"****  Tool_SchnittdatenVonDic end  tempArray: %@",tempArray);
 
    
    return tempArray;
@@ -589,7 +589,7 @@
     [tempDatenDic setObject:[NSNumber numberWithInt:((index >> 8) & 0xFF)] forKey: @"indexh"];
    //NSLog(@"SteuerdatenVonDic index: %d indexl: %d indexh: %d", index, indexl, indexh);
    //NSLog(@"SteuerdatenVonDic ZeitA: %1.5f  ZeitB: %1.5f relSeite: %d code: %d",ZeitA,ZeitB,relevanteSeite,code);
-    NSLog(@"Tool_SteuerdatenVonDic end index: %d tempDatenDic: %@",index,[tempDatenDic description]);
+    //NSLog(@"Tool_SteuerdatenVonDic end index: %d tempDatenDic: %@",index,[tempDatenDic description]);
     return tempDatenDic;
 }
 

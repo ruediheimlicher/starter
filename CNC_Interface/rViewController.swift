@@ -575,7 +575,9 @@ class rViewController: NSViewController, NSWindowDelegate
              schnittdatenstring.append(string)
              schnittdatenstring.append("\n")
              
-             print("writeCNCAbschnitt write_byteArray: \(teensy.write_byteArray)")
+              print("writeCNCAbschnitt")
+
+             //print("writeCNCAbschnitt write_byteArray: \(teensy.write_byteArray)")
              if (globalusbstatus > 0)
              {
                 let senderfolg = teensy.send_USB()
@@ -705,13 +707,15 @@ class rViewController: NSViewController, NSWindowDelegate
        
        
        //print("lastDataRead: \(lastDataRead)   ")
-       var i = 0
+      /*
+        var i = 0
        while i < 10
        {
-          //print("i: \(i)  wert: \(lastDataRead[i])\t")
+          print("i: \(i)  wert: \(lastDataRead[i])\t")
           i = i+1
        }
-       
+       */
+        
        if let d = notification.userInfo!["contdata"]
         {
               
@@ -1090,7 +1094,7 @@ class rViewController: NSViewController, NSWindowDelegate
        // Reaktion auf eingehende USB-Daten
        var lastData = teensy.getlastDataRead()
        let lastDataArray = [UInt8](lastData)
-       print("rHotwireController newDataAktion notification: \n\(notification)\n lastData:\n \(lastData)")
+       print("VC newDataAktion notification: \n\(notification)\n lastData:\n \(lastData)")
        
   //     print("newDataAktion start")
  /*
@@ -1136,10 +1140,12 @@ class rViewController: NSViewController, NSWindowDelegate
              var NotificationDic = [String:Int]()
              
              let abschnittfertig:UInt8 =   usbdata[0] // code vom teensy
-             print("newDataAktion abschnittfertig wert: \(abschnittfertig)")
              // https://useyourloaf.com/blog/swift-string-cheat-sheet/
              let home = Int(usbdata[13])
               
+              print("newDataAktion abschnittfertig abschnittfertig: \(hex(abschnittfertig))")
+               NotificationDic["abschnittfertig"] = Int(abschnittfertig)
+
               let abschnittnummer:Int = Int((usbdata[5] << 8) | usbdata[6])
               let ladeposition = usbdata[8]
               
@@ -1163,7 +1169,7 @@ class rViewController: NSViewController, NSWindowDelegate
              */
              if abschnittfertig >= 0xA0 // Code fuer Fertig: AD
              {
-                print("abschnittfertig > A0")
+                print("VC newDataAktion abschnittfertig > A0")
                 let Abschnittnummer = Int(usbdata[5])
                 NotificationDic["inposition"] = Int(Abschnittnummer)
                 let ladePosition = Int(usbdata[6])
@@ -1181,7 +1187,7 @@ class rViewController: NSViewController, NSWindowDelegate
                 switch abschnittfertig
                 {
                 case 0xE1:// Antwort auf mouseup 0xE0 HALT
-                   print("newDataAktion E1 mouseup")
+                   print("VC newDataAktion newDataAktion E1 mouseup")
                    usb_schnittdatenarray.removeAll()
                    
                    AVR?.setBusy(0)
@@ -1189,12 +1195,12 @@ class rViewController: NSViewController, NSWindowDelegate
                    break
                    
                 case 0xEA: // home
-                   print("newDataAktion EA home gemeldet")
+                   print("VC newDataAktion  EA home gemeldet")
                    break
                    
                 // Anschlag first
                 case 0xA5:
-                   print("VC Anschlag A0")
+                   print("VC newDataAktion  Anschlag A0")
                    AnschlagSet.insert(0) // schritteax lb
                    AnschlagSet.insert(1) // schritteax hb
                    AnschlagSet.insert(4) // delayax lb
@@ -1202,7 +1208,7 @@ class rViewController: NSViewController, NSWindowDelegate
                    break;
                    
                 case 0xA6:
-                   print("VC Anschlag B0")
+                   print("VC newDataAktion  Anschlag B0")
                    AnschlagSet.insert(2) // schritteax lb
                    AnschlagSet.insert(3) // schritteax hb
                    AnschlagSet.insert(6) // delayax lb
@@ -1210,7 +1216,7 @@ class rViewController: NSViewController, NSWindowDelegate
                    break;
                    
                 case 0xA7:
-                   print("VC Anschlag C0")
+                   print("VC newDataAktion  Anschlag C0")
                    AnschlagSet.insert(8) // schrittebx lb
                    AnschlagSet.insert(9) // schrittebx hb
                    AnschlagSet.insert(12) // delayabx lb
@@ -1218,7 +1224,7 @@ class rViewController: NSViewController, NSWindowDelegate
                    break;
                    
                 case 0xA8:
-                   print("VC Anschlag D0")
+                   print("VC newDataAktion  Anschlag D0")
                    AnschlagSet.insert(10) // schritteby lb
                    AnschlagSet.insert(11) // schritteby hb
                    AnschlagSet.insert(14) // delayby lb
@@ -1227,50 +1233,52 @@ class rViewController: NSViewController, NSWindowDelegate
                    
                 // Anschlag home first
                 case 0xB5:
-                   print("+++++++++ VC Anschlag A home first")
+                   print("VC newDataAktion +++++++++  Anschlag A home first")
                    HomeAnschlagSet.insert(0xB5)
                    print("HomeAnschlagSet count: \(HomeAnschlagSet.count)")
                    break
                 case 0xB6:
-                   print("+++++++++ VC Anschlag B home first")
+                   print("VC newDataAktion +++++++++  Anschlag B home first")
                    HomeAnschlagSet.insert(0xB6)
                    print("HomeAnschlagSet count: \(HomeAnschlagSet.count)")
                    break
                 case 0xB7:
-                   print("+++++++++ VC Anschlag C home first")
+                   print("VC newDataAktion +++++++++  Anschlag C home first")
                    HomeAnschlagSet.insert(0xB7)
                    print("HomeAnschlagSet count: \(HomeAnschlagSet.count)")
                    break
                 case 0xB8:
-                   print("+++++++++ VC Anschlag D home first")
+                   print("VC newDataAktion +++++++++ VC Anschlag D home first")
                    HomeAnschlagSet.insert(0xB8)
                    print("HomeAnschlagSet count: \(HomeAnschlagSet.count)")
                    break
                    
                 // Anschlag Second
                 case 0xC5:
-                   print("Anschlag A home  second")
+                   print("VC newDataAktion Anschlag A home  second")
                    break
                 case 0xC6:
-                   print("Anschlag B home  second")
+                   print("VC newDataAktion Anschlag B home  second")
                    break
                 case 0xC7:
-                   print("Anschlag C home  second")
+                   print("VC newDataAktion Anschlag C home  second")
                    break
                 case 0xC8:
-                   print("Anschlag D home  second")
+                   print("VC newDataAktion Anschlag D home  second")
                    break
                    
                 case 0xD0:
-                   print("***   ***   Letzter Abschnitt")
-                   print("HotWireVC newDataAktion 0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
+                   print("VC newDataAktion ***   ***   Letzter Abschnitt")
+                   print("VC newDataAktion  0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
                    //print("HomeAnschlagSet: \(HomeAnschlagSet)")
                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
+                    /*
                    let nc = NotificationCenter.default
                    nc.post(name:Notification.Name(rawValue:"usbread"),
                            object: nil,
                            userInfo: NotificationDic)
                    return
+                     */
                    break
                 
                    
