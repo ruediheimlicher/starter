@@ -327,331 +327,433 @@ class rProfilfeldView: NSView
    
    // https://stackoverflow.com/questions/21751105/mac-os-x-convert-between-nsview-coordinates-and-global-screen-coordinates
    override func draw(_ dirtyRect: NSRect) 
-   {
-      //print("Profilfeld drawRect dirtyRect: \(dirtyRect) Datearray: \(DatenArray)")
-      let bgcolor:NSColor = NSColor.init(calibratedRed:1.0, green:1.0, blue: 1.0, alpha: 1.0)
-      bgcolor.setFill()
-      if scale == 0
-      {
-         scale = 4
-      }
-      
-      var abbranddelay:Int = 0
-      
-      if (NSGraphicsContext.currentContextDrawingToScreen() == true)
-      {
-         //print("Profilfeld drawRect to screen ")
-         screen=1;
-      }
-      else
-      {
-         print("Profilfeld drawRect print ")
-         screen=0;
-      }
-      
-      
-      // https://stackoverflow.com/questions/36596545/how-to-draw-a-dash-line-border-for-nsview
-      super.draw(dirtyRect)
-      
-      // dash customization parameters
-      let dashHeight: CGFloat = 1
-      let dashColor: NSColor = .gray
-      
-      // setup the context
-      let currentContext = NSGraphicsContext.current!.cgContext
-      currentContext.setLineWidth(dashHeight)
-      //currentContext.setLineDash(phase: 0, lengths: [dashLength])
-      currentContext.setStrokeColor(dashColor.cgColor)
-      
-      // draw the dashed path
-      currentContext.addRect(bounds.insetBy(dx: dashHeight, dy: dashHeight))
-      currentContext.strokePath()
-      
-      let w:CGFloat = bounds.size.width
-      let h:CGFloat = bounds.size.height
-      
-      
-      /*
-       NSColor.blue.set() // choose color
-       let achsen = NSBezierPath() // container for line(s)
-       let w:CGFloat = bounds.size.width
-       let h:CGFloat = bounds.size.height
-       let mittex:CGFloat = bounds.size.width / 2
-       let mittey:CGFloat = bounds.size.height / 2
-       achsen.move(to: NSMakePoint(0, mittey)) // start point
-       achsen.line(to: NSMakePoint(w, mittey)) // destination
-       achsen.move(to: NSMakePoint(mittex, 0)) // start point
-       achsen.line(to: NSMakePoint(mittex, h)) // destination
-       achsen.lineWidth = 1  // hair line
-       achsen.stroke()  // draw line(s) in color
-       */
-      //NSColor.blue.set() // choose color
-      //achsen.stroke()
-      //NSColor.red.set() // choose color
-      //kreuz.stroke()
-      //NSColor.green.set() // choose color
-      
-      //weg.lineWidth = 2
-      //weg.stroke()  // draw line(s) in color
-      GitterZeichnen()
-      //print("Profilfeld drawRect DatenArray: \(DatenArray)")
-      let anz = DatenArray.count
-      if DatenArray.count > 0
-      {
-         var line = DatenArray[0] as! [String:Double]
-          print("Profilfeld drawRect line 0: \(line)")
-          var ax = line["ax"]!
-         var ay = line["ay"]!
-         StartPunktA = NSMakePoint(ax*scale,ay*scale)
-          var bx = line["bx"]!
-          var by = line["by"]!
-         StartPunktB = NSMakePoint(bx*scale,by*scale)
-         
-         line = DatenArray[anz - 1] as! [String:Double]
-//          print("Profilfeld drawRect line anz-1: \(line)")
-         ax = line["ax"]!
-         ay = line["ay"]!
-         EndPunktA = NSMakePoint(ax*scale,ay*scale)
-         bx = line["bx"]!
-         by = line["by"]!
-         EndPunktB = NSMakePoint(bx*scale,by*scale)
-         
-         print("Profilfeld drawRect StartpunktA: \(StartPunktA)  StartpunktB:\(StartPunktB)")
-//         print("Profilfeld drawRect  EndPunktA: \(EndPunktA) EndPunktB: \(EndPunktB)")
-         
-         
-         
-         
-         
-         if screen > 0
-         {
+    {
+        //Swift.print("Profilfeld drawRect dirtyRect: \(dirtyRect) Datearray: \(DatenArray)")
+        let bgcolor:NSColor = NSColor.init(calibratedRed:1.0, green:1.0, blue: 1.0, alpha: 1.0)
+        bgcolor.setFill()
+        if scale == 0
+        {
+            scale = 4
+        }
+        var mitabbrand = 0
+        var abbranddelay:Int = 3
+        
+        if (NSGraphicsContext.currentContextDrawingToScreen() == true)
+        {
+            //print("Profilfeld drawRect to screen ")
+            screen=1;
+        }
+        else
+        {
+            print("Profilfeld drawRect print ")
+            screen=0;
+        }
+        
+        
+        // https://stackoverflow.com/questions/36596545/how-to-draw-a-dash-line-border-for-nsview
+        super.draw(dirtyRect)
+        
+        // dash customization parameters
+        let dashHeight: CGFloat = 1
+        let dashColor: NSColor = .gray
+        
+        // setup the context
+        let currentContext = NSGraphicsContext.current!.cgContext
+        currentContext.setLineWidth(dashHeight)
+        //currentContext.setLineDash(phase: 0, lengths: [dashLength])
+        currentContext.setStrokeColor(dashColor.cgColor)
+        
+        // draw the dashed path
+        currentContext.addRect(bounds.insetBy(dx: dashHeight, dy: dashHeight))
+        currentContext.strokePath()
+        
+        let w:CGFloat = bounds.size.width
+        let h:CGFloat = bounds.size.height
+        
+        
+        GitterZeichnen()
+        //print("Profilfeld drawRect DatenArray: \(DatenArray)")
+        let anz = DatenArray.count
+        if DatenArray.count > 0
+        {
+            var line = DatenArray[0] as! [String:Double]
+            //print("Profilfeld drawRect line 0: \(line)")
+            var ax = line["ax"]!
+            var ay = line["ay"]!
+            StartPunktA = NSMakePoint(ax*scale,ay*scale)
+            var bx = line["bx"]!
+            //bx += CGFloat(GraphOffset)
+            var by = line["by"]!
+            by += CGFloat(GraphOffset)
+            StartPunktB = NSMakePoint(bx * scale , by*scale)
             
-            var line = DatenArray[0] as! [String:Any]
+            line = DatenArray[anz - 1] as! [String:Double]
+            //          print("Profilfeld drawRect line anz-1: \(line)")
+            ax = line["ax"]!
+            ay = line["ay"]!
+            EndPunktA = NSMakePoint(ax*scale,ay*scale)
+            bx = line["bx"]!
+            by = line["by"]!
+            EndPunktB = NSMakePoint(bx*scale,by*scale)
             
-            var ax = line["ax"] as! Double
-            var ay = line["ay"] as! Double
+            // print("Profilfeld drawRect StartpunktA: \(StartPunktA)  StartpunktB:\(StartPunktB)")
+            //         print("Profilfeld drawRect  EndPunktA: \(EndPunktA) EndPunktB: \(EndPunktB)")
             
             
-            let AA = NSMakePoint(0,ay*scale)
-            let AB = NSMakePoint(w - AA.x - 4,ay*scale)
-            
-            var GrundLinieA = NSBezierPath()
-            GrundLinieA.move(to: AA)
-            GrundLinieA.line(to: AB)
-            GrundLinieA.lineWidth = 0.3
-            NSColor.blue.set() // choose color
-            
-            var bx = line["bx"] as! Double
-            var by = line["by"] as! Double
-            
-            let BA = NSMakePoint(0,(by + Double(GraphOffset))*scale)
-            let BB = NSMakePoint(w - BA.x - 4,(by + Double(GraphOffset))*scale)
-            
-            var GrundLinieB = NSBezierPath()
-            GrundLinieB.move(to: BA)
-            GrundLinieB.line(to: BB)
-            GrundLinieB.lineWidth = 0.3
-            NSColor.blue.set() // choose color
             
             
-            GrundLinieA.stroke()
-            GrundLinieB.stroke()
+            
+            if screen > 0
+            {
+                
+                var line = DatenArray[0] as! [String:Any]
+                
+                var ax = line["ax"] as! Double
+                var ay = line["ay"] as! Double
+                
+                
+                let AA = NSMakePoint(0,ay*scale)
+                let AB = NSMakePoint(w - AA.x - 4,ay*scale)
+                
+                var GrundLinieA = NSBezierPath()
+                GrundLinieA.move(to: AA)
+                GrundLinieA.line(to: AB)
+                GrundLinieA.lineWidth = 0.3
+                NSColor.blue.set() // choose color
+                
+                var bx = line["bx"] as! Double
+                var by = line["by"] as! Double
+                
+                let BA = NSMakePoint(0,(by + Double(GraphOffset))*scale)
+                let BB = NSMakePoint(w - BA.x - 4,(by + Double(GraphOffset))*scale)
+                
+                var GrundLinieB = NSBezierPath()
+                GrundLinieB.move(to: BA)
+                GrundLinieB.line(to: BB)
+                GrundLinieB.lineWidth = 0.3
+                NSColor.blue.set() // choose color
+                
+                
+                GrundLinieA.stroke()
+                GrundLinieB.stroke()
+                
+                
+            }//  if screen > 0
+            
+            else
+            {
+                print("screen ist 0")
+            }
+            
+            var  StartMarkARect:NSRect = NSMakeRect(StartPunktA.x-1.5, StartPunktA.y-1, 3, 3)
+            //NSLog(@"StartMarkARect: x: %d y: %d ",StartMarkARect.origin.x, StartMarkARect.origin.y);
+            var StartMarkA = NSBezierPath.init(ovalIn:StartMarkARect)
+            NSColor.blue.set()
+            StartMarkA.stroke()
+            var LinieA = NSBezierPath()
+            var KlickLinieA = NSBezierPath()
+            LinieA.move(to:StartPunktA)
+            
+            var  StartMarkBRect:NSRect = NSMakeRect(StartPunktB.x-1.5, StartPunktB.y-1, 3, 3)
+            //NSLog(@"StartMarkARect: x: %d y: %d ",StartMarkARect.origin.x, StartMarkARect.origin.y);
+            var StartMarkB = NSBezierPath.init(ovalIn:StartMarkBRect)
+            NSColor.blue.set()
+            StartMarkB.stroke()
+            var LinieB = NSBezierPath()
+            var KlickLinieB = NSBezierPath()
+            LinieB.move(to:StartPunktB)
             
             
-         }//  if screen > 0
-         
-         else
-         {
-            print("screen ist 0")
-         }
-         
-         var  StartMarkARect:NSRect = NSMakeRect(StartPunktA.x-1.5, StartPunktA.y-1, 3, 3)
-         //NSLog(@"StartMarkARect: x: %d y: %d ",StartMarkARect.origin.x, StartMarkARect.origin.y);
-         var StartMarkA = NSBezierPath.init(ovalIn:StartMarkARect)
-         NSColor.blue.set() 
-         StartMarkA.stroke()
-         var LinieA = NSBezierPath()
-         var KlickLinieA = NSBezierPath()
-         LinieA.move(to:StartPunktA)
+            // ********************************************
+            // Abbrand
+            //  Seite 1
+            var AbbrandLinieA = NSBezierPath()
+            var startabbrandindexA:Int = 0
+            var AbbrandLinieB = NSBezierPath()
+            var startabbrandindexB:Int = 0
+            
+            var abrax:Double = 0
+            var abray:Double = 0
+            
+            var abrbx:Double = 0
+            var abrby:Double = 0
+            
+            var l = 0
+            var controlarr = [[String:Double]]()
+            
+            
+            // erstes vorkommen von abr suchen
+            for i in 0..<anz
+            {
+                //print("i: \(i)")
+                
+                var line = DatenArray[i] as! [String:Double]
+                var ok = 0
+                //print(" line: \(line)")
+                if let s = line["abrax"]
+                {
+                    controlarr.append(line)
+                    if line["teil"] == 15
+                    {
+                        l = i
+                        ok = 1
+                        startabbrandindexA = i
+                    }
+                    //break
+                }
+                if ok == 1
+                {
+                    break
+                }
+            }
+            
+            if startabbrandindexA > 0
+            {
+                mitabbrand = 1
+            }
+            //startabbrandindexA -= 1
+            print("draw startabbrandindexA: \(startabbrandindexA)")
+            let startlineA =  DatenArray[startabbrandindexA] as! [String:Double]
+            print("startlineA: \(startlineA)")
+            let startabrax = startlineA["ax"]
+            let startabray = startlineA["ay"]! + 5
+            
+            var AbbrandStartPunktA = NSMakePoint(startabrax! * scale,startabray * scale)
+            AbbrandLinieA.move(to: AbbrandStartPunktA)
 
-         var  StartMarkBRect:NSRect = NSMakeRect(StartPunktB.x-1.5, StartPunktB.y-1, 3, 3)
-         //NSLog(@"StartMarkARect: x: %d y: %d ",StartMarkARect.origin.x, StartMarkARect.origin.y);
-         var StartMarkB = NSBezierPath.init(ovalIn:StartMarkBRect)
-         NSColor.blue.set() 
-         StartMarkB.stroke()
-         var LinieB = NSBezierPath()
-         var KlickLinieB = NSBezierPath()
-         LinieB.move(to:StartPunktB)
+            let startabrbx = startlineA["bx"]
+            let startabrby = startlineA["by"]! + 5
 
-         // Abbrand
-          //  Seite 1
-          var AbbrandLinieA = NSBezierPath()
-          var startabbrandindexA:Int = 0
-          var AbbrandLinieB = NSBezierPath()
-          var startabbrandindexB:Int = 0
- 
-          var abrax:Double = 0
-          var abray:Double = 0
-
-          var abrbx:Double = 0
-          var abrby:Double = 0
-
-          for i in 0..<anz // erstes vorkommen von abr suchen
-          {
-              var line = DatenArray[i] as! [String:Any]
-              if line["abrax"] != nil && (line["abrax"] as! Double) > 0
-                   
-              {
-                  startabbrandindexA += 1
-                  break
-              }
-          }
-          
-          var abrline = DatenArray[startabbrandindexA] as! [String:Double]
-          //var abrline0 = DatenArray[anz-1] as! [String:Double]
-          
-          if(abrline["abrax"] != nil && abrline["abray"] != nil )
-          {
-              abrax = abrline["abrax"]!
-              abray = abrline["abray"]!
-              
-              var AbbrandStartPunktA = NSMakePoint(abrax * scale, abray * scale)
-              AbbrandStartPunktA.y += Double(abbranddelay)
-              
-              AbbrandLinieA.move(to: AbbrandStartPunktA )
-          }
- 
-          // Seite 2
-          
-          for i in 0..<anz
-          {
-              var line = DatenArray[i] as! [String:Any]
-              if line["abrbx"] != nil && (line["abrbx"] as! Double) > 0
-              {
-                  startabbrandindexB += 1
-                  break
-              }
-          }
-          
-          abrline = DatenArray[startabbrandindexB] as! [String:Double]
-          if(abrline["abrbx"] != nil && abrline["abrby"] != nil )
-          {
-              abrbx = line["abrbx"] as! Double
-              abrby = line["abrby"] as! Double
-              
-              var AbbrandStartPunktB = NSMakePoint(abrbx * scale, abrby * scale)
-              AbbrandStartPunktB.y += Double(abbranddelay)
-              
-              AbbrandLinieB.move(to: AbbrandStartPunktB )
-          }
-          
-          
-          for i in 0..<anz
-          {
-              line = DatenArray[i] as! [String:Double]
-              //line = DatenArray[i] as! [String:Double]
-              ax = line["ax"]!
-              ay = line["ay"]!
-              
-              var PunktA = NSMakePoint(ax * scale, ay * scale)
-              LinieA.line(to:PunktA)
-              var tempMarkA = NSBezierPath()
- 
-              bx = line["bx"] as! Double
-              by = line["by"] as! Double
-              
-              var PunktB = NSMakePoint(bx * scale, by * scale)
-              LinieB.line(to:PunktB)
-              var tempMarkB = NSBezierPath()
-              
-              if i == Klickpunkt && screen > 0
-              {
-                  let tempMarkARect = NSMakeRect(PunktA.x-4.1, PunktA.y-4.1, 8.1, 8.1)
-                  tempMarkA = NSBezierPath.init(ovalIn: tempMarkARect)
-                  NSColor.gray.set()
-                  tempMarkA.stroke()
-                  
-                  let tempMarkBRect = NSMakeRect(PunktB.x-1.5, PunktB.y-1.5, 3.1, 3.1)
-                  tempMarkB = NSBezierPath.init(ovalIn: tempMarkBRect)
-                  NSColor.red.set()
-                  tempMarkB.stroke()
-                  
-
-              }// i == Klickpunkt
-              else
-              {
-                  NSColor.gray.set()
-                  let tempMarkARect = NSMakeRect(PunktA.x-2.5, PunktA.y-2.5, 5.1, 5.1)
-                  tempMarkA = NSBezierPath.init(ovalIn: tempMarkARect)
-                  tempMarkA.stroke()
-                  
-                  let tempMarkBRect = NSMakeRect(PunktB.x-1.5, PunktB.y-1.5, 3.1, 3.1)
-                  tempMarkB = NSBezierPath.init(ovalIn: tempMarkBRect)
-                  tempMarkB.stroke()
-                  
-                  if screen > 0
-                  {
-                      if i > stepperposition
-                      {
-                          NSColor.blue.set()
-                          tempMarkA.stroke()
-                      }
-                      else
-                      {
-                          NSColor.red.set()
-                          // Kreuz
-                          NSBezierPath.strokeLine(from:NSMakePoint(PunktA.x - 4.1, PunktA.y - 4.1), to:NSMakePoint(PunktA.x + 4.1, PunktA.y + 4.1))
-                          NSBezierPath.strokeLine(from:NSMakePoint(PunktA.x + 4.1, PunktA.y - 4.1), to:NSMakePoint(PunktA.x - 4.1, PunktA.y + 4.1))
-                      }
-                  }// if screen > 0
-              }
-              
-              if KlicksetA.count > 0 && screen > 0
-              {
-                  if i == KlicksetA.firstIndex
-                  {
-                      KlickLinieA.move(to:PunktA)
-                  }
-                  
-                  if KlicksetA.contains(i) && screen > 0
-                  {
-                      
-                      let tempMarkRect = NSMakeRect(PunktA.x-1.5, PunktA.y-1.5, 3.1, 3.1)
-                      tempMarkA = NSBezierPath.init(ovalIn: tempMarkRect)
-                      NSColor.black.set()
-                      tempMarkA.fill()
-                      if KlicksetA.count > 0 && i > KlicksetA.firstIndex
-                      {
-                          KlickLinieA.line(to:PunktA)
-                      }
-                  }
-              }//  if KlicksetA.count
-              
-     
-          }// for i
-          
-          NSColor.blue.set()
-          LinieA.stroke()
-
-          NSColor.gray.set()
-          LinieB.stroke()
-          
-          if KlickLinieA.isEmpty
-          {
-              
-          }
-          else
-          {
-              NSColor.green.set()
-              KlickLinieA.stroke()
-          }
-
-          NSColor.gray.set()
-          AbbrandLinieA.stroke()
-          AbbrandLinieB.stroke()
-          
-      } // if DatenArray.count > 0
-   }
+             var AbbrandStartPunktB = NSMakePoint(startabrbx! * scale,startabrby * scale)
+            AbbrandLinieB.move(to: AbbrandStartPunktB)
+            if mitabbrand > 0
+            {
+                
+            }
+            
+            
+            // Seite 2
+            
+            for i in 0..<anz
+            {
+                var line = DatenArray[i] as! [String:Any]
+                if let s = line["abrbx"]
+                {
+                    startabbrandindexB = i
+                    break
+                }
+            }
+            print("startabbrandindexB: \(startabbrandindexB)")
+             
+            for i in 0..<anz
+            {
+                line = DatenArray[i] as! [String:Double]
+                //line = DatenArray[i] as! [String:Double]
+                ax = line["ax"]!
+                ay = line["ay"]!
+                //wenn kein Abbrand
+                abrax = ax
+                abray = ay
+                
+                var PunktA = NSMakePoint(ax * scale, ay * scale)
+                LinieA.line(to:PunktA)
+                var tempMarkA = NSBezierPath()
+                
+                bx = line["bx"]!
+                by = line["by"]!
+                abrbx = bx
+                abrby = by
+                
+                var PunktB = NSMakePoint(bx * scale, by * scale)
+                LinieB.line(to:PunktB)
+                var tempMarkB = NSBezierPath()
+                
+                if i == Klickpunkt && screen > 0
+                {
+                    let tempMarkARect = NSMakeRect(PunktA.x-4.1, PunktA.y-4.1, 8.1, 8.1)
+                    tempMarkA = NSBezierPath.init(ovalIn: tempMarkARect)
+                    NSColor.gray.set()
+                    tempMarkA.stroke()
+                    
+                    let tempMarkBRect = NSMakeRect(PunktB.x-1.5, PunktB.y-1.5, 3.1, 3.1)
+                    tempMarkB = NSBezierPath.init(ovalIn: tempMarkBRect)
+                    NSColor.red.set()
+                    tempMarkB.stroke()
+                    
+                    
+                }// i == Klickpunkt
+                else
+                {
+                    NSColor.gray.set()
+                    let tempMarkARect = NSMakeRect(PunktA.x-2.5, PunktA.y-2.5, 5.1, 5.1)
+                    tempMarkA = NSBezierPath.init(ovalIn: tempMarkARect)
+                    tempMarkA.stroke()
+                    
+                    let tempMarkBRect = NSMakeRect(PunktB.x-1.5, PunktB.y-1.5, 3.1, 3.1)
+                    tempMarkB = NSBezierPath.init(ovalIn: tempMarkBRect)
+                    tempMarkB.stroke()
+                    
+                    if screen > 0
+                    {
+                        if i > stepperposition
+                        {
+                            NSColor.blue.set()
+                            tempMarkA.stroke()
+                        }
+                        else
+                        {
+                            NSColor.red.set()
+                            // Kreuz
+                            NSBezierPath.strokeLine(from:NSMakePoint(PunktA.x - 4.1, PunktA.y - 4.1), to:NSMakePoint(PunktA.x + 4.1, PunktA.y + 4.1))
+                            NSBezierPath.strokeLine(from:NSMakePoint(PunktA.x + 4.1, PunktA.y - 4.1), to:NSMakePoint(PunktA.x - 4.1, PunktA.y + 4.1))
+                        }
+                    }// if screen > 0
+                }
+                
+                if KlicksetA.count > 0 && screen > 0
+                {
+                    if i == KlicksetA.firstIndex
+                    {
+                        KlickLinieA.move(to:PunktA)
+                    }
+                    
+                    if KlicksetA.contains(i) && screen > 0
+                    {
+                        let tempMarkRect = NSMakeRect(PunktA.x-1.5, PunktA.y-1.5, 3.1, 3.1)
+                        tempMarkA = NSBezierPath.init(ovalIn: tempMarkRect)
+                        NSColor.black.set()
+                        tempMarkA.fill()
+                        if KlicksetA.count > 0 && i > KlicksetA.firstIndex
+                        {
+                            KlickLinieA.line(to:PunktA)
+                        }
+                    }
+                }//  if KlicksetA.count
+                
+                if mitabbrand > 0
+                {
+                    // Abbrandlinien
+                    // Seite A
+                    var abbrandaok = 0
+                    var AbbrandPunktA = NSMakePoint(0, 0)
+                    if let abrax = line["abrax"]
+                    {
+                        abbrandaok += 1
+                    }
+                    if let abray = line["abray"]
+                    {
+                        abbrandaok += 1
+                        
+                    }
+                    if abbrandaok == 2
+                    {
+                        AbbrandPunktA.x = line["abrax"]! * scale
+                        AbbrandPunktA.y = line["abray"]! * scale
+                        if (AbbrandPunktA.x == PunktA.x) && (AbbrandPunktA.y == PunktA.y)
+                        {
+                            print("kein abbrand A an i: \(i)")
+                        }
+                        else
+                        {
+                            AbbrandPunktA.y  += CGFloat(abbranddelay)
+                            AbbrandLinieA.line(to:AbbrandPunktA)
+                            var AbbranddeltaA = NSBezierPath()
+                            
+                            AbbranddeltaA.move(to: PunktA)
+                            AbbranddeltaA.line(to: AbbrandPunktA)
+                            AbbranddeltaA.stroke()
+                        }
+                    }
+                    
+                    // Seite B
+                    var abbrandbok = 0
+                    var AbbrandPunktB = NSMakePoint(0, 0)
+                    if let abrbx = line["abrbx"]
+                    {
+                        abbrandbok += 1
+                        
+                    }
+                    if let abrby = line["abrby"]
+                    {
+                        abbrandbok += 1
+                        
+                    }
+                    if abbrandbok == 2
+                    {
+                        AbbrandPunktB.x = line["abrbx"]! * scale
+                        AbbrandPunktB.y = line["abrby"]! * scale
+                        
+                        if (AbbrandPunktB.x == PunktB.x) && (AbbrandPunktB.y == PunktB.y)
+                        {
+                            print("kein abbrand B an i: \(i)")
+                        }
+                        else
+                        {
+                            AbbrandPunktB.y  += CGFloat(abbranddelay)
+                            AbbrandLinieB.line(to:AbbrandPunktB)
+                            
+                            var AbbranddeltaB = NSBezierPath()
+                            AbbranddeltaB.move(to: PunktB)
+                            AbbranddeltaB.line(to: AbbrandPunktB)
+                            AbbranddeltaB.stroke()
+                        }
+                    }
+                }
+                
+                
+                
+            }// for i
+            
+            NSColor.blue.set()
+            LinieA.stroke()
+            
+            NSColor.gray.set()
+            LinieB.stroke()
+            
+            if KlickLinieA.isEmpty
+            {
+                
+            }
+            else
+            {
+                NSColor.green.set()
+                KlickLinieA.stroke()
+            }
+            
+               
+            
+            if mitabbrand > 0
+            {
+                NSColor.gray.set()
+                AbbrandLinieA.stroke()
+                AbbrandLinieB.stroke()
+            }
+            
+        } // if DatenArray.count > 0
+        
+       
+        /*
+        if RahmenArray.count > 0
+        {
+            var RahmenPath = NSBezierPath()
+            var startpunkt = RahmenArray[0] as! NSPoint
+            startpunkt.x *= scale
+            startpunkt.y *= scale
+            RahmenPath.move(to:startpunkt)
+            for i in 0..<RahmenArray.count
+            {
+                var rahmenpunkt = RahmenArray[i] as! NSPoint
+                rahmenpunkt.x *= scale
+                rahmenpunkt.y *= scale
+                RahmenPath.line(to:rahmenpunkt)
+                
+            }
+            RahmenPath.line(to:startpunkt)
+            NSColor.gray.set()
+            RahmenPath.stroke()
+        }
+        */
+    }
    
    override func mouseDown(with theEvent: NSEvent) 
     {
