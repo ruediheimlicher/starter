@@ -1,0 +1,641 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BD1407412337F6DD00EDC163 /* rRobotarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1407402337F6DD00EDC163 /* rRobotarm.swift */; };
+		BD1C218D296ADA8A00EE1084 /* Taste_green breit.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD1C218C296ADA8A00EE1084 /* Taste_green breit.jpg */; };
+		BD1C2195296C7D5700EE1084 /* spline.c in Sources */ = {isa = PBXBuildFile; fileRef = BD1C2194296C7D5700EE1084 /* spline.c */; };
+		BD247841286C409000D922AF /* CNC_Interface Hotwire.txt in Resources */ = {isa = PBXBuildFile; fileRef = BD247840286C409000D922AF /* CNC_Interface Hotwire.txt */; };
+		BD247843286EF7B300D922AF /* rHotwireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD247842286EF7B200D922AF /* rHotwireViewController.swift */; };
+		BD337663289C574300AB7B1B /* rVertikalanzeige.m in Sources */ = {isa = PBXBuildFile; fileRef = BD337661289C574300AB7B1B /* rVertikalanzeige.m */; };
+		BD3E62F0230541910096AC70 /* kreisschnittpunkt.c in Sources */ = {isa = PBXBuildFile; fileRef = BD3E62EF230541910096AC70 /* kreisschnittpunkt.c */; };
+		BD3E630E2305DDE60096AC70 /* geom.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3E630D2305DDE60096AC70 /* geom.swift */; };
+		BD3E63112309A96D0096AC70 /* rJoystickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3E63102309A96D0096AC70 /* rJoystickView.swift */; };
+		BD3E63132309AA600096AC70 /* rDrehknopfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD3E63122309AA600096AC70 /* rDrehknopfView.swift */; };
+		BD566D982948C06F00981EA8 /* rTSP_NN.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD566D972948C06E00981EA8 /* rTSP_NN.swift */; };
+		BD6A989122EDE8CE001FBADA /* defines.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6A989022EDE8CE001FBADA /* defines.swift */; };
+		BD6A98C522FA07BA001FBADA /* rBasis.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6A98C322FA07BA001FBADA /* rBasis.swift */; };
+		BD8702601A06852A00F2C77B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD87025F1A06852A00F2C77B /* AppDelegate.swift */; };
+		BD8702621A06852A00F2C77B /* rViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD8702611A06852A00F2C77B /* rViewController.swift */; };
+		BD8702641A06852A00F2C77B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD8702631A06852A00F2C77B /* Images.xcassets */; };
+		BD8702671A06852A00F2C77B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD8702651A06852A00F2C77B /* Main.storyboard */; };
+		BD9F396F25E59651000D22C1 /* rProfil_DS.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F396E25E59651000D22C1 /* rProfil_DS.m */; };
+		BD9F397625E64857000D22C1 /* rCNC.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F397025E64857000D22C1 /* rCNC.m */; };
+		BD9F397725E64857000D22C1 /* rDump_DS.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F397325E64857000D22C1 /* rDump_DS.m */; };
+		BD9F397825E64857000D22C1 /* rProfilGraph.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F397525E64857000D22C1 /* rProfilGraph.m */; };
+		BD9F397B25E6487E000D22C1 /* rUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F397A25E6487E000D22C1 /* rUtils.m */; };
+		BD9F397E25E648CA000D22C1 /* rEinstellungen.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F397C25E648CA000D22C1 /* rEinstellungen.m */; };
+		BD9F398125E64920000D22C1 /* rElement.m in Sources */ = {isa = PBXBuildFile; fileRef = BD9F398025E6491F000D22C1 /* rElement.m */; };
+		BD9F398625E65FCD000D22C1 /* rTrigo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD9F398425E65FCD000D22C1 /* rTrigo.swift */; };
+		BD9F399B25E661B6000D22C1 /* pfeil_down.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F398825E661B4000D22C1 /* pfeil_down.jpg */; };
+		BD9F399C25E661B6000D22C1 /* pfeil_rechts_mini.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F398925E661B5000D22C1 /* pfeil_rechts_mini.jpg */; };
+		BD9F399D25E661B6000D22C1 /* punkt_rot.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F398A25E661B5000D22C1 /* punkt_rot.jpg */; };
+		BD9F399F25E661B6000D22C1 /* notok.png in Resources */ = {isa = PBXBuildFile; fileRef = BD9F398C25E661B5000D22C1 /* notok.png */; };
+		BD9F39A025E661B6000D22C1 /* pfeil_down_mini.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F398D25E661B5000D22C1 /* pfeil_down_mini.jpg */; };
+		BD9F39A225E661B6000D22C1 /* Pfeildown.ico in Resources */ = {isa = PBXBuildFile; fileRef = BD9F398F25E661B5000D22C1 /* Pfeildown.ico */; };
+		BD9F39A325E661B6000D22C1 /* punkt_weiss.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F399025E661B5000D22C1 /* punkt_weiss.jpg */; };
+		BD9F39A425E661B6000D22C1 /* Punkt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F399125E661B5000D22C1 /* Punkt.jpg */; };
+		BD9F39A525E661B6000D22C1 /* home.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F399225E661B5000D22C1 /* home.jpg */; };
+		BD9F39A625E661B6000D22C1 /* pfeil_up.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F399325E661B6000D22C1 /* pfeil_up.jpg */; };
+		BD9F39A825E661B6000D22C1 /* pfeil_up_mini.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F399525E661B6000D22C1 /* pfeil_up_mini.jpg */; };
+		BD9F39A925E661B6000D22C1 /* ok.png in Resources */ = {isa = PBXBuildFile; fileRef = BD9F399625E661B6000D22C1 /* ok.png */; };
+		BD9F39AA25E661B6000D22C1 /* pfeil_links_mini.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F399725E661B6000D22C1 /* pfeil_links_mini.jpg */; };
+		BD9F39AB25E661B6000D22C1 /* Halt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F399825E661B6000D22C1 /* Halt.jpg */; };
+		BD9F39AD25E661B6000D22C1 /* Halt_alt.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BD9F399A25E661B6000D22C1 /* Halt_alt.jpg */; };
+		BD9F39B225E8ED25000D22C1 /* CNC_Eingabe.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD9F39AF25E8ED25000D22C1 /* CNC_Eingabe.xib */; };
+		BD9F39B325E8ED25000D22C1 /* Settings.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD9F39B025E8ED25000D22C1 /* Settings.xib */; };
+		BDA0D51A29F6F3090017CA50 /* poly.c in Sources */ = {isa = PBXBuildFile; fileRef = BDA0D51829F6F3090017CA50 /* poly.c */; };
+		BDCB6F262B985C9000709FC0 /* rHotwireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCB6F252B985C9000709FC0 /* rHotwireView.swift */; };
+		BDDB38932937E4FF00B4F355 /* Taste_red.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDDB388F2937E4FF00B4F355 /* Taste_red.jpg */; };
+		BDDB38942937E4FF00B4F355 /* notok_image.png in Resources */ = {isa = PBXBuildFile; fileRef = BDDB38902937E4FF00B4F355 /* notok_image.png */; };
+		BDDB38952937E4FF00B4F355 /* Taste_blue.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDDB38912937E4FF00B4F355 /* Taste_blue.jpg */; };
+		BDDB38962937E4FF00B4F355 /* Taste_green.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BDDB38922937E4FF00B4F355 /* Taste_green.jpg */; };
+		BDE9397A232AC32B005A1A29 /* rRobot.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE93978232AC32B005A1A29 /* rRobot.swift */; };
+		BDF4A3A8265039F900055DF2 /* ok_image.png in Resources */ = {isa = PBXBuildFile; fileRef = BDF4A3A7265039F900055DF2 /* ok_image.png */; };
+		BDF659432483A9CF009F2E67 /* rPCB.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF659422483A9CF009F2E67 /* rPCB.swift */; };
+		BDFCF9B722DCFD4400335B2B /* hid.m in Sources */ = {isa = PBXBuildFile; fileRef = BDFCF9B422DCFD4400335B2B /* hid.m */; };
+		BDFCF9B822DCFD4400335B2B /* usb.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFCF9B622DCFD4400335B2B /* usb.swift */; };
+		CA02A27D2B9CBAFE004561D3 /* rTools.m in Sources */ = {isa = PBXBuildFile; fileRef = CA02A27C2B9CBAFE004561D3 /* rTools.m */; };
+		CA22D8EC2B9F27D600AD1A86 /* rAVRview.m in Sources */ = {isa = PBXBuildFile; fileRef = CA22D8EA2B9F27D600AD1A86 /* rAVRview.m */; };
+		CA22D8EE2B9F82C600AD1A86 /* rProfilfeldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA22D8ED2B9F82C600AD1A86 /* rProfilfeldView.swift */; };
+		CA71C8212BA3506300789D34 /* pfeil_rechts.png in Resources */ = {isa = PBXBuildFile; fileRef = CA71C8202BA3506300789D34 /* pfeil_rechts.png */; };
+		CA71C8232BA350DB00789D34 /* pfeil_rechts_grau.png in Resources */ = {isa = PBXBuildFile; fileRef = CA71C8222BA350DB00789D34 /* pfeil_rechts_grau.png */; };
+		CA71C8282BA3537D00789D34 /* pfeil_links_grau.png in Resources */ = {isa = PBXBuildFile; fileRef = CA71C8242BA3537D00789D34 /* pfeil_links_grau.png */; };
+		CA71C8292BA3537D00789D34 /* pfeil_down_grau.png in Resources */ = {isa = PBXBuildFile; fileRef = CA71C8252BA3537D00789D34 /* pfeil_down_grau.png */; };
+		CA71C82A2BA3537D00789D34 /* pfeil_links_red.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CA71C8262BA3537D00789D34 /* pfeil_links_red.jpg */; };
+		CA71C82B2BA3537D00789D34 /* pfeil_up_grau.png in Resources */ = {isa = PBXBuildFile; fileRef = CA71C8272BA3537D00789D34 /* pfeil_up_grau.png */; };
+		CA71C82D2BA361EC00789D34 /* pfeil_links.png in Resources */ = {isa = PBXBuildFile; fileRef = CA71C82C2BA361EC00789D34 /* pfeil_links.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BD1407402337F6DD00EDC163 /* rRobotarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rRobotarm.swift; sourceTree = "<group>"; };
+		BD1C218C296ADA8A00EE1084 /* Taste_green breit.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "Taste_green breit.jpg"; path = "Bilder/Taste_green breit.jpg"; sourceTree = "<group>"; };
+		BD1C2193296C7D5700EE1084 /* spline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = spline.h; sourceTree = "<group>"; };
+		BD1C2194296C7D5700EE1084 /* spline.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = spline.c; sourceTree = "<group>"; };
+		BD247840286C409000D922AF /* CNC_Interface Hotwire.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "CNC_Interface Hotwire.txt"; sourceTree = "<group>"; };
+		BD247842286EF7B200D922AF /* rHotwireViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rHotwireViewController.swift; sourceTree = "<group>"; };
+		BD337661289C574300AB7B1B /* rVertikalanzeige.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = rVertikalanzeige.m; sourceTree = "<group>"; };
+		BD337662289C574300AB7B1B /* rVertikalanzeige.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rVertikalanzeige.h; sourceTree = "<group>"; };
+		BD3E62EF230541910096AC70 /* kreisschnittpunkt.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = kreisschnittpunkt.c; sourceTree = "<group>"; };
+		BD3E630D2305DDE60096AC70 /* geom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = geom.swift; sourceTree = "<group>"; };
+		BD3E630F2305E9BB0096AC70 /* kreisschnittpunkt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kreisschnittpunkt.h; sourceTree = "<group>"; };
+		BD3E63102309A96D0096AC70 /* rJoystickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rJoystickView.swift; sourceTree = "<group>"; };
+		BD3E63122309AA600096AC70 /* rDrehknopfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rDrehknopfView.swift; sourceTree = "<group>"; };
+		BD566D972948C06E00981EA8 /* rTSP_NN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rTSP_NN.swift; sourceTree = "<group>"; };
+		BD6A989022EDE8CE001FBADA /* defines.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = defines.swift; sourceTree = "<group>"; };
+		BD6A98C322FA07BA001FBADA /* rBasis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rBasis.swift; sourceTree = "<group>"; };
+		BD87025A1A06852A00F2C77B /* CNC_Interface.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CNC_Interface.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD87025E1A06852A00F2C77B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD87025F1A06852A00F2C77B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BD8702611A06852A00F2C77B /* rViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rViewController.swift; sourceTree = "<group>"; };
+		BD8702631A06852A00F2C77B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		BD8702661A06852A00F2C77B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BD9F396D25E59651000D22C1 /* rProfil_DS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rProfil_DS.h; path = ObjC/rProfil_DS.h; sourceTree = "<group>"; };
+		BD9F396E25E59651000D22C1 /* rProfil_DS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rProfil_DS.m; path = ObjC/rProfil_DS.m; sourceTree = "<group>"; };
+		BD9F397025E64857000D22C1 /* rCNC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rCNC.m; path = ObjC/rCNC.m; sourceTree = "<group>"; };
+		BD9F397125E64857000D22C1 /* rDump_DS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rDump_DS.h; path = ObjC/rDump_DS.h; sourceTree = "<group>"; };
+		BD9F397225E64857000D22C1 /* rProfilGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rProfilGraph.h; path = ObjC/rProfilGraph.h; sourceTree = "<group>"; };
+		BD9F397325E64857000D22C1 /* rDump_DS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rDump_DS.m; path = ObjC/rDump_DS.m; sourceTree = "<group>"; };
+		BD9F397425E64857000D22C1 /* rCNC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rCNC.h; path = ObjC/rCNC.h; sourceTree = "<group>"; };
+		BD9F397525E64857000D22C1 /* rProfilGraph.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rProfilGraph.m; path = ObjC/rProfilGraph.m; sourceTree = "<group>"; };
+		BD9F397925E6487E000D22C1 /* rUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rUtils.h; path = ObjC/rUtils.h; sourceTree = "<group>"; };
+		BD9F397A25E6487E000D22C1 /* rUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rUtils.m; path = ObjC/rUtils.m; sourceTree = "<group>"; };
+		BD9F397C25E648CA000D22C1 /* rEinstellungen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rEinstellungen.m; path = ObjC/rEinstellungen.m; sourceTree = "<group>"; };
+		BD9F397D25E648CA000D22C1 /* rEinstellungen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rEinstellungen.h; path = ObjC/rEinstellungen.h; sourceTree = "<group>"; };
+		BD9F397F25E6491F000D22C1 /* rElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rElement.h; path = ObjC/rElement.h; sourceTree = "<group>"; };
+		BD9F398025E6491F000D22C1 /* rElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rElement.m; path = ObjC/rElement.m; sourceTree = "<group>"; };
+		BD9F398425E65FCD000D22C1 /* rTrigo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rTrigo.swift; sourceTree = "<group>"; };
+		BD9F398825E661B4000D22C1 /* pfeil_down.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pfeil_down.jpg; path = Bilder/pfeil_down.jpg; sourceTree = "<group>"; };
+		BD9F398925E661B5000D22C1 /* pfeil_rechts_mini.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pfeil_rechts_mini.jpg; path = Bilder/pfeil_rechts_mini.jpg; sourceTree = "<group>"; };
+		BD9F398A25E661B5000D22C1 /* punkt_rot.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = punkt_rot.jpg; path = Bilder/punkt_rot.jpg; sourceTree = "<group>"; };
+		BD9F398C25E661B5000D22C1 /* notok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = notok.png; path = Bilder/notok.png; sourceTree = "<group>"; };
+		BD9F398D25E661B5000D22C1 /* pfeil_down_mini.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pfeil_down_mini.jpg; path = Bilder/pfeil_down_mini.jpg; sourceTree = "<group>"; };
+		BD9F398F25E661B5000D22C1 /* Pfeildown.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = Pfeildown.ico; path = Bilder/Pfeildown.ico; sourceTree = "<group>"; };
+		BD9F399025E661B5000D22C1 /* punkt_weiss.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = punkt_weiss.jpg; path = Bilder/punkt_weiss.jpg; sourceTree = "<group>"; };
+		BD9F399125E661B5000D22C1 /* Punkt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Punkt.jpg; path = Bilder/Punkt.jpg; sourceTree = "<group>"; };
+		BD9F399225E661B5000D22C1 /* home.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = home.jpg; path = Bilder/home.jpg; sourceTree = "<group>"; };
+		BD9F399325E661B6000D22C1 /* pfeil_up.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pfeil_up.jpg; path = Bilder/pfeil_up.jpg; sourceTree = "<group>"; };
+		BD9F399525E661B6000D22C1 /* pfeil_up_mini.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pfeil_up_mini.jpg; path = Bilder/pfeil_up_mini.jpg; sourceTree = "<group>"; };
+		BD9F399625E661B6000D22C1 /* ok.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ok.png; path = Bilder/ok.png; sourceTree = "<group>"; };
+		BD9F399725E661B6000D22C1 /* pfeil_links_mini.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pfeil_links_mini.jpg; path = Bilder/pfeil_links_mini.jpg; sourceTree = "<group>"; };
+		BD9F399825E661B6000D22C1 /* Halt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Halt.jpg; path = Bilder/Halt.jpg; sourceTree = "<group>"; };
+		BD9F399A25E661B6000D22C1 /* Halt_alt.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Halt_alt.jpg; path = Bilder/Halt_alt.jpg; sourceTree = "<group>"; };
+		BD9F39AF25E8ED25000D22C1 /* CNC_Eingabe.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CNC_Eingabe.xib; path = nibs/CNC_Eingabe.xib; sourceTree = "<group>"; };
+		BD9F39B025E8ED25000D22C1 /* Settings.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Settings.xib; path = nibs/Settings.xib; sourceTree = "<group>"; };
+		BDA0D51829F6F3090017CA50 /* poly.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = poly.c; sourceTree = "<group>"; };
+		BDA0D51929F6F3090017CA50 /* poly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = poly.h; sourceTree = "<group>"; };
+		BDCB6F252B985C9000709FC0 /* rHotwireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rHotwireView.swift; sourceTree = "<group>"; };
+		BDDB388F2937E4FF00B4F355 /* Taste_red.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Taste_red.jpg; path = Bilder/Taste_red.jpg; sourceTree = "<group>"; };
+		BDDB38902937E4FF00B4F355 /* notok_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = notok_image.png; path = Bilder/notok_image.png; sourceTree = "<group>"; };
+		BDDB38912937E4FF00B4F355 /* Taste_blue.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Taste_blue.jpg; path = Bilder/Taste_blue.jpg; sourceTree = "<group>"; };
+		BDDB38922937E4FF00B4F355 /* Taste_green.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Taste_green.jpg; path = Bilder/Taste_green.jpg; sourceTree = "<group>"; };
+		BDE93978232AC32B005A1A29 /* rRobot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rRobot.swift; sourceTree = "<group>"; };
+		BDF4A3A7265039F900055DF2 /* ok_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ok_image.png; path = Bilder/ok_image.png; sourceTree = "<group>"; };
+		BDF659422483A9CF009F2E67 /* rPCB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rPCB.swift; sourceTree = "<group>"; };
+		BDFCF9B422DCFD4400335B2B /* hid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = hid.m; sourceTree = "<group>"; };
+		BDFCF9B522DCFD4400335B2B /* hid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hid.h; sourceTree = "<group>"; };
+		BDFCF9B622DCFD4400335B2B /* usb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = usb.swift; sourceTree = "<group>"; };
+		BDFCF9B922DCFDA100335B2B /* CNC_Interface-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CNC_Interface-Bridging-Header.h"; sourceTree = "<group>"; };
+		CA02A27C2B9CBAFE004561D3 /* rTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = rTools.m; path = ObjC/rTools.m; sourceTree = "<group>"; };
+		CA22D8EA2B9F27D600AD1A86 /* rAVRview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = rAVRview.m; path = ObjC/rAVRview.m; sourceTree = "<group>"; };
+		CA22D8EB2B9F27D600AD1A86 /* rAVRview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rAVRview.h; path = ObjC/rAVRview.h; sourceTree = "<group>"; };
+		CA22D8ED2B9F82C600AD1A86 /* rProfilfeldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = rProfilfeldView.swift; sourceTree = "<group>"; };
+		CA71C8202BA3506300789D34 /* pfeil_rechts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pfeil_rechts.png; path = Bilder/pfeil_rechts.png; sourceTree = "<group>"; };
+		CA71C8222BA350DB00789D34 /* pfeil_rechts_grau.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pfeil_rechts_grau.png; path = Bilder/pfeil_rechts_grau.png; sourceTree = "<group>"; };
+		CA71C8242BA3537D00789D34 /* pfeil_links_grau.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pfeil_links_grau.png; path = Bilder/pfeil_links_grau.png; sourceTree = "<group>"; };
+		CA71C8252BA3537D00789D34 /* pfeil_down_grau.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pfeil_down_grau.png; path = Bilder/pfeil_down_grau.png; sourceTree = "<group>"; };
+		CA71C8262BA3537D00789D34 /* pfeil_links_red.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = pfeil_links_red.jpg; path = Bilder/pfeil_links_red.jpg; sourceTree = "<group>"; };
+		CA71C8272BA3537D00789D34 /* pfeil_up_grau.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pfeil_up_grau.png; path = Bilder/pfeil_up_grau.png; sourceTree = "<group>"; };
+		CA71C82C2BA361EC00789D34 /* pfeil_links.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pfeil_links.png; path = Bilder/pfeil_links.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BD8702571A06852A00F2C77B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BD7369B322FE9A9800341443 /* Bilder */ = {
+			isa = PBXGroup;
+			children = (
+				CA71C82C2BA361EC00789D34 /* pfeil_links.png */,
+				CA71C8252BA3537D00789D34 /* pfeil_down_grau.png */,
+				CA71C8242BA3537D00789D34 /* pfeil_links_grau.png */,
+				CA71C8262BA3537D00789D34 /* pfeil_links_red.jpg */,
+				CA71C8272BA3537D00789D34 /* pfeil_up_grau.png */,
+				CA71C8222BA350DB00789D34 /* pfeil_rechts_grau.png */,
+				CA71C8202BA3506300789D34 /* pfeil_rechts.png */,
+				BD1C218C296ADA8A00EE1084 /* Taste_green breit.jpg */,
+				BDF4A3A7265039F900055DF2 /* ok_image.png */,
+				BDDB38902937E4FF00B4F355 /* notok_image.png */,
+				BDDB38912937E4FF00B4F355 /* Taste_blue.jpg */,
+				BDDB38922937E4FF00B4F355 /* Taste_green.jpg */,
+				BDDB388F2937E4FF00B4F355 /* Taste_red.jpg */,
+				BD9F399A25E661B6000D22C1 /* Halt_alt.jpg */,
+				BD9F399825E661B6000D22C1 /* Halt.jpg */,
+				BD9F399225E661B5000D22C1 /* home.jpg */,
+				BD9F398C25E661B5000D22C1 /* notok.png */,
+				BD9F399625E661B6000D22C1 /* ok.png */,
+				BD9F398D25E661B5000D22C1 /* pfeil_down_mini.jpg */,
+				BD9F398825E661B4000D22C1 /* pfeil_down.jpg */,
+				BD9F399725E661B6000D22C1 /* pfeil_links_mini.jpg */,
+				BD9F398925E661B5000D22C1 /* pfeil_rechts_mini.jpg */,
+				BD9F399525E661B6000D22C1 /* pfeil_up_mini.jpg */,
+				BD9F399325E661B6000D22C1 /* pfeil_up.jpg */,
+				BD9F398F25E661B5000D22C1 /* Pfeildown.ico */,
+				BD9F398A25E661B5000D22C1 /* punkt_rot.jpg */,
+				BD9F399025E661B5000D22C1 /* punkt_weiss.jpg */,
+				BD9F399125E661B5000D22C1 /* Punkt.jpg */,
+			);
+			name = Bilder;
+			sourceTree = "<group>";
+		};
+		BD8702511A06852A00F2C77B = {
+			isa = PBXGroup;
+			children = (
+				BD87025C1A06852A00F2C77B /* CNC_Interface */,
+				BD87025B1A06852A00F2C77B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BD87025B1A06852A00F2C77B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BD87025A1A06852A00F2C77B /* CNC_Interface.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BD87025C1A06852A00F2C77B /* CNC_Interface */ = {
+			isa = PBXGroup;
+			children = (
+				BDCB6F252B985C9000709FC0 /* rHotwireView.swift */,
+				BD566D972948C06E00981EA8 /* rTSP_NN.swift */,
+				BD247840286C409000D922AF /* CNC_Interface Hotwire.txt */,
+				BD7369B322FE9A9800341443 /* Bilder */,
+				BDFCF9B922DCFDA100335B2B /* CNC_Interface-Bridging-Header.h */,
+				BD87025F1A06852A00F2C77B /* AppDelegate.swift */,
+				BD3E63102309A96D0096AC70 /* rJoystickView.swift */,
+				BD6A989022EDE8CE001FBADA /* defines.swift */,
+				BD8702611A06852A00F2C77B /* rViewController.swift */,
+				BD1407402337F6DD00EDC163 /* rRobotarm.swift */,
+				BD3E63122309AA600096AC70 /* rDrehknopfView.swift */,
+				BD247842286EF7B200D922AF /* rHotwireViewController.swift */,
+				CA22D8ED2B9F82C600AD1A86 /* rProfilfeldView.swift */,
+				BD8702631A06852A00F2C77B /* Images.xcassets */,
+				BD8702651A06852A00F2C77B /* Main.storyboard */,
+				BD9F398425E65FCD000D22C1 /* rTrigo.swift */,
+				BDE93978232AC32B005A1A29 /* rRobot.swift */,
+				BD6A98C322FA07BA001FBADA /* rBasis.swift */,
+				BDF659422483A9CF009F2E67 /* rPCB.swift */,
+				BD9F396925E59530000D22C1 /* ObjC */,
+				BD9F39AE25E8EC65000D22C1 /* nibs */,
+				BD87025D1A06852A00F2C77B /* Supporting Files */,
+			);
+			path = CNC_Interface;
+			sourceTree = "<group>";
+		};
+		BD87025D1A06852A00F2C77B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BDFCF9B422DCFD4400335B2B /* hid.m */,
+				BDFCF9B522DCFD4400335B2B /* hid.h */,
+				BDFCF9B622DCFD4400335B2B /* usb.swift */,
+				BD87025E1A06852A00F2C77B /* Info.plist */,
+				BD3E630D2305DDE60096AC70 /* geom.swift */,
+				BD3E630F2305E9BB0096AC70 /* kreisschnittpunkt.h */,
+				BD3E62EF230541910096AC70 /* kreisschnittpunkt.c */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BD9F396925E59530000D22C1 /* ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				CA22D8EB2B9F27D600AD1A86 /* rAVRview.h */,
+				CA22D8EA2B9F27D600AD1A86 /* rAVRview.m */,
+				CA02A27C2B9CBAFE004561D3 /* rTools.m */,
+				BD337662289C574300AB7B1B /* rVertikalanzeige.h */,
+				BD337661289C574300AB7B1B /* rVertikalanzeige.m */,
+				BD1C2193296C7D5700EE1084 /* spline.h */,
+				BD1C2194296C7D5700EE1084 /* spline.c */,
+				BDA0D51929F6F3090017CA50 /* poly.h */,
+				BDA0D51829F6F3090017CA50 /* poly.c */,
+				BD9F397F25E6491F000D22C1 /* rElement.h */,
+				BD9F398025E6491F000D22C1 /* rElement.m */,
+				BD9F397D25E648CA000D22C1 /* rEinstellungen.h */,
+				BD9F397C25E648CA000D22C1 /* rEinstellungen.m */,
+				BD9F397925E6487E000D22C1 /* rUtils.h */,
+				BD9F397A25E6487E000D22C1 /* rUtils.m */,
+				BD9F397425E64857000D22C1 /* rCNC.h */,
+				BD9F397025E64857000D22C1 /* rCNC.m */,
+				BD9F397125E64857000D22C1 /* rDump_DS.h */,
+				BD9F397325E64857000D22C1 /* rDump_DS.m */,
+				BD9F397225E64857000D22C1 /* rProfilGraph.h */,
+				BD9F397525E64857000D22C1 /* rProfilGraph.m */,
+				BD9F396D25E59651000D22C1 /* rProfil_DS.h */,
+				BD9F396E25E59651000D22C1 /* rProfil_DS.m */,
+			);
+			name = ObjC;
+			sourceTree = "<group>";
+		};
+		BD9F39AE25E8EC65000D22C1 /* nibs */ = {
+			isa = PBXGroup;
+			children = (
+				BD9F39AF25E8ED25000D22C1 /* CNC_Eingabe.xib */,
+				BD9F39B025E8ED25000D22C1 /* Settings.xib */,
+			);
+			name = nibs;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BD8702591A06852A00F2C77B /* CNC_Interface */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD8702761A06852B00F2C77B /* Build configuration list for PBXNativeTarget "CNC_Interface" */;
+			buildPhases = (
+				BD8702561A06852A00F2C77B /* Sources */,
+				BD8702571A06852A00F2C77B /* Frameworks */,
+				BD8702581A06852A00F2C77B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CNC_Interface;
+			productName = Digital_Power_Interface;
+			productReference = BD87025A1A06852A00F2C77B /* CNC_Interface.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BD8702521A06852A00F2C77B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftMigration = 0730;
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 1520;
+				ORGANIZATIONNAME = "Ruedi Heimlicher";
+				TargetAttributes = {
+					BD8702591A06852A00F2C77B = {
+						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 98GTAN37XF;
+						LastSwiftMigration = 0830;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = BD8702551A06852A00F2C77B /* Build configuration list for PBXProject "CNC_Interface" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				en,
+				Base,
+			);
+			mainGroup = BD8702511A06852A00F2C77B;
+			productRefGroup = BD87025B1A06852A00F2C77B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BD8702591A06852A00F2C77B /* CNC_Interface */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BD8702581A06852A00F2C77B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD9F39A825E661B6000D22C1 /* pfeil_up_mini.jpg in Resources */,
+				BD9F39A025E661B6000D22C1 /* pfeil_down_mini.jpg in Resources */,
+				BDDB38962937E4FF00B4F355 /* Taste_green.jpg in Resources */,
+				BD9F39A625E661B6000D22C1 /* pfeil_up.jpg in Resources */,
+				BD9F39AB25E661B6000D22C1 /* Halt.jpg in Resources */,
+				BD9F399F25E661B6000D22C1 /* notok.png in Resources */,
+				CA71C8212BA3506300789D34 /* pfeil_rechts.png in Resources */,
+				BD9F39A525E661B6000D22C1 /* home.jpg in Resources */,
+				CA71C8232BA350DB00789D34 /* pfeil_rechts_grau.png in Resources */,
+				BD9F399B25E661B6000D22C1 /* pfeil_down.jpg in Resources */,
+				BD9F399C25E661B6000D22C1 /* pfeil_rechts_mini.jpg in Resources */,
+				CA71C82A2BA3537D00789D34 /* pfeil_links_red.jpg in Resources */,
+				BD8702641A06852A00F2C77B /* Images.xcassets in Resources */,
+				BD9F399D25E661B6000D22C1 /* punkt_rot.jpg in Resources */,
+				BD9F39A925E661B6000D22C1 /* ok.png in Resources */,
+				BD8702671A06852A00F2C77B /* Main.storyboard in Resources */,
+				BD9F39A425E661B6000D22C1 /* Punkt.jpg in Resources */,
+				CA71C8282BA3537D00789D34 /* pfeil_links_grau.png in Resources */,
+				BD9F39A225E661B6000D22C1 /* Pfeildown.ico in Resources */,
+				CA71C82D2BA361EC00789D34 /* pfeil_links.png in Resources */,
+				BD9F39AD25E661B6000D22C1 /* Halt_alt.jpg in Resources */,
+				BDDB38942937E4FF00B4F355 /* notok_image.png in Resources */,
+				CA71C82B2BA3537D00789D34 /* pfeil_up_grau.png in Resources */,
+				BD9F39A325E661B6000D22C1 /* punkt_weiss.jpg in Resources */,
+				BDF4A3A8265039F900055DF2 /* ok_image.png in Resources */,
+				BD247841286C409000D922AF /* CNC_Interface Hotwire.txt in Resources */,
+				BD9F39AA25E661B6000D22C1 /* pfeil_links_mini.jpg in Resources */,
+				BD9F39B225E8ED25000D22C1 /* CNC_Eingabe.xib in Resources */,
+				BDDB38952937E4FF00B4F355 /* Taste_blue.jpg in Resources */,
+				CA71C8292BA3537D00789D34 /* pfeil_down_grau.png in Resources */,
+				BDDB38932937E4FF00B4F355 /* Taste_red.jpg in Resources */,
+				BD9F39B325E8ED25000D22C1 /* Settings.xib in Resources */,
+				BD1C218D296ADA8A00EE1084 /* Taste_green breit.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BD8702561A06852A00F2C77B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD566D982948C06F00981EA8 /* rTSP_NN.swift in Sources */,
+				BD6A989122EDE8CE001FBADA /* defines.swift in Sources */,
+				BD3E62F0230541910096AC70 /* kreisschnittpunkt.c in Sources */,
+				BDF659432483A9CF009F2E67 /* rPCB.swift in Sources */,
+				BD9F398125E64920000D22C1 /* rElement.m in Sources */,
+				BD337663289C574300AB7B1B /* rVertikalanzeige.m in Sources */,
+				BD3E63132309AA600096AC70 /* rDrehknopfView.swift in Sources */,
+				BD9F397825E64857000D22C1 /* rProfilGraph.m in Sources */,
+				BDE9397A232AC32B005A1A29 /* rRobot.swift in Sources */,
+				BDCB6F262B985C9000709FC0 /* rHotwireView.swift in Sources */,
+				BD9F397E25E648CA000D22C1 /* rEinstellungen.m in Sources */,
+				BDFCF9B722DCFD4400335B2B /* hid.m in Sources */,
+				BD9F398625E65FCD000D22C1 /* rTrigo.swift in Sources */,
+				BD8702621A06852A00F2C77B /* rViewController.swift in Sources */,
+				BDA0D51A29F6F3090017CA50 /* poly.c in Sources */,
+				BD247843286EF7B300D922AF /* rHotwireViewController.swift in Sources */,
+				CA22D8EE2B9F82C600AD1A86 /* rProfilfeldView.swift in Sources */,
+				BD1407412337F6DD00EDC163 /* rRobotarm.swift in Sources */,
+				BD1C2195296C7D5700EE1084 /* spline.c in Sources */,
+				BD6A98C522FA07BA001FBADA /* rBasis.swift in Sources */,
+				CA02A27D2B9CBAFE004561D3 /* rTools.m in Sources */,
+				BD9F397625E64857000D22C1 /* rCNC.m in Sources */,
+				BD9F396F25E59651000D22C1 /* rProfil_DS.m in Sources */,
+				BD3E63112309A96D0096AC70 /* rJoystickView.swift in Sources */,
+				BDFCF9B822DCFD4400335B2B /* usb.swift in Sources */,
+				BD3E630E2305DDE60096AC70 /* geom.swift in Sources */,
+				BD8702601A06852A00F2C77B /* AppDelegate.swift in Sources */,
+				CA22D8EC2B9F27D600AD1A86 /* rAVRview.m in Sources */,
+				BD9F397B25E6487E000D22C1 /* rUtils.m in Sources */,
+				BD9F397725E64857000D22C1 /* rDump_DS.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BD8702651A06852A00F2C77B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BD8702661A06852A00F2C77B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BD8702741A06852B00F2C77B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BD8702751A06852B00F2C77B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		BD8702771A06852B00F2C77B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/CNC_Interface/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				OTHER_CFLAGS = "";
+				OTHER_SWIFT_FLAGS = "-enforce-exclusivity=unchecked";
+				PRODUCT_BUNDLE_IDENTIFIER = "RH.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CNC_Interface/CNC_interface-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		BD8702781A06852B00F2C77B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = 535FNG3TMM;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/CNC_Interface/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
+				OTHER_CFLAGS = "";
+				OTHER_SWIFT_FLAGS = "-enforce-exclusivity=unchecked";
+				PRODUCT_BUNDLE_IDENTIFIER = "RH.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "CNC_Interface/CNC_interface-Bridging-Header.h";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BD8702551A06852A00F2C77B /* Build configuration list for PBXProject "CNC_Interface" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD8702741A06852B00F2C77B /* Debug */,
+				BD8702751A06852B00F2C77B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BD8702761A06852B00F2C77B /* Build configuration list for PBXNativeTarget "CNC_Interface" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD8702771A06852B00F2C77B /* Debug */,
+				BD8702781A06852B00F2C77B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BD8702521A06852A00F2C77B /* Project object */;
+}

@@ -1,0 +1,15 @@
+//
+//  CNC_Interface
+//  Text
+//  ----------------------------------
+//  Developed with embedXcode
+//
+//  Project 	CNC_Interface
+//  Created by 	Ruedi Heimlicher on 29.06.2022
+//  Copyright 	© 2022 Ruedi Heimlicher
+//  License	<#license#>
+//
+
+Interface für Hotwire-Anlage
+Teensy++2 OK
+Teensy3.x TODO
