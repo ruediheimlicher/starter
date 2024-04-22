@@ -330,10 +330,18 @@ class rTimerInfo {
              userInfo: ["message":"neue Daten", "data":read_byteArray, "usbdata":usbData])
              */
             // CNC
+             
+             nc.post(name:Notification.Name(rawValue:"hotwirenewdata"),
+                     object: nil,
+                     userInfo: ["message":"neue Daten", "data":read_byteArray, "contdata":usbData])
+  
+ 
             nc.post(name:Notification.Name(rawValue:"newdata"),
                     object: nil,
                     userInfo: ["message":"neue Daten", "data":read_byteArray, "contdata":usbData])
             
+  
+             
             // print("+ new read_byteArray in Timer:", terminator: "")
             //for  i in 0...31
             //{

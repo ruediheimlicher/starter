@@ -1216,7 +1216,7 @@ var outletdaten:[String:AnyObject] = [:]
     @objc func MausGraphAktion(_ notification:Notification)
     {
         let info = notification.userInfo
-        //print("Hotwire mausGraphAktion:\t \(String(describing: info))")
+        print("Hotwire mausGraphAktion:\t \(String(describing: info))")
         self.view.window?.makeFirstResponder(self.ProfilFeld)
         CNC_Table.deselectAll(nil)
         
@@ -2058,12 +2058,13 @@ var outletdaten:[String:AnyObject] = [:]
 
     }
     
+    // MARK: ***  *** *** newHotwireDataAktion
     @objc  func newHotwireDataAktion(_ notification:Notification)  // entspricht readUSB
     {
        // Reaktion auf eingehende USB-Daten
        var lastData = teensy.getlastDataRead()
        let lastDataArray = [UInt8](lastData)
-       print("rHotwireController newDataAktion notification: \n\(notification)\n lastData:\n \(lastData)")
+       print("rHotwireController newHotwireDataAktion notification: \n\(notification)\n lastData:\n \(lastData)")
        
   //     print("newDataAktion start")
  /*
@@ -2110,6 +2111,7 @@ var outletdaten:[String:AnyObject] = [:]
              
              let abschnittfertig:UInt8 =   usbdata[0] // code vom teensy
              print("newDataAktion abschnittfertig wert: \(abschnittfertig)")
+              
              // https://useyourloaf.com/blog/swift-string-cheat-sheet/
              let home = Int(usbdata[13])
               
@@ -2134,10 +2136,13 @@ var outletdaten:[String:AnyObject] = [:]
                 
              }
              */
+              
+             
              if abschnittfertig >= 0xA0 // Code fuer Fertig: AD
              {
                 print("abschnittfertig > A0")
                 let Abschnittnummer = Int(usbdata[5])
+                NotificationDic["abschnittfertig"] = Int(abschnittfertig)
                 NotificationDic["inposition"] = Int(Abschnittnummer)
                 let ladePosition = Int(usbdata[6])
                 NotificationDic["outposition"] = ladePosition
@@ -2148,11 +2153,20 @@ var outletdaten:[String:AnyObject] = [:]
                 NotificationDic["cncstatus"] = Int(usbdata[22])
                 NotificationDic["anschlagstatus"] = Int(usbdata[19])
                 
+                 
+                 
                 //print("newDataAktion cncstatus: \(usbdata[22])")
                 var AnschlagSet = IndexSet()
-                
+                 print("rHotwireController newHotwireDataAktion NotificationDic: \(NotificationDic)")
                 switch abschnittfertig
                 {
+                case 0xA1:
+                    print("HW newDataAktion A1 abschnitt")
+                    /*
+                    PositionFeld.integerValue = ladePosition
+                    ProfilFeld.stepperposition = ladePosition //- 1
+                    ProfilFeld.needsDisplay = true
+*/
                 case 0xE1:// Antwort auf mouseup 0xE0 HALT
                    print("newDataAktion E1 mouseup")
                    usb_schnittdatenarray.removeAll()
@@ -2239,11 +2253,13 @@ var outletdaten:[String:AnyObject] = [:]
                    print("HotWireVC newDataAktion 0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
                    //print("HomeAnschlagSet: \(HomeAnschlagSet)")
                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
+                    /*
                    let nc = NotificationCenter.default
                    nc.post(name:Notification.Name(rawValue:"usbread"),
                            object: nil,
                            userInfo: NotificationDic)
                    return
+                     */
                    break
                 
                    
@@ -2261,6 +2277,10 @@ var outletdaten:[String:AnyObject] = [:]
                 case 0xBD:
                    print("BD cncstatus: \(usbdata[22]) ")
                    
+                    PositionFeld.integerValue = Stepperposition
+                    ProfilFeld.stepperposition = Stepperposition
+                    ProfilFeld.needsDisplay = true
+                    
                    if Int(usbdata[63]) == 1
                       {
                          print("BD 63  ")
@@ -2344,17 +2364,21 @@ var outletdaten:[String:AnyObject] = [:]
                       }
                    }
                 }
+                 
+  
                    //print("HomeAnschlagSet: \(HomeAnschlagSet)")
                    NotificationDic["homeanschlagset"] = Int(HomeAnschlagSet.count)
                    NotificationDic["home"] = Int(home)
                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
                    print("HotwireVC newDataAktion Notific: \(NotificationDic)")
                    
+                 self.USBReadFunktion(dataDic: NotificationDic)
+                 /*
                     let nc = NotificationCenter.default
                     nc.post(name:Notification.Name(rawValue:"usbread"),
                     object: nil,
                     userInfo: NotificationDic)
-                    
+                    */
                 
              } // if abschnittfertig > A0
              
@@ -2375,12 +2399,15 @@ var outletdaten:[String:AnyObject] = [:]
     
     @objc func USBReadFunktion(dataDic:[String:Int])
     {
+        print("USBReadFunktion Position: \(PositionFeld.integerValue)")
         if let outposition = dataDic["outposition"]
         {
             if outposition > PositionFeld.integerValue
             {
+                print("USBReadFunktion outposition > Position: \(PositionFeld.integerValue)")
+                
                 PositionFeld.integerValue = outposition
-                ProfilFeld.stepperposition = outposition - 1
+                ProfilFeld.stepperposition = outposition 
                 ProfilFeld.needsDisplay = true
                 
             }
@@ -3503,7 +3530,9 @@ var outletdaten:[String:AnyObject] = [:]
        
        NotificationCenter.default.addObserver(self, selector: #selector(hotwirebeendenAktion), name:NSNotification.Name(rawValue: "beenden"), object: nil)
 
-      
+       NotificationCenter.default.addObserver(self, selector: #selector(newHotwireDataAktion), name:NSNotification.Name(rawValue: "hotwirenewdata"), object: nil)
+
+       
 
        NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "newdata"), object: nil)
 

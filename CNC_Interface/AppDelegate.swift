@@ -8,6 +8,8 @@
 
 import Cocoa
 
+var usb_schnittdatenarray = [[UInt8]]()
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, NSMenuDelegate {
 
