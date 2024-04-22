@@ -1099,13 +1099,14 @@ var outletdaten:[String:AnyObject] = [:]
 
     }
     
-    /*
+    
     @objc override func writeCNCAbschnitt()
     {
         cncwritecounter += 1
-        print("swift override writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) cncwritecounter: \(cncwritecounter)")
+        
+        print("HW writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) count: \(teensy.write_byteArray.count)")
        let count = usb_schnittdatenarray.count
-       //print("writeCNCAbschnitt  count: \(count) Stepperposition: \t",Stepperposition)
+       print("HW override writeCNCAbschnitt  count: \(count) Stepperposition: \t",Stepperposition)
        
        if(Stepperposition < count)
        {
@@ -1145,7 +1146,7 @@ var outletdaten:[String:AnyObject] = [:]
           {
              
              let aktuellezeile:[UInt8] = usb_schnittdatenarray[Stepperposition]
-             print("Stepperposition: \(Stepperposition) aktuellezeile: \(aktuellezeile) ")
+             //print("Stepperposition: \(Stepperposition) aktuellezeile: \(aktuellezeile) ")
              let writecode = aktuellezeile[16]
              var string:String = ""
              var index=0
@@ -1168,7 +1169,7 @@ var outletdaten:[String:AnyObject] = [:]
              if (globalusbstatus > 0)
              {
                 let senderfolg = teensy.send_USB()
-                print("writeCNCAbschnitt senderfolg: \(senderfolg)")
+                print("HW writeCNCAbschnitt senderfolg: \(senderfolg)")
              }
              // print("Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
              var ausschlussindex:[UInt8] = [0xE2]
@@ -1191,7 +1192,7 @@ var outletdaten:[String:AnyObject] = [:]
        //print("writeCNCAbschnitt write_byteArray: \(teensy.write_byteArray)")
     }
      
-    */
+    
     @objc func DC_Funktion(pwm:UInt8 )
      {
         usb_schnittdatenarray.removeAll()
@@ -2057,7 +2058,8 @@ var outletdaten:[String:AnyObject] = [:]
         userInfo: schnittdatendic)
 
     }
-    
+   
+
     // MARK: ***  *** *** newHotwireDataAktion
     @objc  func newHotwireDataAktion(_ notification:Notification)  // entspricht readUSB
     {
@@ -2096,7 +2098,7 @@ var outletdaten:[String:AnyObject] = [:]
        
        if let d = info!["contdata"] // Data vorhanden
        {
- //         print("newDataAktion if let d ok")
+          print("HW newHotwireDataAktion if let d ok")
           var usbdata = info!["data"] as! [UInt8]
           
           //      let stringFromByteArray = String(data: Data(bytes: usbdata), encoding: .utf8)
@@ -2110,7 +2112,7 @@ var outletdaten:[String:AnyObject] = [:]
              var NotificationDic = [String:Int]()
              
              let abschnittfertig:UInt8 =   usbdata[0] // code vom teensy
-             print("newDataAktion abschnittfertig wert: \(abschnittfertig)")
+             print("newHotwireDataAktion abschnittfertig wert: \(abschnittfertig)")
               
              // https://useyourloaf.com/blog/swift-string-cheat-sheet/
              let home = Int(usbdata[13])
@@ -2140,7 +2142,7 @@ var outletdaten:[String:AnyObject] = [:]
              
              if abschnittfertig >= 0xA0 // Code fuer Fertig: AD
              {
-                print("abschnittfertig > A0")
+                print("newHotwireDataAktion abschnittfertig > A0")
                 let Abschnittnummer = Int(usbdata[5])
                 NotificationDic["abschnittfertig"] = Int(abschnittfertig)
                 NotificationDic["inposition"] = Int(Abschnittnummer)
@@ -2157,18 +2159,18 @@ var outletdaten:[String:AnyObject] = [:]
                  
                 //print("newDataAktion cncstatus: \(usbdata[22])")
                 var AnschlagSet = IndexSet()
-                 print("rHotwireController newHotwireDataAktion NotificationDic: \(NotificationDic)")
+                 print("newHotwireDataAktion NotificationDic: \(NotificationDic)")
                 switch abschnittfertig
                 {
                 case 0xA1:
-                    print("HW newDataAktion A1 abschnitt")
+                    print("newHotwireDataAktion A1 abschnitt")
                     /*
                     PositionFeld.integerValue = ladePosition
                     ProfilFeld.stepperposition = ladePosition //- 1
                     ProfilFeld.needsDisplay = true
-*/
+                     */
                 case 0xE1:// Antwort auf mouseup 0xE0 HALT
-                   print("newDataAktion E1 mouseup")
+                   print("newHotwireDataAktion E1 mouseup")
                    usb_schnittdatenarray.removeAll()
                    
                    AVR?.setBusy(0)
@@ -2250,7 +2252,7 @@ var outletdaten:[String:AnyObject] = [:]
                    
                 case 0xD0:
                    print("***   ***   Letzter Abschnitt")
-                   print("HotWireVC newDataAktion 0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
+                   print("newHotwireDataAktion 0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
                    //print("HomeAnschlagSet: \(HomeAnschlagSet)")
                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
                     /*
@@ -2275,8 +2277,9 @@ var outletdaten:[String:AnyObject] = [:]
                    break;
                    
                 case 0xBD:
-                   print("BD cncstatus: \(usbdata[22]) ")
+                   print("newHotwireDataAktion BD cncstatus: \(usbdata[22]) ")
                    
+                    // last Mark
                     PositionFeld.integerValue = Stepperposition
                     ProfilFeld.stepperposition = Stepperposition
                     ProfilFeld.needsDisplay = true
@@ -2357,7 +2360,7 @@ var outletdaten:[String:AnyObject] = [:]
                       if (usb_schnittdatenarray.count > 0) // nicht HALT
                       {
                       //if (Int(usbdata[10]) == 0)
-                         print("HomeAnschlagSet: \(HomeAnschlagSet)")
+                         print("newHotwireDataAktion HomeAnschlagSet: \(HomeAnschlagSet)")
                       
                          writeCNCAbschnitt()
                          
@@ -2370,9 +2373,9 @@ var outletdaten:[String:AnyObject] = [:]
                    NotificationDic["homeanschlagset"] = Int(HomeAnschlagSet.count)
                    NotificationDic["home"] = Int(home)
                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
-                   print("HotwireVC newDataAktion Notific: \(NotificationDic)")
+                   //print("newHotwireDataAktion Notific: \(NotificationDic)")
                    
-                 self.USBReadFunktion(dataDic: NotificationDic)
+                 //self.USBReadFunktion(dataDic: NotificationDic)
                  /*
                     let nc = NotificationCenter.default
                     nc.post(name:Notification.Name(rawValue:"usbread"),
@@ -2399,7 +2402,7 @@ var outletdaten:[String:AnyObject] = [:]
     
     @objc func USBReadFunktion(dataDic:[String:Int])
     {
-        print("USBReadFunktion Position: \(PositionFeld.integerValue)")
+        print("HW USBReadFunktion Position: \(PositionFeld.integerValue)")
         if let outposition = dataDic["outposition"]
         {
             if outposition > PositionFeld.integerValue
@@ -2407,7 +2410,7 @@ var outletdaten:[String:AnyObject] = [:]
                 print("USBReadFunktion outposition > Position: \(PositionFeld.integerValue)")
                 
                 PositionFeld.integerValue = outposition
-                ProfilFeld.stepperposition = outposition 
+                ProfilFeld.stepperposition = outposition
                 ProfilFeld.needsDisplay = true
                 
             }
@@ -3534,14 +3537,14 @@ var outletdaten:[String:AnyObject] = [:]
 
        
 
-       NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "newdata"), object: nil)
+  //     NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "newdata"), object: nil)
 
        
        
        let newdataname = Notification.Name("newdata")
-        NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:newdataname,object:nil)
+ //       NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:newdataname,object:nil)
 
-  //     NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:NSNotification.Name(rawValue: "newdata"),object:nil)
+       NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:NSNotification.Name(rawValue: "newdata"),object:nil)
 
       Auslauftiefe.integerValue = 10
       

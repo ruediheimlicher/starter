@@ -215,11 +215,11 @@ class rViewController: NSViewController, NSWindowDelegate
    // var usbzugang:
    var usbstatus: Int = 0
    
-   var boardindex:Int = 0
+  // var boardindex:Int = 0
     
     var viewdidloadcounter = 0
    
-   var teensyboardarray:[[String:Any]] = []
+   //var teensyboardarray:[[String:Any]] = []
    
    var teensy = usb_teensy()
    
@@ -510,11 +510,11 @@ class rViewController: NSViewController, NSWindowDelegate
       myFileDialog.runModal() 
       return myFileDialog.url 
    }  
-    
+    // MARK: writeCNCAbschnitt
     @objc func writeCNCAbschnitt()
     {
         cncwritecounter += 1
-        print("swift rViewController writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) cncwritecounter: \(cncwritecounter)")
+        print("VC writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) count: \(teensy.write_byteArray.count)")
        let count = usb_schnittdatenarray.count
        //print("writeCNCAbschnitt  count: \(count) Stepperposition: \t",Stepperposition)
        
@@ -556,7 +556,7 @@ class rViewController: NSViewController, NSWindowDelegate
           {
              
              let aktuellezeile:[UInt8] = usb_schnittdatenarray[Stepperposition]
-             print("Stepperposition: \(Stepperposition) aktuellezeile: \(aktuellezeile) ")
+             //print("Stepperposition: \(Stepperposition) aktuellezeile: \(aktuellezeile) ")
              let writecode = aktuellezeile[16]
              var string:String = ""
              var index=0
@@ -575,13 +575,13 @@ class rViewController: NSViewController, NSWindowDelegate
              schnittdatenstring.append(string)
              schnittdatenstring.append("\n")
              
-              print("writeCNCAbschnitt")
+              //print("writeCNCAbschnitt")
 
              //print("writeCNCAbschnitt write_byteArray: \(teensy.write_byteArray)")
              if (globalusbstatus > 0)
              {
                 let senderfolg = teensy.send_USB()
-                print("writeCNCAbschnitt senderfolg: \(senderfolg)")
+                print("VC writeCNCAbschnitt senderfolg: \(senderfolg)")
              }
              // print("Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
              var ausschlussindex:[UInt8] = [0xE2]
@@ -1089,12 +1089,13 @@ class rViewController: NSViewController, NSWindowDelegate
    }
  
  
-   @objc func newDataAktion(_ notification:Notification) 
+    // MARK: newDataAktion
+   @objc func newDataAktion(_ notification:Notification)
     {
        // Reaktion auf eingehende USB-Daten
        var lastData = teensy.getlastDataRead()
        let lastDataArray = [UInt8](lastData)
-       print("VC newDataAktion notification: \n\(notification)\n lastData:\n \(lastData)")
+       //print("VC newDataAktion notification: \n\(notification)\n lastData:\n \(lastData)")
        
   //     print("newDataAktion start")
  /*
@@ -1126,7 +1127,7 @@ class rViewController: NSViewController, NSWindowDelegate
        
        if let d = info!["contdata"] // Data vorhanden
        {
- //         print("newDataAktion if let d ok")
+          print("VC newDataAktion if let d ok")
           var usbdata = info!["data"] as! [UInt8]
           
           //      let stringFromByteArray = String(data: Data(bytes: usbdata), encoding: .utf8)
@@ -1143,7 +1144,7 @@ class rViewController: NSViewController, NSWindowDelegate
              // https://useyourloaf.com/blog/swift-string-cheat-sheet/
              let home = Int(usbdata[13])
               
-              print("newDataAktion abschnittfertig abschnittfertig: \(hex(abschnittfertig))")
+              print("VC newDataAktion abschnittfertig abschnittfertig: \(hex(abschnittfertig))")
                NotificationDic["abschnittfertig"] = Int(abschnittfertig)
 
               let abschnittnummer:Int = Int((usbdata[5] << 8) | usbdata[6])
@@ -1269,7 +1270,7 @@ class rViewController: NSViewController, NSWindowDelegate
                    
                 case 0xD0:
                    print("VC newDataAktion ***   ***   Letzter Abschnitt")
-                   print("VC newDataAktion  0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
+                   print("VC newDataAktion  0xD0 Stepperposition: \(Stepperposition)");
                    //print("HomeAnschlagSet: \(HomeAnschlagSet)")
                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
                     /*
@@ -1372,7 +1373,7 @@ class rViewController: NSViewController, NSWindowDelegate
                       if (usb_schnittdatenarray.count > 0) // nicht HALT
                       {
                       //if (Int(usbdata[10]) == 0)
-                         print("HomeAnschlagSet: \(HomeAnschlagSet)")
+                         print("VC HomeAnschlagSet: \(HomeAnschlagSet)")
                       
                          writeCNCAbschnitt()
                          
