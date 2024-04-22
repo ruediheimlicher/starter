@@ -254,7 +254,7 @@ class rViewController: NSViewController, NSWindowDelegate
      // end IOWarriorWindowController
 
     //var KoordinatenTabelle = [[String:Double]]()
-    var usb_schnittdatenarray = [[UInt8]]()
+    //var usb_schnittdatenarray = [[UInt8]]()
     
     var schnittdatenstring:String = ""
     
