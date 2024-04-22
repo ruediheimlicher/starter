@@ -1103,7 +1103,8 @@ var outletdaten:[String:AnyObject] = [:]
     @objc override func writeCNCAbschnitt()
     {
         cncwritecounter += 1
-        print("swift override writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) cncwritecounter: \(cncwritecounter)")
+     print("HW writeCNCAbschnitt")
+    //    print("swift override writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) cncwritecounter: \(cncwritecounter)")
        let count = usb_schnittdatenarray.count
        //print("writeCNCAbschnitt  count: \(count) Stepperposition: \t",Stepperposition)
        
@@ -2147,7 +2148,8 @@ var outletdaten:[String:AnyObject] = [:]
                 NotificationDic["home"] = Int(usbdata[13])
                 NotificationDic["cncstatus"] = Int(usbdata[22])
                 NotificationDic["anschlagstatus"] = Int(usbdata[19])
-                
+                NotificationDic["abschnittfertig"] = Int(abschnittfertig)
+
                 //print("newDataAktion cncstatus: \(usbdata[22])")
                 var AnschlagSet = IndexSet()
                 

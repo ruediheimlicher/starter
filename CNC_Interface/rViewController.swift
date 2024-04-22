@@ -215,11 +215,11 @@ class rViewController: NSViewController, NSWindowDelegate
    // var usbzugang:
    var usbstatus: Int = 0
    
-   var boardindex:Int = 0
+   //var boardindex:Int = 0
     
     var viewdidloadcounter = 0
    
-   var teensyboardarray:[[String:Any]] = []
+   //var teensyboardarray:[[String:Any]] = []
    
    var teensy = usb_teensy()
    
@@ -514,7 +514,8 @@ class rViewController: NSViewController, NSWindowDelegate
     @objc func writeCNCAbschnitt()
     {
         cncwritecounter += 1
-        print("swift rViewController writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) cncwritecounter: \(cncwritecounter)")
+        print("VC writeCNCAbschnitt")
+        //print("swift rViewController writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) cncwritecounter: \(cncwritecounter)")
        let count = usb_schnittdatenarray.count
        //print("writeCNCAbschnitt  count: \(count) Stepperposition: \t",Stepperposition)
        
@@ -1088,6 +1089,7 @@ class rViewController: NSViewController, NSWindowDelegate
       */
    }
  
+// MARK: NEWDATATAKTION
  
    @objc func newDataAktion(_ notification:Notification) 
     {
@@ -1180,7 +1182,8 @@ class rViewController: NSViewController, NSWindowDelegate
                 NotificationDic["home"] = Int(usbdata[13])
                 NotificationDic["cncstatus"] = Int(usbdata[22])
                 NotificationDic["anschlagstatus"] = Int(usbdata[19])
-                
+                 NotificationDic["abschnittfertig"] = Int(abschnittfertig)
+
                 //print("newDataAktion cncstatus: \(usbdata[22])")
                 var AnschlagSet = IndexSet()
                 
