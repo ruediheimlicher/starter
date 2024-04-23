@@ -789,6 +789,17 @@ var outletdaten:[String:AnyObject] = [:]
             by = 25
             StartpunktA = NSMakePoint(ax,ay)
             StartpunktB = NSMakePoint(bx,by)
+            var tempDic = [String:Double]()
+            tempDic["ax"] = ax
+            tempDic["ay"] = ay
+            tempDic["bx"] = bx
+            tempDic["by"] = by
+            tempDic["index"] = 0
+            tempDic["pwm"] = Double(pwm)
+            
+            tempDic["teil"] = 60
+            KoordinatenTabelle.append(tempDic)
+
         }
         
         
@@ -3873,8 +3884,11 @@ var outletdaten:[String:AnyObject] = [:]
 
        NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "newdata"), object: nil)
 
+      // neuesElementSichernAktion
+       NotificationCenter.default.addObserver(self, selector: #selector(neuesElementSichernAktion), name:NSNotification.Name(rawValue: "elementsichern"), object: nil)
+
         
-  //     NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:NSNotification.Name(rawValue: "newdata"),object:nil)
+  //     NotificationCenter.default.addObserver(self, selector:#selector(neuesElementSichernAktion(_:)),name:NSNotification.Name(rawValue: "newdata"),object:nil)
 
       Auslauftiefe.integerValue = 10
       
