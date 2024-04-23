@@ -670,6 +670,8 @@ var outletdaten:[String:AnyObject] = [:]
         let r = ProfilWrenchEinheitRadio.selectedRow
         infodic!["wrenchradio"] = ProfilWrenchEinheitRadio.selectedRow
 
+        infodic!["minimaldistanz"] = MinimaldistanzFeld.floatValue
+
         
 
         
@@ -2379,7 +2381,7 @@ var outletdaten:[String:AnyObject] = [:]
         // Reaktion auf eingehende USB-Daten
         var lastData = teensy.getlastDataRead()
         let lastDataArray = [UInt8](lastData)
-        print("HW  newDataAktion notification: \n\(notification)\n lastData:\n \(lastData)")
+        print("HW newDataAktion notification: \n\(notification)\n lastData:\n \(lastData)")
         
    //     print("newDataAktion start")
   /*
@@ -2721,6 +2723,12 @@ var outletdaten:[String:AnyObject] = [:]
             PositionFeld.integerValue = Stepperposition
             ProfilFeld.stepperposition = Stepperposition
             ProfilFeld.needsDisplay = true
+            let warnung = NSAlert.init()
+            warnung.messageText = "Task fertig"
+            warnung.addButton(withTitle: "OK")
+            warnung.runModal()
+            
+
 
         default:
             break
@@ -3766,7 +3774,7 @@ var outletdaten:[String:AnyObject] = [:]
 
      }
     
-    
+    // MARK: VIEWDIDLOAD
    override func viewDidLoad()
    {
       super.viewDidLoad()
@@ -3859,18 +3867,13 @@ var outletdaten:[String:AnyObject] = [:]
        
        NotificationCenter.default.addObserver(self, selector: #selector(hotwirebeendenAktion), name:NSNotification.Name(rawValue: "beenden"), object: nil)
 
+       // UI-Aktionen von VC setzen
        NotificationCenter.default.addObserver(self, selector: #selector(USBReadAktion), name:NSNotification.Name(rawValue: "usbread"), object: nil)
 
 
        NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "newdata"), object: nil)
 
-       
-       
-       let newdataname = Notification.Name("newdata")
-        NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:newdataname,object:nil)
-
-       
-       
+        
   //     NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:NSNotification.Name(rawValue: "newdata"),object:nil)
 
       Auslauftiefe.integerValue = 10

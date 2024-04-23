@@ -1542,6 +1542,7 @@ NSLog(@"logRect: origin.x %2.2f origin.y %2.2f size.heigt %2.2f size.width %2.2f
                  [[[rawarray objectAtIndex:index]objectForKey:@"ay"]floatValue],
                  [[[rawarray objectAtIndex:index]objectForKey:@"bx"]floatValue],
                  [[[rawarray objectAtIndex:index]objectForKey:@"by"]floatValue]);
+          
          NSMutableDictionary* seiteaDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[[rawarray objectAtIndex:index]objectForKey:@"ax"],@"ax",[[rawarray objectAtIndex:index]objectForKey:@"ay"],@"ay", [NSNumber numberWithInt:okcounter],@"index",nil ];
          [returnarray1 addObject:seiteaDic];
          

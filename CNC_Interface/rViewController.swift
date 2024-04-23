@@ -1180,7 +1180,8 @@ class rViewController: NSViewController, NSWindowDelegate
                 NotificationDic["home"] = Int(usbdata[13])
                 NotificationDic["cncstatus"] = Int(usbdata[22])
                 NotificationDic["anschlagstatus"] = Int(usbdata[19])
-                
+                 NotificationDic["abschnittfertig"] = Int(abschnittfertig)
+
                 //print("newDataAktion cncstatus: \(usbdata[22])")
                 var AnschlagSet = IndexSet()
                 
@@ -1272,11 +1273,12 @@ class rViewController: NSViewController, NSWindowDelegate
                    print("VC newDataAktion  0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
                    //print("HomeAnschlagSet: \(HomeAnschlagSet)")
                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
-                    
+                    /*
                    let nc = NotificationCenter.default
                    nc.post(name:Notification.Name(rawValue:"usbread"),
                            object: nil,
                            userInfo: NotificationDic)
+                    */
                   // return
                      
                    break
@@ -1296,6 +1298,8 @@ class rViewController: NSViewController, NSWindowDelegate
                 case 0xBD:
                    print("BD cncstatus: \(usbdata[22]) ")
                    
+  
+                    
                    if Int(usbdata[63]) == 1
                       {
                          print("BD 63  ")
@@ -1850,11 +1854,13 @@ class rViewController: NSViewController, NSWindowDelegate
       }
       else
       {
+          
          let warnung = NSAlert.init()
          warnung.messageText = "USB"
          warnung.messageText = "report_start_read_USB: Kein USB-Device"
          warnung.addButton(withTitle: "OK")
          warnung.runModal()
+           
          Start_Knopf.isEnabled = false
          Stop_Knopf.isEnabled = false
       }

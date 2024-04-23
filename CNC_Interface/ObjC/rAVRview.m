@@ -2956,6 +2956,7 @@ return returnInt;
        
        // Soll der Datensatz geladen werden?
        int datensatzok = 0;
+        
  
        if (((distA > minimaldistanz || distB > minimaldistanz)) ) // Eine der Distanzen ist genügend gross
        {
