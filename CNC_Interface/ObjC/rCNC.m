@@ -4404,9 +4404,6 @@ PortA=vs[n & 3]; warte10ms(); n++;
            [tempDic setObject:[NSNumber numberWithFloat:by] forKey:@"abrby"];
 
        }
-
-       
-      
       [AbbrandArray addObject:tempDic];
       
    } // for i

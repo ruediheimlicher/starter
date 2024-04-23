@@ -1408,8 +1408,8 @@ NSLog(@"logRect: origin.x %2.2f origin.y %2.2f size.heigt %2.2f size.width %2.2f
              
           }
        }
-      */
-//      else
+      
+      else
        {
           [tempZeilenDic setObject:[tempZeilenDicA objectForKey:@"x"] forKey:@"ax"];
           [tempZeilenDic setObject:[tempZeilenDicA objectForKey:@"y"] forKey:@"ay"];
@@ -1421,7 +1421,7 @@ NSLog(@"logRect: origin.x %2.2f origin.y %2.2f size.heigt %2.2f size.width %2.2f
           [rawarray addObject:tempZeilenDic];
           
        }
-      /*
+      
       prevax = nowax;
       prevay = noway;
       prevbx = nowbx;
@@ -1454,8 +1454,11 @@ NSLog(@"logRect: origin.x %2.2f origin.y %2.2f size.heigt %2.2f size.width %2.2f
    nowby = 0;
    
    // Datensaetze markieren
-   //for (int index = rawarray.count-2;index > rawarray.count-20;index--)
-   
+
+    // Letzten Datensatz sicher laden
+     
+     [[rawarray lastObject] setObject:[NSNumber numberWithInt:1] forKey:@"datensatzok"];
+
    int index = rawarray.count-2;
    //while(index > rawarray.count-20+1)
    while(index > 1)

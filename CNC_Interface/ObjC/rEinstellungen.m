@@ -3058,7 +3058,13 @@
             
             NSArray* redarray  = [Utils werteanpassenOberseiteVon:[NSArray arrayWithObjects:oberseitearrayA, oberseitearrayB,nil]];
             oberseitearrayA = redarray[0];
-            
+             NSLog(@"ProfilPopTask red oberseitearrayA");
+             for (int i=0;i<oberseitearrayA.count;i++)
+             {
+                 fprintf(stderr, "%d\t%2.6f\t%2.6f\n",i,[[[oberseitearrayA objectAtIndex:i]objectForKey:@"x"] floatValue],[[[oberseitearrayA objectAtIndex:i]objectForKey:@"y"] floatValue]);
+                 
+             } // alle Punkte dabei
+
             oberseitearrayB = redarray[1];
             
             [ProfilDic setObject:redarray[0] forKey:@"oberseitearrayA"];
