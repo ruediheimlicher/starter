@@ -3894,6 +3894,41 @@ var outletdaten:[String:AnyObject] = [:]
            RumpfDaten()
        }
        
+       if let einlaufrand = hotwireplist["einlaufrand"]
+       {
+           Einlaufrand.integerValue = einlaufrand as! Int
+       }
+       else
+       {
+           Einlaufrand.integerValue = 15
+       }
+ 
+       if let auslaufrand = hotwireplist["auslaufrand"]
+       {
+           Auslaufrand.integerValue = auslaufrand as! Int
+       }
+       else
+       {
+           Auslaufrand.integerValue = 16
+       }
+       if let blockdicke = hotwireplist["blockdicke"]
+       {
+           Blockdicke.integerValue = blockdicke as! Int
+       }
+       else
+       {
+           Blockdicke.integerValue = 50
+       }
+
+       if let blockbreite = hotwireplist["blockbreite"]
+       {
+           Blockbreite.integerValue = blockbreite as! Int
+       }
+       else
+       {
+           Blockbreite.integerValue = 180
+       }
+
 
        
       if (hotwireplist["koordinatentabelle"] != nil)
