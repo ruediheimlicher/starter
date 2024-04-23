@@ -10727,9 +10727,10 @@ return returnInt;
    }
 
 */
-   
-   if (!(mitOberseite && mitUnterseite) && mitEinlauf) // Nur Ober- ODER Unterseite
-   {
+    if (!(mitOberseite && mitUnterseite))// &&  mitEinlauf) // Nur Ober- ODER Unterseite
+
+   // if (!(mitOberseite && mitUnterseite)// && mitEinlauf) // Nur Ober- ODER Unterseite
+    {
       
       // Endleistenwinkel bestimmen
       NSLog(@"Endleistenwinkel A:");
@@ -12054,13 +12055,13 @@ return returnInt;
         PositionB.y +=profilrandy;
         [blockkoordinatentabelle addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:PositionA.x],@"ax",[NSNumber numberWithFloat:PositionA.y],@"ay",[NSNumber numberWithFloat:PositionB.x],@"bx", [NSNumber numberWithFloat:PositionB.y],@"by",[NSNumber numberWithInt:index],@"index",[NSNumber numberWithInt:lage],@"lage",[NSNumber numberWithFloat:aktuellepwm*full_pwm],@"pwm",nil]];
         index++;
-        */
+        
         // down
         PositionA.y -=profilrandy;
         PositionB.y -=profilrandy;
         [blockkoordinatentabelle addObject:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:PositionA.x],@"ax",[NSNumber numberWithFloat:PositionA.y],@"ay",[NSNumber numberWithFloat:PositionB.x],@"bx", [NSNumber numberWithFloat:PositionB.y],@"by",[NSNumber numberWithInt:index],@"index",[NSNumber numberWithInt:lage],@"lage",[NSNumber numberWithFloat:aktuellepwm*red_pwm],@"pwm",nil]];
         index++;
-        
+         */
         //NSLog(@"blockkoordinatentabelle Einlauf: %@",[blockkoordinatentabelle description]);
         //NSLog(@"reportBlockkonfigurieren nach Schneiden zum Einlauf EckeRechtsOben x: %2.2f  y: %2.2f",EckeRechtsOben.x,EckeRechtsOben.y);
         

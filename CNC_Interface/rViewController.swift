@@ -1272,13 +1272,13 @@ class rViewController: NSViewController, NSWindowDelegate
                    print("VC newDataAktion  0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
                    //print("HomeAnschlagSet: \(HomeAnschlagSet)")
                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
-                    /*
+                    
                    let nc = NotificationCenter.default
                    nc.post(name:Notification.Name(rawValue:"usbread"),
                            object: nil,
                            userInfo: NotificationDic)
-                   return
-                     */
+                  // return
+                     
                    break
                 
                    
@@ -1307,6 +1307,15 @@ class rViewController: NSViewController, NSWindowDelegate
                    break
                 }// switch abschnittfertig
                 
+                 /*
+                 if Stepperposition > CNCPositionFeld.integerValue
+                      {
+                          PositionFeld.integerValue = stepperposition
+                          ProfilFeld.stepperposition = stepperposition - 1
+                          ProfilFeld.needsDisplay = true
+                          
+                      }
+*/
                 if AnschlagSet.count > 0
                 {
                    print("AnschlagSet count 0")
@@ -1395,7 +1404,12 @@ class rViewController: NSViewController, NSWindowDelegate
              
              //writeCNCAbschnitt()
              //print("dic end\n")
-             
+              /*
+              let nc = NotificationCenter.default
+              nc.post(name:Notification.Name(rawValue:"usbread"),
+                      object: nil,
+                      userInfo: NotificationDic)
+*/
           } // if count > 0
           
        } // if d

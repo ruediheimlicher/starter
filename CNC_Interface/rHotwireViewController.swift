@@ -2245,7 +2245,7 @@ var outletdaten:[String:AnyObject] = [:]
                    nc.post(name:Notification.Name(rawValue:"usbread"),
                            object: nil,
                            userInfo: NotificationDic)
-                   return
+                   //return
                    break
                 
                    
@@ -2373,6 +2373,360 @@ var outletdaten:[String:AnyObject] = [:]
        //let dic = notification.userInfo as? [String:[UInt8]]
        //print("dic: \(dic ?? ["a":[123]])\n")
        
+    }
+    @objc override func newDataAktion(_ notification:Notification)
+     {
+        // Reaktion auf eingehende USB-Daten
+        var lastData = teensy.getlastDataRead()
+        let lastDataArray = [UInt8](lastData)
+        print("HW  newDataAktion notification: \n\(notification)\n lastData:\n \(lastData)")
+        
+   //     print("newDataAktion start")
+  /*
+        var ii = 0
+   //    while ii < 10
+        {
+   //        print("ii: \(ii)  wert: \(lastData[ii])\t")
+           ii = ii+1
+        }
+   */
+        //let u = ((Int32(lastData[1])<<8) + Int32(lastData[2]))
+        //print("hb: \(lastData[1]) lb: \(lastData[2]) u: \(u)")
+        let info = notification.userInfo
+        
+        //let data = "foo".data(using: .utf8)!
+        //print("info: \(String(describing: info))")
+        //print("new Data")
+        //let data = notification.userInfo?["data"]
+        //print("data: \(String(describing: data)) \n") // data: Optional([0, 9, 51, 0,....
+        
+        
+        //print("lastDataRead: \(lastDataRead)   ")
+        var i = 0
+        while i < 10
+        {
+           //print("i: \(i)  wert: \(lastDataRead[i])\t")
+           i = i+1
+        }
+        
+        if let d = info!["contdata"] // Data vorhanden
+        {
+  //         print("newDataAktion if let d ok")
+           var usbdata = info!["data"] as! [UInt8]
+           
+           //      let stringFromByteArray = String(data: Data(bytes: usbdata), encoding: .utf8)
+           
+           //      print("usbdata: \(usbdata)\n")
+           
+           //if  usbdata = info!["data"] as! [String] // Data vornanden
+           if  usbdata.count > 0 // Data vorhanden
+           {
+              //print("usbdata: \(usbdata)\n") // d: [0, 9, 56, 0, 0,...
+              var NotificationDic = [String:Int]()
+              
+              let abschnittfertig:UInt8 =   usbdata[0] // code vom teensy
+              // https://useyourloaf.com/blog/swift-string-cheat-sheet/
+              let home = Int(usbdata[13])
+               
+               print("newDataAktion abschnittfertig abschnittfertig: \(hex(abschnittfertig))")
+                NotificationDic["abschnittfertig"] = Int(abschnittfertig)
+
+               let abschnittnummer:Int = Int((usbdata[5] << 8) | usbdata[6])
+               let ladeposition = usbdata[8]
+               
+              //print("abschnittfertig: \(String(abschnittfertig, radix:16, uppercase:true))\n")
+             //print("newDataAktion abschnittfertig: \(hex(abschnittfertig)) cncstatus: \(usbdata[22]) home: \(home)\n")
+              
+              
+              
+              /*
+              if usbdata != nil
+              {
+                 //print("usbdata not nil\n")
+                 var i = 0
+                 while i < 10
+                 {
+                    //print("i: \(i)  wert: \(usbdata[i])\t")
+                    i = i+1
+                 }
+                 
+              }
+              */
+              if abschnittfertig >= 0xA0 // Code fuer Fertig: AD
+              {
+                 print("HW  newDataAktion abschnittfertig > A0")
+                 let Abschnittnummer = Int(usbdata[5])
+                 NotificationDic["inposition"] = Int(Abschnittnummer)
+                 let ladePosition = Int(usbdata[6])
+                 NotificationDic["outposition"] = ladePosition
+                 NotificationDic["stepperposition"] = Stepperposition
+                 NotificationDic["mausistdown"] = mausistdown
+                 
+                 NotificationDic["home"] = Int(usbdata[13])
+                 NotificationDic["cncstatus"] = Int(usbdata[22])
+                 NotificationDic["anschlagstatus"] = Int(usbdata[19])
+                  NotificationDic["abschnittfertig"] = Int(abschnittfertig)
+
+                 //print("newDataAktion cncstatus: \(usbdata[22])")
+                 var AnschlagSet = IndexSet()
+                 
+                 switch abschnittfertig
+                 {
+                 case 0xE1:// Antwort auf mouseup 0xE0 HALT
+                    print("HW  newDataAktion newDataAktion E1 mouseup")
+                    usb_schnittdatenarray.removeAll()
+                    
+                    AVR?.setBusy(0)
+                    teensy.read_OK = false
+                    break
+                    
+                 case 0xEA: // home
+                    print("HW  newDataAktion  EA home gemeldet")
+                    break
+                    
+                 // Anschlag first
+                 case 0xA5:
+                    print("HW  newDataAktion  Anschlag A0")
+                    AnschlagSet.insert(0) // schritteax lb
+                    AnschlagSet.insert(1) // schritteax hb
+                    AnschlagSet.insert(4) // delayax lb
+                    AnschlagSet.insert(5) // delayax lb
+                    break;
+                    
+                 case 0xA6:
+                    print("HW  newDataAktion  Anschlag B0")
+                    AnschlagSet.insert(2) // schritteax lb
+                    AnschlagSet.insert(3) // schritteax hb
+                    AnschlagSet.insert(6) // delayax lb
+                    AnschlagSet.insert(7) // delayax lb
+                    break;
+                    
+                 case 0xA7:
+                    print("HW  newDataAktion  Anschlag C0")
+                    AnschlagSet.insert(8) // schrittebx lb
+                    AnschlagSet.insert(9) // schrittebx hb
+                    AnschlagSet.insert(12) // delayabx lb
+                    AnschlagSet.insert(13) // delaybx lb
+                    break;
+                    
+                 case 0xA8:
+                    print("HW  newDataAktion  Anschlag D0")
+                    AnschlagSet.insert(10) // schritteby lb
+                    AnschlagSet.insert(11) // schritteby hb
+                    AnschlagSet.insert(14) // delayby lb
+                    AnschlagSet.insert(15) // delayby lb
+                    break;
+                    
+                 // Anschlag home first
+                 case 0xB5:
+                    print("HW  newDataAktion +++++++++  Anschlag A home first")
+                    HomeAnschlagSet.insert(0xB5)
+                    print("HomeAnschlagSet count: \(HomeAnschlagSet.count)")
+                    break
+                 case 0xB6:
+                    print("HW  newDataAktion +++++++++  Anschlag B home first")
+                    HomeAnschlagSet.insert(0xB6)
+                    print("HomeAnschlagSet count: \(HomeAnschlagSet.count)")
+                    break
+                 case 0xB7:
+                    print("HW  newDataAktion +++++++++  Anschlag C home first")
+                    HomeAnschlagSet.insert(0xB7)
+                    print("HomeAnschlagSet count: \(HomeAnschlagSet.count)")
+                    break
+                 case 0xB8:
+                    print("HW  newDataAktion +++++++++ HW  Anschlag D home first")
+                    HomeAnschlagSet.insert(0xB8)
+                    print("HomeAnschlagSet count: \(HomeAnschlagSet.count)")
+                    break
+                    
+                 // Anschlag Second
+                 case 0xC5:
+                    print("HW  newDataAktion Anschlag A home  second")
+                    break
+                 case 0xC6:
+                    print("HW  newDataAktion Anschlag B home  second")
+                    break
+                 case 0xC7:
+                    print("HW  newDataAktion Anschlag C home  second")
+                    break
+                 case 0xC8:
+                    print("HW  newDataAktion Anschlag D home  second")
+                    break
+                    
+                 case 0xD0:
+                    print("HW  newDataAktion ***   ***   Letzter Abschnitt")
+                    print("HW  newDataAktion  0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
+                    //print("HomeAnschlagSet: \(HomeAnschlagSet)")
+                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
+                     /*
+                    let nc = NotificationCenter.default
+                    nc.post(name:Notification.Name(rawValue:"usbread"),
+                            object: nil,
+                            userInfo: NotificationDic)
+                    return
+                      */
+                    break
+                 
+                    
+                 case 0xF1:
+                    
+                       print("F1 home ")
+                    
+                    break;
+                 case 0xF2:
+                    
+                       print("F2 ")
+                    
+                    break;
+                    
+                 case 0xBD:
+                    print("BD cncstatus: \(usbdata[22]) ")
+                    
+                    if Int(usbdata[63]) == 1
+                       {
+                          print("BD 63  ")
+                           // return;
+                       }
+                    
+                    break;
+                 default:
+                    break
+                 }// switch abschnittfertig
+                 
+                 if AnschlagSet.count > 0
+                 {
+                    print("AnschlagSet count 0")
+                    //var i=0
+                    for i in Stepperposition-1..<usb_schnittdatenarray.count
+                    {
+                       var tempZeilenArray = usb_schnittdatenarray[i]
+                       for k in 0..<tempZeilenArray.count
+                       {
+                          if AnschlagSet.contains(k)
+                          {
+                             tempZeilenArray[k] = 0
+                          }
+                       }
+                    }
+                 } // if AnschlagSet count
+                 
+                 if mausistdown == 2
+                 {
+                    print("mausistdown = 2")
+                    Stepperposition = 0
+                 }
+                 
+                 // Indexset mit relevanten Werten fuer Endanschlag
+                 var EndIndexSet = IndexSet(integersIn:0xAA...0xAD)  // End Abschnitt von A - D
+                 EndIndexSet.insert(integersIn:0xA5...0xA8)          // // Anschlag A0 - D0
+                 
+                 var HomeIndexSet = IndexSet(integersIn:0xAA...0xAD) // End Abschnitt von A - D
+                 EndIndexSet.insert(integersIn:0xB5...0xB8)          // Anschlag A0 home first
+                 
+                 //print("EndIndexSet: \(EndIndexSet)")
+                //  print("HomeIndexSet: \(HomeIndexSet)")
+
+                 
+                 if EndIndexSet.contains(Int(abschnittfertig))
+                 {
+                    print("EndIndexSet contains abschnittfertig")
+                    //teensy.DC_pwm(0)
+    //                AVR?.setBusy(0)
+     //               teensy.read_OK = false
+                 }
+                 else
+                 {
+                    if HomeIndexSet.contains(Int(abschnittfertig))
+                    {
+                       print("HomeIndexSet contains abschnittfertig")
+                       if HomeAnschlagSet.count == 1
+                       {
+                          print("HomeAnschlagSet.count == 1")
+                       }
+                       else if HomeAnschlagSet.count == 4
+                       {
+                          print("HomeAnschlagSet.count == 4")
+                       }
+                       else if home == 2
+                       {
+                          print("home == 2")
+                       }
+                    }
+                    else
+                    {
+                       //print("newDataAktion vor writeCNCAbschnitt count: \(usb_schnittdatenarray.count)")
+                       if (usb_schnittdatenarray.count > 0) // nicht HALT
+                       {
+                       //if (Int(usbdata[10]) == 0)
+                          print("HomeAnschlagSet: \(HomeAnschlagSet)")
+                       
+                          writeCNCAbschnitt()
+                          
+                       }
+                    }
+                 }
+                    //print("HomeAnschlagSet: \(HomeAnschlagSet)")
+                    NotificationDic["homeanschlagset"] = Int(HomeAnschlagSet.count)
+                    NotificationDic["home"] = Int(home)
+                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
+                    print("HotwireHW  newDataAktion Notific: \(NotificationDic)")
+                    
+                     let nc = NotificationCenter.default
+                     nc.post(name:Notification.Name(rawValue:"usbread"),
+                     object: nil,
+                     userInfo: NotificationDic)
+                     
+                 
+              } // if abschnittfertig > A0
+              
+              //writeCNCAbschnitt()
+              //print("dic end\n")
+              
+           } // if count > 0
+           
+        } // if d
+        else
+        {
+           print("*** newDataAktion if let d not ok")
+        }
+        //let dic = notification.userInfo as? [String:[UInt8]]
+        //print("dic: \(dic ?? ["a":[123]])\n")
+        
+     }
+
+    @objc func USBReadAktion(_ notification:Notification)
+    {
+        let note = notification.userInfo as![String:Any]
+        let abschnittfertig = note["abschnittfertig"]  as! Int
+        let outposition = note["outposition"] as! Int
+        Stepperposition = note["stepperposition"] as! Int
+        
+        var homeanschlagCount = 0
+           if let wert = note["homeanschlagset"]
+           {
+               homeanschlagCount = wert as! Int
+           }
+
+        if outposition > PositionFeld.integerValue
+         {
+             PositionFeld.integerValue = outposition
+             ProfilFeld.stepperposition = outposition
+             ProfilFeld.needsDisplay = true
+             
+         }
+
+        switch abschnittfertig
+        {
+        case 0xBD:
+            PositionFeld.integerValue = Stepperposition
+            ProfilFeld.stepperposition = Stepperposition
+            ProfilFeld.needsDisplay = true
+
+        default:
+            break
+            
+        } // switch abschnittfertig
+        
     }
     
     @objc func USBReadFunktion(dataDic:[String:Int])
@@ -3505,7 +3859,8 @@ var outletdaten:[String:AnyObject] = [:]
        
        NotificationCenter.default.addObserver(self, selector: #selector(hotwirebeendenAktion), name:NSNotification.Name(rawValue: "beenden"), object: nil)
 
-      
+       NotificationCenter.default.addObserver(self, selector: #selector(USBReadAktion), name:NSNotification.Name(rawValue: "usbread"), object: nil)
+
 
        NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "newdata"), object: nil)
 
@@ -3514,6 +3869,8 @@ var outletdaten:[String:AnyObject] = [:]
        let newdataname = Notification.Name("newdata")
         NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:newdataname,object:nil)
 
+       
+       
   //     NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:NSNotification.Name(rawValue: "newdata"),object:nil)
 
       Auslauftiefe.integerValue = 10
