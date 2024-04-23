@@ -13,6 +13,7 @@
 - (NSArray*)Tool_CNC_SchnittdatenArrayVonSteuerdaten:(NSDictionary*)derDatenDic
 {
     NSDictionary* tempSteuerdatenDic = [self Tool_SteuerdatenVonDic:(derDatenDic)];
+ 
     NSArray* tempSteuerdatenArray = [self Tool_SchnittdatenVonDic:tempSteuerdatenDic ];
     return tempSteuerdatenArray;
 }

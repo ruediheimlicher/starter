@@ -243,7 +243,7 @@ class rViewController: NSViewController, NSWindowDelegate
     // von CNCViewC
     var mausistdown:Int = 0
      
-    var Stepperposition:Int = 0
+    //var Stepperposition:Int = 0
     
     var halt = 0
     var home = 0
@@ -335,8 +335,8 @@ class rViewController: NSViewController, NSWindowDelegate
  
            // von CNCVIWC
            NotificationCenter.default.addObserver(self, selector: #selector(usbsendAktion), name:NSNotification.Name(rawValue: "usbsend"), object: nil)
-           NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "usbschnittdaten"), object: nil)
-           NotificationCenter.default.addObserver(self, selector: #selector(usbschnittdatenAktion), name:NSNotification.Name(rawValue: "usbschnittdaten"), object: nil)
+  //         NotificationCenter.default.removeObserver(self, name:NSNotification.Name(rawValue: "usbschnittdaten"), object: nil)
+ //          NotificationCenter.default.addObserver(self, selector: #selector(usbschnittdatenAktion), name:NSNotification.Name(rawValue: "usbschnittdaten"), object: nil)
        
            NotificationCenter.default.addObserver(self, selector:#selector(newDataAktion(_:)),name:NSNotification.Name(rawValue: "newdata"),object:nil)
        
@@ -689,7 +689,7 @@ class rViewController: NSViewController, NSWindowDelegate
     @objc  func contDataAktion(_ notification:Notification)
     {
        let lastData = teensy.getlastDataRead()
-      print("contDataAktion notification: \n\(notification)\n lastData:\n \(lastData) ")
+      print("VC contDataAktion notification: \n\(notification)\n lastData:\n \(lastData) ")
       var ii = 0
        while ii < 10
        {
@@ -828,7 +828,7 @@ class rViewController: NSViewController, NSWindowDelegate
       guard   let zeilenzahlarray = info?["schnittdatenarray"] as?[[Int]] else 
       
       {
-          print("usbschnittdatenaktion : kein zeilenzahlarray\n")
+          print("VC usbschnittdatenaktion : kein zeilenzahlarray\n")
           return
       }
      

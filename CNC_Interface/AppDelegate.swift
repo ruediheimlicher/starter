@@ -11,7 +11,7 @@ import Cocoa
 var usb_schnittdatenarray = [[UInt8]]()
 var boardindex:Int = 0
 var teensyboardarray:[[String:Any]] = []
-
+var Stepperposition:Int = 0
 
 
 @NSApplicationMain
