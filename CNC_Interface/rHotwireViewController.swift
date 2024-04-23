@@ -1596,6 +1596,7 @@ var outletdaten:[String:AnyObject] = [:]
     @IBAction func reportNeuTaste(_ sender: NSButton)
     {
         print("swift reportNeuTaste")
+        CNC_busySpinner.stopAnimation(nil)
         CNC_Halttaste.state = NSControl.StateValue(rawValue: 0)
         CNC_Halttaste.isEnabled = false
         CNC_Sendtaste.isEnabled = false
@@ -1779,7 +1780,7 @@ var outletdaten:[String:AnyObject] = [:]
         micro = CNC_microPop.selectedItem?.tag ?? 1
         speed = SpeedFeld.integerValue
         pwm = DC_PWM.integerValue
-        
+        CNC_busySpinner.stopAnimation(nil)
         cnc_seite1check = CNC_Seite1Check.state.rawValue as Int
         cnc_seite2check = CNC_Seite2Check.state.rawValue as Int
         outletdaten["cnc_seite1check"] = CNC_Seite1Check.state.rawValue as Int as AnyObject
@@ -2034,6 +2035,7 @@ var outletdaten:[String:AnyObject] = [:]
             nc.post(name:Notification.Name(rawValue:"usbschnittdaten"),
             object: nil,
             userInfo: SchnittdatenDic)
+            CNC_busySpinner.startAnimation(nil)
 
         }
         
@@ -2055,7 +2057,7 @@ var outletdaten:[String:AnyObject] = [:]
         nc.post(name:Notification.Name(rawValue:"usbschnittdaten"),
         object: nil,
         userInfo: schnittdatendic)
-
+        CNC_busySpinner.startAnimation(nil)
     }
     
     @objc  func newHotwireDataAktion(_ notification:Notification)  // entspricht readUSB
@@ -2156,7 +2158,7 @@ var outletdaten:[String:AnyObject] = [:]
                 case 0xE1:// Antwort auf mouseup 0xE0 HALT
                    print("newDataAktion E1 mouseup")
                    usb_schnittdatenarray.removeAll()
-                   
+                    CNC_busySpinner.stopAnimation(nil)
                    AVR?.setBusy(0)
                    teensy.read_OK = false
                    break
