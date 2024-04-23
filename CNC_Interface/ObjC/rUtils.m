@@ -1455,7 +1455,10 @@ NSLog(@"logRect: origin.x %2.2f origin.y %2.2f size.heigt %2.2f size.width %2.2f
    
    // Datensaetze markieren
    //for (int index = rawarray.count-2;index > rawarray.count-20;index--)
-   
+    // Letzten Datensatz sicher laden
+     
+     [[rawarray lastObject] setObject:[NSNumber numberWithInt:1] forKey:@"datensatzok"];
+
    int index = rawarray.count-2;
    //while(index > rawarray.count-20+1)
    while(index > 1)
