@@ -23,12 +23,12 @@ class rProfilfeldView: NSView
     var  oldMauspunkt :  NSPoint  = NSZeroPoint
     var  scale  :  Double  = 4
     var  mausistdown :  Int  = 0
-    var  Klickpunkt :  Int  = 0
-    var  Klickseite :  Int  = 0
+    var  Klickpunkt :  Int  = -1
+    var  Klickseite :  Int  = -1
     var  klickrange :  NSRange  = NSRange()
     var  KlicksetA :  NSMutableIndexSet  = NSMutableIndexSet()
-    var  startklickpunkt :  Int  = 0
-    var  stepperposition :  Int  = 0
+    var  startklickpunkt :  Int  = -1
+    var  stepperposition :  Int  = -1
     var  anzahlmaschen :  Int  = 0
     var  graphstatus :  Int  = 0
     var  screen  :  Int  = 0
@@ -46,6 +46,15 @@ class rProfilfeldView: NSView
     {
         scale = derScalefaktor
     }
+    
+    func setKlickpunkt(derPunkt:Int)
+    {
+        print("setKlickpunkt punkt: \(derPunkt)")
+        Klickpunkt = derPunkt
+        startklickpunkt = derPunkt
+    }
+    
+    
     func setStepperposition(pos : Int )
     {
        stepperposition = pos
@@ -65,8 +74,9 @@ class rProfilfeldView: NSView
    
    func clickedPunktvonMaus(derPunkt:NSPoint) -> Int
    {
-      var delta:Double  = 2
+      var delta:Double  = 4
       var KlickFeld = NSMakeRect(derPunkt.x-delta/2, derPunkt.y-delta/2, delta, delta);
+       print("clickedPunktvonMaus KlickFeld: \(KlickFeld)")
       for i in 0..<DatenArray.count
       {
          var line = DatenArray[i] as! [String:Any]
@@ -79,13 +89,16 @@ class rProfilfeldView: NSView
          var tempPunktA:NSPoint = NSMakePoint(ax,ay)
          var tempPunktB:NSPoint = NSMakePoint(bx, by)
          
+        print("clickedPunktvonMaus tempPunktA: \(tempPunktA) tempPunktB: \(tempPunktB)")
          if self.mouse(tempPunktA, in: KlickFeld)
          {
+             print("clickedPunktvonMaus  Seite A")
             return i
          }
          if self.mouse(tempPunktB, in: KlickFeld)
          {
             return i+0xF000
+             print("clickedPunktvonMaus Seite B")
          }
       }// for i
       
@@ -195,17 +208,13 @@ class rProfilfeldView: NSView
 
    }
     
+     
     func mausistDown() -> Int
    {
       return mausistdown
    }
     
-    func setKlickpunkt (derPunkt : Int )
-    {
-        Klickpunkt=derPunkt
-        startklickpunkt=derPunkt
-    }
-    func setKlickrange (derRange : NSRange ) 
+     func setKlickrange (derRange : NSRange )
     {
         klickrange = derRange
     }
@@ -837,7 +846,7 @@ class rProfilfeldView: NSView
         
         var NotificationDic = [String:Any]()
         Klickpunkt = self.clickedPunktvonMaus(derPunkt: local_point)
-        if Klickpunkt >= 0xFFFF
+        if Klickpunkt >= 0x0FFF
         {
             Klickseite = 2
         }
@@ -990,6 +999,7 @@ class rProfilfeldView: NSView
             
             if (self.mouse(aktivPunkt, in: aktivFeld)) // Maus ziehen
             {
+                print("mouseDragged in  Feld: ax: \(aktivPunkt.x) y: \(aktivPunkt.y)")
                 var NotificationDic = [String:Any]()
                 NotificationDic["ax"] = Int(lokalpunkt.x)
                 NotificationDic["ay"] = Int(lokalpunkt.y)
@@ -1003,8 +1013,10 @@ class rProfilfeldView: NSView
         }// Klickpunkt >= 0
         else if hypot((oldMauspunkt.x - lokalpunkt.x), (oldMauspunkt.y - lokalpunkt.y))>4 // Abstad gross genug für neuen Punkt
         {
-            
+
             oldMauspunkt = lokalpunkt
+            print("mouseDragged neuer Punkt: ax: \(lokalpunkt.x) y: \(lokalpunkt.y)")
+
             var NotificationDic = [String:Any]()
             NotificationDic["ax"] = Int(lokalpunkt.x)
             NotificationDic["ay"] = Int(lokalpunkt.y)

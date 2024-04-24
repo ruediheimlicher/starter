@@ -7760,8 +7760,6 @@ return returnInt;
     
     float effektivebreite = 0;
     float effektivehoehe = 0;
-    float origpwm=[DC_PWM intValue];
-    float redpwm = origpwm * [red_pwmFeld floatValue];
     
     float vertikaloffset = 3; // Schneiden ueber definitiver Oberseite
     float vertikalabstand = 6; // Abstand beim Zurueckschneiden
@@ -7782,6 +7780,11 @@ return returnInt;
     float unterseiteeinstichAl = 0;
     float unterseiteeinstichBr = 0;
     float unterseiteeinstichBl = 0;
+    
+    
+    float origpwm = [[rumpfteildic objectForKey:@"pwm"]floatValue];
+    float redpwm = origpwm * [[rumpfteildic objectForKey:@"redpwm"]floatValue];
+ 
     
     int blockbreite = [[rumpfteildic objectForKey:@"rumpfblockbreite"]intValue]; // Fixpunkt ist Unterseite
     float blockhoehe = [[rumpfteildic objectForKey:@"rumpfblockhoehe"]intValue]; ; // hoeheA + abstandunten;
@@ -8000,7 +8003,8 @@ return returnInt;
     {
        NSMutableDictionary* tempdic = [NSMutableDictionary dictionaryWithDictionary: SegmentKoordinatenArray[i]];
        //fprintf(stderr,"%d\t%2.2f\t%2.2f\t%2.2f\t%2.2f\t\n",i,[tempdic[@"ax"]floatValue],[tempdic[@"ay"]floatValue],[tempdic[@"bx"]floatValue],[tempdic[@"by"]floatValue]);
-       [tempdic setObject:[NSNumber numberWithInt:rahmenindex] forKey:@"index"];
+       [tempdic setObject:[NSNumber numberWithInt:origpwm] forKey:@"pwm"];
+        
        [rumpfkoordinatentabelle addObject:tempdic];
        rahmenindex++;
     }
@@ -8039,6 +8043,7 @@ return returnInt;
        NSMutableDictionary* tempdic = [NSMutableDictionary dictionaryWithDictionary: SegmentKoordinatenArray[i]];
        //fprintf(stderr,"%d\t%2.2f\t%2.2f\t%2.2f\t%2.2f\t\n",i,[tempdic[@"ax"]floatValue],[tempdic[@"ay"]floatValue],[tempdic[@"bx"]floatValue],[tempdic[@"by"]floatValue]);
        [tempdic setObject:[NSNumber numberWithInt:rahmenindex] forKey:@"index"];
+        [tempdic setObject:[NSNumber numberWithInt:origpwm] forKey:@"pwm"];
        [rumpfkoordinatentabelle addObject:tempdic];
        rahmenindex++;
     }
@@ -8262,8 +8267,9 @@ return returnInt;
     
      for(int index = 0;index < rumpfkoordinatentabelle.count;index++)
      {
-     NSLog(@"index: %d * %d %2.2f  %2.2f ",index,[[[rumpfkoordinatentabelle objectAtIndex:index]objectForKey:@"index"]intValue],[[[rumpfkoordinatentabelle objectAtIndex:index]objectForKey:@"ax"]floatValue],[[[rumpfkoordinatentabelle objectAtIndex:index]objectForKey:@"ay"]floatValue]);
-          NSMutableDictionary* tempdic = (NSMutableDictionary*)[rumpfkoordinatentabelle objectAtIndex:index];
+    // NSLog(@"index: %d * %d %2.2f  %2.2f ",index,[[[rumpfkoordinatentabelle objectAtIndex:index]objectForKey:@"index"]intValue],[[[rumpfkoordinatentabelle objectAtIndex:index]objectForKey:@"ax"]floatValue],[[[rumpfkoordinatentabelle objectAtIndex:index]objectForKey:@"ay"]floatValue]);
+         
+         NSMutableDictionary* tempdic = (NSMutableDictionary*)[rumpfkoordinatentabelle objectAtIndex:index];
           [tempdic setObject:[NSNumber numberWithInt:index] forKey:@"index"];
           [rumpfkoordinatentabelle replaceObjectAtIndex:index withObject:tempdic];
      }
@@ -8273,7 +8279,17 @@ return returnInt;
     NSLog(@"effektivehoehe: %.2f effektivebreite: %.2f",effektivehoehe, effektivebreite);
 //    [Blockoberkante setIntValue:effektivehoehe - [WertAYFeld intValue] + 5];
 //    [BlockbreiteFeld setIntValue:effektivebreite - [WertAXFeld intValue] + 5];
-    
+    for(i=1;i<rumpfkoordinatentabelle.count;i++)
+    {
+       NSMutableDictionary* tempdic = [NSMutableDictionary dictionaryWithDictionary: rumpfkoordinatentabelle[i]];
+        
+       fprintf(stderr,"%d\t%2.2f\t%2.2f\t%2.2f\t%2.2f\t\t%2.2f\n",[tempdic[@"index"]intValue],[tempdic[@"ax"]floatValue],[tempdic[@"ay"]floatValue],[tempdic[@"bx"]floatValue],[tempdic[@"by"]floatValue] ,[tempdic[@"pwm"]floatValue]);
+       //[tempdic setObject:[NSNumber numberWithInt:origpwm] forKey:@"pwm"];
+        
+      // [rumpfkoordinatentabelle addObject:tempdic];
+       rahmenindex++;
+    }
+
     
     return rumpfkoordinatentabelle;
 }

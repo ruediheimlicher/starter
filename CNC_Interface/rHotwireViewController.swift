@@ -366,12 +366,12 @@ var outletdaten:[String:AnyObject] = [:]
 
    @IBOutlet  var WertAXFeld: NSTextField!
    @IBOutlet  var WertAXStepper: NSStepper!
-   @IBOutlet weak var WertAYFeld: NSTextField!
+   @IBOutlet  var WertAYFeld: NSTextField!
    @IBOutlet weak var WertAYStepper: NSStepper!
     
-   @IBOutlet weak var WertBXFeld: NSTextField!
+   @IBOutlet  var WertBXFeld: NSTextField!
    @IBOutlet weak var WertBXStepper: NSStepper!
-   @IBOutlet weak var WertBYFeld: NSTextField!
+   @IBOutlet  var WertBYFeld: NSTextField!
    @IBOutlet weak var WertBYStepper: NSStepper!
     
    @IBOutlet weak var ABBindCheck: NSButton!
@@ -1518,12 +1518,152 @@ var outletdaten:[String:AnyObject] = [:]
    @objc func MausDragAktion(_ notification:Notification)
     {
         let info = notification.userInfo
-        print("Hotwire MausDragAktion")
-        print("Hotwire MausDragAktion:\t \(String(describing: info))")
+        //print("Hotwire MausDragAktion")
+        //print("Hotwire MausDragAktion:\t \(String(describing: info))")
         let mauspunktstring = notification.userInfo?["mauspunkt"] as! String
        let MausPunkt:NSPoint = NSPointFromString(mauspunktstring);
+        let Graphoffset:Int = notification.userInfo?["graphoffset"] as! Int
+        let Klickseite:Int = notification.userInfo?["klickseite"] as! Int
+        let Klickindex:Int = notification.userInfo?["klickpunkt"] as! Int
+        
+        print("Hotwire MausDragAktion klickseite: \(Klickseite)")
+        
+        let oldDic = KoordinatenTabelle[Klickindex]
+        
+        let offsetx = ProfilBOffsetXFeld.doubleValue
+        let offsety = ProfilBOffsetYFeld.doubleValue
+        
+        let oldax = oldDic["ax"]!
+        let olday = oldDic["ay"]!
+        let oldbx = oldDic["bx"]!
+        let oldby = oldDic["by"]!
+        
+        var deltaAX = 0.0
+        var deltaAY = 0.0
+        var deltaBX = 0.0
+        var deltaBY = 0.0
+        
+        var tempDic = [String:Double]()
+        
+        if Klickseite == 1
+        {
+            deltaAX = WertAXFeld.doubleValue - oldax
+            deltaAY = WertAYFeld.doubleValue - olday
+            tempDic["ax"] = oldax+deltaAX
+            tempDic["ay"] = olday+deltaAY
+
+            tempDic["bx"] = oldbx+deltaBX
+            tempDic["by"] = oldby+deltaBY
+
+            if ABBindCheck.state == NSControl.StateValue.on
+            {
+                deltaBX = WertBXFeld.doubleValue - oldbx
+                deltaBY = WertBYFeld.doubleValue - oldby
+            }
+          }
+        if Klickseite == 2
+        {
+            deltaBX = WertBXFeld.doubleValue - oldbx
+            deltaBY = WertBYFeld.doubleValue - oldby
+            tempDic["bx"] = oldbx+deltaBX
+            tempDic["by"] = oldby+deltaBY
+            tempDic["ax"] = oldax+deltaAX
+            tempDic["ay"] = olday+deltaAY
+
+            if ABBindCheck.state == NSControl.StateValue.on
+            {
+                deltaAX = WertAXFeld.doubleValue - oldax
+                deltaAY = WertAYFeld.doubleValue - olday
+            }
+          }
 
         
+        /*
+        if ABBindCheck.state == NSControl.StateValue.on && Klickseite == 1
+        {
+            deltaAX = WertAXFeld.doubleValue - oldax
+            deltaAY = WertAYFeld.doubleValue - olday
+        }
+
+        if ABBindCheck.state == NSControl.StateValue.on && Klickseite == 2
+        {
+            deltaBX = WertBXFeld.doubleValue - oldbx
+            deltaBY = WertBYFeld.doubleValue - oldby
+        }
+        */
+        
+        
+       
+   //     tempDic["ax"] = oldax+deltaAX
+   //     tempDic["ay"] = olday+deltaAY
+  //      tempDic["bx"] = oldbx+deltaBX
+   //     tempDic["by"] = oldby+deltaBY
+        
+        // Abbrand
+        var oldabrax = 0.0
+        var oldabray = 0.0
+        var oldabrbx = 0.0
+        var oldabrby = 0.0
+        
+        if let wert = oldDic["abrax"]
+        {
+            oldabrax = oldDic["abrax"] ?? 0
+        }
+        if let wert = oldDic["abray"]
+        {
+            oldabray = oldDic["abray"] ?? 0
+        }
+        if let wert = oldDic["abrbx"]
+        {
+            oldabrbx = oldDic["abrbx"] ?? 0
+        }
+        if let wert = oldDic["abrby"]
+        {
+            oldabrby = oldDic["abrby"] ?? 0
+        }
+
+        tempDic["abrax"] = oldabrax+deltaAX
+        tempDic["abray"] = oldabray+deltaAY
+        tempDic["abrbx"] = oldabrbx+deltaBX
+        tempDic["abrby"] = oldabrby+deltaBY
+
+        if let wert = oldDic["pwm"]
+        {
+            tempDic["pwm"] = oldDic["pwm"]
+        }
+        else
+        {
+            tempDic["pwm"] = 92.0
+        }
+        if let wert = oldDic["index"]
+        {
+            tempDic["index"] = oldDic["index"]
+        }
+ 
+     //   print("Hotwire MausDragAktion tempDic: \(tempDic)")
+        KoordinatenTabelle[Klickindex] = tempDic
+        
+        IndexFeld.integerValue = Klickindex
+        IndexStepper.integerValue = Klickindex
+        
+       
+        
+        WertAXFeld.doubleValue = MausPunkt.x
+        WertAYFeld.doubleValue = MausPunkt.y
+        
+        WertAXStepper.doubleValue = MausPunkt.x
+        WertAYStepper.doubleValue = MausPunkt.y
+        
+        WertBXFeld.doubleValue = MausPunkt.x// + offsetx
+        WertBYFeld.doubleValue = MausPunkt.y// + offsety
+        
+        WertBXStepper.doubleValue = MausPunkt.x//  + offsetx
+        WertBYStepper.doubleValue = MausPunkt.y // + offsety
+        
+        //CNC_Table.reloadData()
+        ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
+        ProfilFeld.setNeedsDisplay(ProfilFeld.frame)
+        CNC_Table.reloadData()
         
     }
 
@@ -3570,6 +3710,10 @@ print("2 radiusAraw: \(radiusAraw) radiusBraw: \(radiusBraw)")
         RumpfelementDic["rumpfrand"] = RandFeld.doubleValue
         RumpfelementDic["rumpfeinstichtiefe"] = EinstichtiefeFeld.doubleValue
         
+        RumpfelementDic["pwm"] = DC_PWM.doubleValue
+        RumpfelementDic["redpwm"] = red_pwmFeld.doubleValue
+        
+        
         print("reportRumpf RumpfelementDic:\n \(RumpfelementDic)")
         
         
@@ -3594,10 +3738,12 @@ print("2 radiusAraw: \(radiusAraw) radiusBraw: \(radiusBraw)")
             let ay = zeile["ay"]
             let bx = zeile["bx"]
             let by = zeile["by"]
+            let pwm = zeile["pwm"]
+            let index = zeile["index"] ?? Double(i)
   
                 
             //print(String(format: "a float number: %.2f", 1.0321))
-            print(String(format:"%d \t%2.4f \t  %2.4f \t\t%2.4f \t  %2.4f  ",i,ax!,ay!,bx!,by!))
+            print(String(format:"%d \t%2.4f \t  %2.4f \t\t%2.4f \t  %2.4f \t  %2.4f  ",index,ax!,ay!,bx!,by!,pwm!))
         }
         let rahmenrect = NSMakeRect(minX, minY, maxX - minX, maxY - minY)
         //let rahmenarray = [[minX,maxY],[maxX,maxY],[maxX,minY],[minX,minY]]
@@ -3716,8 +3862,10 @@ print("2 radiusAraw: \(radiusAraw) radiusBraw: \(radiusBraw)")
 
     @objc func setDatenVonZeile(zeile:Int)
     {
-        if zeile < 0
+        if (zeile < 0 || zeile > KoordinatenTabelle.count - 1 )
         {
+            print("setDatenVonZeile ausserhalb")
+            NSSound.beep()
             return
         }
 
@@ -4017,6 +4165,7 @@ print("2 radiusAraw: \(radiusAraw) radiusBraw: \(radiusBraw)")
 
        NotificationCenter.default.addObserver(self, selector:#selector(MausKlickAktion(_:)),name:NSNotification.Name(rawValue: "mausklick"),object:nil)
        NotificationCenter.default.addObserver(self, selector:#selector(MausGraphAktion(_:)),name:NSNotification.Name(rawValue: "mauspunkt"),object:nil)
+       NotificationCenter.default.addObserver(self, selector:#selector(MausDragAktion(_:)),name:NSNotification.Name(rawValue: "mausdrag"),object:nil)
 
        NotificationCenter.default.addObserver(self, selector:#selector(PfeilFeldAktion(_:)),name:NSNotification.Name(rawValue: "pfeilfeld"),object:nil)
 
