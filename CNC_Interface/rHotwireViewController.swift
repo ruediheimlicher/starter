@@ -1552,14 +1552,27 @@ var outletdaten:[String:AnyObject] = [:]
             tempDic["ax"] = oldax+deltaAX
             tempDic["ay"] = olday+deltaAY
 
-            tempDic["bx"] = oldbx+deltaBX
-            tempDic["by"] = oldby+deltaBY
+            tempDic["bx"] = oldbx
+            tempDic["by"] = oldby
+
+           // tempDic["bx"] = oldbx+deltaBX
+           // tempDic["by"] = oldby+deltaBY
 
             if ABBindCheck.state == NSControl.StateValue.on
             {
                 deltaBX = WertBXFeld.doubleValue - oldbx
                 deltaBY = WertBYFeld.doubleValue - oldby
+                tempDic["bx"] = oldbx+deltaBX
+                tempDic["by"] = oldby+deltaBY
+      
+                
             }
+            WertAXFeld.doubleValue = MausPunkt.x
+            WertAYFeld.doubleValue = MausPunkt.y
+            
+            WertAXStepper.doubleValue = MausPunkt.x
+            WertAYStepper.doubleValue = MausPunkt.y
+
           }
         if Klickseite == 2
         {
@@ -1567,14 +1580,20 @@ var outletdaten:[String:AnyObject] = [:]
             deltaBY = WertBYFeld.doubleValue - oldby
             tempDic["bx"] = oldbx+deltaBX
             tempDic["by"] = oldby+deltaBY
-            tempDic["ax"] = oldax+deltaAX
-            tempDic["ay"] = olday+deltaAY
+            tempDic["ax"] = oldax
+            tempDic["ay"] = olday
 
             if ABBindCheck.state == NSControl.StateValue.on
             {
                 deltaAX = WertAXFeld.doubleValue - oldax
                 deltaAY = WertAYFeld.doubleValue - olday
             }
+            WertBXFeld.doubleValue = MausPunkt.x// + offsetx
+            WertBYFeld.doubleValue = MausPunkt.y// + offsety
+            
+            WertBXStepper.doubleValue = MausPunkt.x//  + offsetx
+            WertBYStepper.doubleValue = MausPunkt.y // + offsety
+
           }
 
         
@@ -1622,11 +1641,12 @@ var outletdaten:[String:AnyObject] = [:]
             oldabrby = oldDic["abrby"] ?? 0
         }
 
+        /*
         tempDic["abrax"] = oldabrax+deltaAX
         tempDic["abray"] = oldabray+deltaAY
         tempDic["abrbx"] = oldabrbx+deltaBX
         tempDic["abrby"] = oldabrby+deltaBY
-
+*/
         if let wert = oldDic["pwm"]
         {
             tempDic["pwm"] = oldDic["pwm"]
@@ -1647,7 +1667,7 @@ var outletdaten:[String:AnyObject] = [:]
         IndexStepper.integerValue = Klickindex
         
        
-        
+        /*
         WertAXFeld.doubleValue = MausPunkt.x
         WertAYFeld.doubleValue = MausPunkt.y
         
@@ -1659,7 +1679,7 @@ var outletdaten:[String:AnyObject] = [:]
         
         WertBXStepper.doubleValue = MausPunkt.x//  + offsetx
         WertBYStepper.doubleValue = MausPunkt.y // + offsety
-        
+        */
         //CNC_Table.reloadData()
         ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
         ProfilFeld.setNeedsDisplay(ProfilFeld.frame)
