@@ -1554,9 +1554,12 @@ var outletdaten:[String:AnyObject] = [:]
 
             tempDic["bx"] = oldbx
             tempDic["by"] = oldby
-
-           // tempDic["bx"] = oldbx+deltaBX
-           // tempDic["by"] = oldby+deltaBY
+            
+            WertAXFeld.doubleValue = MausPunkt.x
+            WertAYFeld.doubleValue = MausPunkt.y
+            
+            WertAXStepper.doubleValue = MausPunkt.x
+            WertAYStepper.doubleValue = MausPunkt.y
 
             if ABBindCheck.state == NSControl.StateValue.on
             {
@@ -1564,14 +1567,13 @@ var outletdaten:[String:AnyObject] = [:]
                 deltaBY = WertBYFeld.doubleValue - oldby
                 tempDic["bx"] = oldbx+deltaBX
                 tempDic["by"] = oldby+deltaBY
-      
                 
+                WertBXFeld.doubleValue = MausPunkt.x + offsetx
+                WertBYFeld.doubleValue = MausPunkt.y + offsety
+                
+                WertBXStepper.doubleValue = MausPunkt.x  + offsetx
+                WertBYStepper.doubleValue = MausPunkt.y + offsety
             }
-            WertAXFeld.doubleValue = MausPunkt.x
-            WertAYFeld.doubleValue = MausPunkt.y
-            
-            WertAXStepper.doubleValue = MausPunkt.x
-            WertAYStepper.doubleValue = MausPunkt.y
 
           }
         if Klickseite == 2
@@ -1583,17 +1585,28 @@ var outletdaten:[String:AnyObject] = [:]
             tempDic["ax"] = oldax
             tempDic["ay"] = olday
 
-            if ABBindCheck.state == NSControl.StateValue.on
-            {
-                deltaAX = WertAXFeld.doubleValue - oldax
-                deltaAY = WertAYFeld.doubleValue - olday
-            }
             WertBXFeld.doubleValue = MausPunkt.x// + offsetx
             WertBYFeld.doubleValue = MausPunkt.y// + offsety
             
             WertBXStepper.doubleValue = MausPunkt.x//  + offsetx
             WertBYStepper.doubleValue = MausPunkt.y // + offsety
 
+            if ABBindCheck.state == NSControl.StateValue.on
+            {
+                deltaAX = WertAXFeld.doubleValue - oldax
+                deltaAY = WertAYFeld.doubleValue - olday
+                tempDic["ax"] = oldax+deltaAX
+                tempDic["ay"] = olday+deltaAY
+                
+                WertAXFeld.doubleValue = MausPunkt.x - offsetx
+                WertAYFeld.doubleValue = MausPunkt.y - offsety
+                
+                WertAXStepper.doubleValue = MausPunkt.x + offsetx
+                WertAYStepper.doubleValue = MausPunkt.y + offsety
+
+
+            }
+ 
           }
 
         
