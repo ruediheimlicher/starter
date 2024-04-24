@@ -261,7 +261,7 @@ var outletdaten:[String:AnyObject] = [:]
     var KoordinatenFormatter = NumberFormatter()
     
     var RumpfdatenArray = [[String:Double]]()
-
+    var taskfertig = 0
     
     var CNC_Eingabe = rEinstellungen()
     
@@ -2216,9 +2216,11 @@ var outletdaten:[String:AnyObject] = [:]
             print("swift reportUSB_sendArray mit delay")
             let sel = #selector(sendDelayedArrayWithDic(schnittdatendic:))
             self.perform(#selector(sendDelayedArrayWithDic(schnittdatendic: )), with: SchnittdatenDic, afterDelay: 6)
+           
         }
         else
         {
+            taskfertig = 1
             print("swift reportUSB_sendArray ohne delay")
             nc.post(name:Notification.Name(rawValue:"usbschnittdaten"),
             object: nil,
@@ -2246,6 +2248,7 @@ var outletdaten:[String:AnyObject] = [:]
         object: nil,
         userInfo: schnittdatendic)
         CNC_busySpinner.startAnimation(nil)
+        taskfertig = 1
     }
     
     @objc  func newHotwireDataAktion(_ notification:Notification)  // entspricht readUSB
@@ -2909,11 +2912,14 @@ var outletdaten:[String:AnyObject] = [:]
             PositionFeld.integerValue = Stepperposition
             ProfilFeld.stepperposition = Stepperposition
             ProfilFeld.needsDisplay = true
-            let warnung = NSAlert.init()
-            warnung.messageText = "Task fertig"
-            warnung.addButton(withTitle: "OK")
-            warnung.runModal()
-            
+            if taskfertig > 0
+            {
+                let warnung = NSAlert.init()
+                warnung.messageText = "Task fertig"
+                warnung.addButton(withTitle: "OK")
+                warnung.runModal()
+                taskfertig = 0
+            }
 
 
         default:
