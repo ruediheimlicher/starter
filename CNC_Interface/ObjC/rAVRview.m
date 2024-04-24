@@ -7776,7 +7776,7 @@ return returnInt;
     float einfahrtx = 3;
     float einfahrty = 3;
     
-    int anzahlPunkte = 3;
+    int anzahlPunkte = 5;
     
     float unterseiteeinstichAr = 0;
     float unterseiteeinstichAl = 0;
@@ -8259,15 +8259,15 @@ return returnInt;
     // 30
     [rumpfkoordinatentabelle addObject:[self nextPunktA:(tempPunktA) nextPunktB:tempPunktB pwm:origpwm teil:20]];
     
-    /*
-     for(int index = 0;index < KoordinatenTabelle.count;index++)
+    
+     for(int index = 0;index < rumpfkoordinatentabelle.count;index++)
      {
-     NSLog(@"index: %d * %d %2.2f  %2.2f ",index,[[[KoordinatenTabelle objectAtIndex:index]objectForKey:@"index"]intValue],[[[KoordinatenTabelle objectAtIndex:index]objectForKey:@"ax"]floatValue],[[[KoordinatenTabelle objectAtIndex:index]objectForKey:@"ay"]floatValue]);
-     //     NSMutableDictionary* tempdic = (NSMutableDictionary*)[KoordinatenTabelle objectAtIndex:index];
-     //     [tempdic setObject:[NSNumber numberWithInt:index] forKey:@"index"];
-     //     [KoordinatenTabelle replaceObjectAtIndex:index withObject:tempdic];
+     NSLog(@"index: %d * %d %2.2f  %2.2f ",index,[[[rumpfkoordinatentabelle objectAtIndex:index]objectForKey:@"index"]intValue],[[[rumpfkoordinatentabelle objectAtIndex:index]objectForKey:@"ax"]floatValue],[[[rumpfkoordinatentabelle objectAtIndex:index]objectForKey:@"ay"]floatValue]);
+          NSMutableDictionary* tempdic = (NSMutableDictionary*)[rumpfkoordinatentabelle objectAtIndex:index];
+          [tempdic setObject:[NSNumber numberWithInt:index] forKey:@"index"];
+          [rumpfkoordinatentabelle replaceObjectAtIndex:index withObject:tempdic];
      }
-     */
+     
     
     // ******* Probelauf
     NSLog(@"effektivehoehe: %.2f effektivebreite: %.2f",effektivehoehe, effektivebreite);
@@ -8277,6 +8277,8 @@ return returnInt;
     
     return rumpfkoordinatentabelle;
 }
+
+
 
 - (NSArray*)RumpfelementmitBreiteA: (float)breiteA mitHoeheA: (float)hoeheA mitRadiusA:(float) radiusA mitBreiteB: (float)breiteB mitHoeheB: (float)hoeheB mitRadiusB:(float)radiusB
 {
@@ -8759,6 +8761,8 @@ return returnInt;
    return NULL;
    
 }
+
+
 
 
 

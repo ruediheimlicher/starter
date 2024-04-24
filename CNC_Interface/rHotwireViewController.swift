@@ -448,12 +448,12 @@ var outletdaten:[String:AnyObject] = [:]
     @IBOutlet weak var RandFeld:  NSTextField!
     @IBOutlet weak var EinlaufFeld:  NSTextField!
     @IBOutlet weak var BreiteAFeld:  NSTextField!
-    @IBOutlet weak var HoeheAFeld:  NSTextField!
-    @IBOutlet weak var RadiusAFeld:  NSTextField!
-    @IBOutlet weak var AuslaufFeld:  NSTextField!
-    @IBOutlet weak var BreiteBFeld:  NSTextField!
-    @IBOutlet weak var HoeheBFeld:  NSTextField!
-    @IBOutlet weak var RadiusBFeld:  NSTextField!
+    @IBOutlet  var HoeheAFeld:  NSTextField!
+    @IBOutlet  var RadiusAFeld:  NSTextField!
+    @IBOutlet  var AuslaufFeld:  NSTextField!
+    @IBOutlet  var BreiteBFeld:  NSTextField!
+    @IBOutlet  var HoeheBFeld:  NSTextField!
+    @IBOutlet  var RadiusBFeld:  NSTextField!
     @IBOutlet weak var EinstichtiefeFeld:  NSTextField!
     //@IBOutlet weak var RumpfblockhoeheFeld:  NSTextField!
     @IBOutlet weak var RumpfabstandFeld:  NSTextField! // Abstand CNC zu Block
@@ -565,6 +565,8 @@ var outletdaten:[String:AnyObject] = [:]
         else
         {
         }
+        
+        
         var pwm:Double = 0
         if let tempwert = infoDic?["pwm"]
         {
@@ -2913,7 +2915,7 @@ var outletdaten:[String:AnyObject] = [:]
         datenDic["koordinatentabelle"] = KoordinatenTabelle;
         
         //print("datendic vor blockanfuegenFunktion: \(datenDic)")
-        
+       
         KoordinatenTabelle.removeAll()
         KoordinatenTabelle = AVR?.blockanfuegenFunktion(datenDic) as! [[String : Double]];
         print("reportProfilOberseiteTask KoordinatenTabelle: ")
@@ -2943,7 +2945,7 @@ var outletdaten:[String:AnyObject] = [:]
         
         print("minX: \(minX) minY: \(minY) maxX: \(maxX) maxY: \(maxY)")
         
-        
+        print("reportProfilOberseiteTask Koordinatentabelle:")
         for i in 0..<KoordinatenTabelle.count
         {
             let zeile = KoordinatenTabelle[i]
@@ -3461,7 +3463,156 @@ var outletdaten:[String:AnyObject] = [:]
     }
     
     
+    @IBAction  func reportRump(_ sender: NSButton) //
+    {
+        print("reportRumpf")
+        print("reportRumpf KoordinatenTabelle Start: \(KoordinatenTabelle)")
+
+        var ax:Double = 0
+        var ay:Double = 0
+        var bx:Double = 0
+        var by:Double = 0
+
+        var StartpunktA:NSPoint
+        var StartpunktB:NSPoint
+ 
+        // letztes Element der Koordinatentabelle
+        if KoordinatenTabelle.count > 0
+        {
+            ax = (KoordinatenTabelle.last?["ax"])!
+            ay = (KoordinatenTabelle.last?["ay"])!
+            bx = (KoordinatenTabelle.last?["bx"])!
+            by = (KoordinatenTabelle.last?["by"])!
+            
+            StartpunktA = NSMakePoint(ax,ay)
+            StartpunktB = NSMakePoint(bx,by)
+        }
+        else
+        {
+            ax = 25
+            ay = 55
+            bx = 25
+            by = 55
+            StartpunktA = NSMakePoint(ax,ay)
+            StartpunktB = NSMakePoint(bx,by)
+        }
+        let offsetx:Double = ProfilBOffsetXFeld.doubleValue
+        let offsety:Double = ProfilBOffsetYFeld.doubleValue
+        var startx:Double = 0
+        var starty:Double = 0
     
+        var breiteAraw = BreiteAFeld.doubleValue;
+       var hoeheAraw = HoeheAFeld.doubleValue ;
+        var  radiusAraw = RadiusAFeld.doubleValue;
+        var  breiteBraw = BreiteBFeld.doubleValue;
+        var  hoeheBraw = HoeheBFeld.doubleValue;
+        var  radiusBraw = RadiusBFeld.doubleValue;
+        print("1 radiusAraw: \(radiusAraw) radiusBraw: \(radiusBraw)")
+         //  Double elementlaenge = ElementlaengeFeld intValue;
+        var  portalabstand = RumpfportalabstandFeld.doubleValue;
+        var  elementlaenge = ElementlaengeFeld.doubleValue;
+        var  rumpfbasisabstand = RumpfabstandFeld .doubleValue;
+           // Horizontal
+        var  pfeilungH = (breiteAraw - breiteBraw)/elementlaenge;
+        var  arc=atan(pfeilungH);
+            
+        var  breiteA =  breiteAraw + rumpfbasisabstand * pfeilungH;
+        var  breiteB = breiteA - portalabstand * pfeilungH;
+        print("pfeilung W: \(pfeilungH) breiteA:  \(breiteA)  breiteB: \(breiteB)")
+
+        // Vertikal
+           var pfeilungV = (hoeheAraw - hoeheBraw)/elementlaenge
+          
+          var hoeheA = hoeheAraw + rumpfbasisabstand * pfeilungV
+          var hoeheB = hoeheA  - portalabstand * pfeilungV
+          //float hoeheB = hoeheBraw - (portalabstand- rumpfbasisabstand - elementlaenge) * pfeilungV;
+          var faktorV = hoeheA/hoeheAraw
+        // Startpunkt fixieren
+        WertAXFeld.doubleValue = 20.0
+        WertAYFeld.doubleValue = 20.0
+        //  [RumpfOffsetXFeld setIntValue:(breiteAraw - breiteBraw)/2*(-1)];
+        
+        var gfkbreiteA = 0.0; // Breite der GFK-Lage
+         gfkbreiteA += 2 * (hoeheAraw - radiusAraw) // senkrechte teile
+        gfkbreiteA += radiusAraw * Double.pi // beide Viertelkreise
+         gfkbreiteA += (breiteAraw - 2 * radiusAraw); // waagrechter Teil
+        var gfkbreiteB = 0.0;
+           gfkbreiteB += 2 * (hoeheBraw - radiusBraw) // senkrechte teile
+           gfkbreiteB += radiusBraw * Double.pi // beide Viertelkreise
+           gfkbreiteB += (breiteBraw - 2 * radiusBraw) // waagrechter Teil
+
+        GFKFeldA.integerValue = Int(ceil(gfkbreiteA))
+        GFKFeldA.integerValue = Int(ceil(gfkbreiteB))
+
+        var RumpfelementDic = [String:Double]()
+        RumpfelementDic["rumpfblockbreite"] = RumpfBlockbreite.doubleValue
+        RumpfelementDic["rumpfblockhoehe"] = RumpfBlockhoehe.doubleValue
+        RumpfelementDic["rumpfbreitea"] = breiteA
+        RumpfelementDic["rumpfbreiteb"] = breiteB
+        
+        RumpfelementDic["rumpfhoehea"] = hoeheA
+        RumpfelementDic["rumpfhoeheb"] = hoeheB
+print("2 radiusAraw: \(radiusAraw) radiusBraw: \(radiusBraw)")
+        RumpfelementDic["rumpfradiusa"] = radiusAraw
+        RumpfelementDic["rumpfradiusb"] = radiusBraw
+
+        
+        RumpfelementDic["rumpfportalabstand"] = RumpfabstandFeld.doubleValue
+
+        RumpfelementDic["rumpfelementlaenge"] = ElementlaengeFeld.doubleValue
+
+        RumpfelementDic["rumpfoffsetx"] = RumpfOffsetXFeld.doubleValue
+        RumpfelementDic["rumpfoffsety"] = RumpfOffsetYFeld.doubleValue
+        
+        RumpfelementDic["rumpfeinlauf"] = EinlaufFeld.doubleValue
+        RumpfelementDic["rumpfauslauf"] = AuslaufFeld.doubleValue
+        
+        RumpfelementDic["rumpfrand"] = RandFeld.doubleValue
+        RumpfelementDic["rumpfeinstichtiefe"] = EinstichtiefeFeld.doubleValue
+        
+        print("reportRumpf RumpfelementDic:\n \(RumpfelementDic)")
+        
+        
+        KoordinatenTabelle = AVR?.rumpfelementmitDic(RumpfelementDic) as! [[String : Double]]
+    //print("Rumpfarray: \(Rumpfarray)")
+        var minX:Double = 1000
+        var minY:Double = 1000
+        var maxX:Double = 0
+        var maxY:Double = 0
+
+        let axarray = KoordinatenTabelle.compactMap { $0["ax"] }
+        let ayarray = KoordinatenTabelle.compactMap { $0["ay"] }
+        minX = axarray.min() ?? 10000
+        minY = ayarray.min() ?? 1000
+        maxX = axarray.max() ?? 0
+        maxY = ayarray.max() ?? 0
+
+        for i in 0..<KoordinatenTabelle.count
+        {
+            let zeile = KoordinatenTabelle[i]
+            let ax = zeile["ax"]
+            let ay = zeile["ay"]
+            let bx = zeile["bx"]
+            let by = zeile["by"]
+  
+                
+            //print(String(format: "a float number: %.2f", 1.0321))
+            print(String(format:"%d \t%2.4f \t  %2.4f \t\t%2.4f \t  %2.4f  ",i,ax!,ay!,bx!,by!))
+        }
+        let rahmenrect = NSMakeRect(minX, minY, maxX - minX, maxY - minY)
+        //let rahmenarray = [[minX,maxY],[maxX,maxY],[maxX,minY],[minX,minY]]
+        let rahmenarray = [NSMakePoint(minX, maxY) ,NSMakePoint(maxX,maxY),NSMakePoint(maxX,minY),NSMakePoint(minX,minY)]
+        CNC_Table.reloadData()
+        ProfilFeld.setRahmenArray(derRahmenArray: rahmenarray as NSArray)
+        ProfilFeld.setDatenArray(derDatenArray: KoordinatenTabelle as NSArray)
+        ProfilFeld.needsDisplay = true
+
+        CNC_Stoptaste.isEnabled = true
+        
+        
+    //reiteA:breiteA mitHoeheA:hoeheA , mitRadiusA:radiusAraw mitBreiteB:breiteB mitHoeheB:hoeheB mitRadiusB:radiusBraw)
+        
+    }
     
     
     @IBAction  func reportRumpfteilTaste(_ sender: NSSegmentedControl) //

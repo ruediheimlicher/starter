@@ -512,10 +512,10 @@ class rProfilfeldView: NSView
                 mitabbrand = 1
             }
             //startabbrandindexA -= 1
-            print("draw startabbrandindexA: \(startabbrandindexA)")
+            //print("draw startabbrandindexA: \(startabbrandindexA)")
             let startlineA =  DatenArray[startabbrandindexA] as! [String:Double]
             let startlineB =  DatenArray[startabbrandindexA] as! [String:Double]
-            print("startlineA: \(startlineA)")
+            //print("startlineA: \(startlineA)")
             
             let startabrax = startlineA["ax"]
             let startabray = startlineA["ay"]! + 5

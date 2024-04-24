@@ -589,6 +589,7 @@
 //Convert Plist(NSString) to Object(Array,Dictionary)
 -(id) plistToObjectFromString:(NSString*)str;
 
+- (NSArray*)RumpfelementmitBreiteA: (float)breiteA mitHoeheA: (float)hoeheA mitRadiusA:(float) radiusA mitBreiteB: (float)breiteB mitHoeheB: (float)hoeheB mitRadiusB:(float)radiusB;
 
 //- (NSArray*)SteuerdatenArrayVonDic:(NSDictionary*)derDatenDic;
 
