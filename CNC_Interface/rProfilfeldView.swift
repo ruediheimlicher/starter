@@ -33,7 +33,9 @@ class rProfilfeldView: NSView
     var  graphstatus :  Int  = 0
     var  screen  :  Int  = 0
     var  GraphOffset :  Int  = 0
-
+    
+    
+ 
     func setDatenArray(derDatenArray:NSArray) 
     {
         DatenArray=derDatenArray
@@ -1047,10 +1049,49 @@ class rProfilfeldView: NSView
     }
     */
    override func keyDown(with theEvent: NSEvent)
-   {
-      Swift.print( "Key Pressed" )
-      Swift.print(theEvent.keyCode)
-   }
+    {
+        let optionKeyPressed = theEvent.modifierFlags.contains(.option)
+        var arrowstep:Int32 = 100
+        Swift.print( "Profilfeld Key Pressed" )
+        Swift.print(theEvent.keyCode)
+        let loc = theEvent.locationInWindow
+        Swift.print( "Profilfeld loc: \(loc)")
+        if optionKeyPressed
+         {
+             Swift.print("optionKeyPressed")
+            arrowstep = 10
+         }
+         
+         switch (theEvent.keyCode)
+         {
+            case 123:
+               print("left arrowstep: \(arrowstep)")
+    //        AVR?.ManRichtung(3, pfeilstep: arrowstep) // left
+               break
+            case 124:
+               print("right arrowstep: \(arrowstep)")
+    //            AVR?.ManRichtung(1, pfeilstep: arrowstep) // right
+                break
+            case 125:
+               print("down arrowstep: \(arrowstep)")
+     //           AVR?.ManRichtung(4, pfeilstep: arrowstep) // down
+                break
+            case 126:
+               print("up arrowstep: \(arrowstep)")
+    //            AVR?.ManRichtung(2, pfeilstep: arrowstep) // up
+                break
+            
+            default:
+               
+               //print("default")
+               return;
+            //super.keyDown(with: theEvent)
+         }// switch keycode
+
+        
+        
+        
+    }
    
 } // rJoystickView
 

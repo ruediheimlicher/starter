@@ -3584,12 +3584,12 @@ PortA=vs[n & 3]; warte10ms(); n++;
        [EinlaufpunkteArray addObject:tempEinlaufArray3];
        
        // Ueberschneiden oben:
-       Endpunkt.y += 5;
+       Endpunkt.y += 4;
        //Endpunkt.x +=10;
        NSArray* tempEinlaufArray4 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y],[NSNumber numberWithFloat:red_pwm], nil];
        [EinlaufpunkteArray addObject:tempEinlaufArray4];
  
-       Endpunkt.y -= 5;
+       Endpunkt.y -= 4;
        //Endpunkt.x -=10;
        NSArray* tempEinlaufArray5= [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y],[NSNumber numberWithFloat:red_pwm], nil];
        [EinlaufpunkteArray addObject:tempEinlaufArray5];
@@ -3644,10 +3644,11 @@ PortA=vs[n & 3]; warte10ms(); n++;
    NSArray* tempEinlaufArray0 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y], [NSNumber numberWithFloat:full_pwm],nil];
    [AuslaufpunkteArray addObject:tempEinlaufArray0];
   
-   Endpunkt.y += 8;
+   // Ueberschneiden
+   Endpunkt.y += 4;
    tempEinlaufArray0 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y], [NSNumber numberWithFloat:full_pwm],nil];
    [AuslaufpunkteArray addObject:tempEinlaufArray0];
-   Endpunkt.y -= 8;
+   Endpunkt.y -= 4;
    tempEinlaufArray0 = [NSArray arrayWithObjects:[NSNumber numberWithFloat:Endpunkt.x],[NSNumber numberWithFloat:Endpunkt.y], [NSNumber numberWithFloat:red_pwm],nil];
    [AuslaufpunkteArray addObject:tempEinlaufArray0];
   

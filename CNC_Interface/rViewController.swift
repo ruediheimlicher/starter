@@ -514,7 +514,7 @@ class rViewController: NSViewController, NSWindowDelegate
     @objc func writeCNCAbschnitt()
     {
         cncwritecounter += 1
-        print("swift rViewController writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) cncwritecounter: \(cncwritecounter)")
+        //print("swift rViewController writeCNCAbschnitt usb_schnittdatenarray: \(usb_schnittdatenarray) cncwritecounter: \(cncwritecounter)")
        let count = usb_schnittdatenarray.count
        //print("writeCNCAbschnitt  count: \(count) Stepperposition: \t",Stepperposition)
        
@@ -556,7 +556,7 @@ class rViewController: NSViewController, NSWindowDelegate
           {
              
              let aktuellezeile:[UInt8] = usb_schnittdatenarray[Stepperposition]
-             print("Stepperposition: \(Stepperposition) aktuellezeile: \(aktuellezeile) ")
+             print("VC Stepperposition: \(Stepperposition) aktuellezeile: \(aktuellezeile) ")
              let writecode = aktuellezeile[16]
              var string:String = ""
              var index=0
@@ -1270,7 +1270,7 @@ class rViewController: NSViewController, NSWindowDelegate
                    
                 case 0xD0:
                    print("VC newDataAktion ***   ***   Letzter Abschnitt")
-                   print("VC newDataAktion  0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
+                   //print("VC newDataAktion  0xD0 Stepperposition: \(Stepperposition) \n\(schnittdatenstring)");
                    //print("HomeAnschlagSet: \(HomeAnschlagSet)")
                    NotificationDic["abschnittfertig"] = Int(abschnittfertig)
                     /*

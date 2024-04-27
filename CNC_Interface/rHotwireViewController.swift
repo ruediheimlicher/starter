@@ -1160,7 +1160,7 @@ var outletdaten:[String:AnyObject] = [:]
           {
              
              let aktuellezeile:[UInt8] = usb_schnittdatenarray[Stepperposition]
-             print("Stepperposition: \(Stepperposition) aktuellezeile: \(aktuellezeile) ")
+             print("HW Stepperposition: \(Stepperposition) aktuellezeile: \(aktuellezeile) ")
              let writecode = aktuellezeile[16]
              var string:String = ""
              var index=0
